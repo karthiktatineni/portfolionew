@@ -68,14 +68,14 @@ export default function ParticleBackground() {
 
         function initParticles() {
             particles = [];
-            // Visible density
-            let numberOfParticles = (canvas.width * canvas.height) / 10000;
+            // Medium density for balanced effect
+            let numberOfParticles = (canvas.width * canvas.height) / 18000;
             for (let i = 0; i < numberOfParticles; i++) {
-                let size = Math.random() * 2 + 1;
+                let size = Math.random() * 1.5 + 0.8;
                 let x = Math.random() * (window.innerWidth - size * 2) + size * 2;
                 let y = Math.random() * (window.innerHeight - size * 2) + size * 2;
-                let directionX = (Math.random() * 0.8) - 0.4;
-                let directionY = (Math.random() * 0.8) - 0.4;
+                let directionX = (Math.random() * 0.5) - 0.25;
+                let directionY = (Math.random() * 0.5) - 0.25;
                 let color = '#c9a84c';
 
                 particles.push(new Particle(x, y, directionX, directionY, size, color));
@@ -100,10 +100,10 @@ export default function ParticleBackground() {
                     let dy = particles[a].y - particles[b].y;
                     let distance = dx * dx + dy * dy;
 
-                    if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                    if (distance < (canvas.width / 11) * (canvas.height / 11)) {
                         let opacityValue = 1 - (distance / 20000);
-                        ctx.strokeStyle = `rgba(201, 168, 76, ${opacityValue * 0.3})`;
-                        ctx.lineWidth = 0.5;
+                        ctx.strokeStyle = `rgba(201, 168, 76, ${opacityValue * 0.15})`; // Medium opacity lines
+                        ctx.lineWidth = 0.4;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
                         ctx.lineTo(particles[b].x, particles[b].y);
@@ -131,7 +131,7 @@ export default function ParticleBackground() {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 z-0 pointer-events-none opacity-40"
+            className="fixed inset-0 z-0 pointer-events-none opacity-25"
         />
     );
 }

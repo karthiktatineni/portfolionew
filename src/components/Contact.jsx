@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useUnicornStudio } from '../hooks/useUnicornStudio';
-import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Twitter, Instagram } from 'lucide-react';
 
 export default function Contact() {
     // Initialize UnicornStudio background
@@ -81,14 +81,14 @@ export default function Contact() {
                             <ContactItem
                                 icon={<Mail className="w-5 h-5 text-gold" />}
                                 label="Email"
-                                value="karthiktatineni@gmail.com"
-                                link="mailto:karthiktatineni@gmail.com"
+                                value="karthiktatineni34@gmail.com"
+                                link="mailto:karthiktatineni34@gmail.com"
                             />
                             <ContactItem
                                 icon={<Phone className="w-5 h-5 text-gold" />}
                                 label="Phone"
-                                value="+91 XXXXX XXXXX"
-                                link="tel:+91XXXXXXXXXX"
+                                value="+91 7995466261"
+                                link="tel:+917995466261"
                             />
                             <ContactItem
                                 icon={<MapPin className="w-5 h-5 text-gold" />}
@@ -101,9 +101,9 @@ export default function Contact() {
                         <div>
                             <span className="text-xs uppercase tracking-[0.2em] text-[#525252] block mb-6">Social Networks</span>
                             <div className="flex gap-6">
-                                <SocialLink icon={<Github className="w-6 h-6" />} href="https://github.com" label="GitHub" />
-                                <SocialLink icon={<Linkedin className="w-6 h-6" />} href="https://linkedin.com" label="LinkedIn" />
-                                <SocialLink icon={<Twitter className="w-6 h-6" />} href="https://twitter.com" label="Twitter" />
+                                <SocialLink icon={<Github className="w-6 h-6" />} href="https://github.com/karthiktatineni" label="GitHub" />
+                                <SocialLink icon={<Linkedin className="w-6 h-6" />} href="https://linkedin.com/in/karthik-tatineni" label="LinkedIn" />
+                                <SocialLink icon={<Instagram className="w-6 h-6" />} href="https://www.instagram.com/_karthik._.14/" label="Instagram" />
                             </div>
                         </div>
                     </motion.div>

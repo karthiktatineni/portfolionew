@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="relative min-h-screen py-32 flex items-center justify-center overflow-hidden bg-[#0a0a0a] text-white">
+        <section id="contact" className="relative min-h-screen py-32 flex items-center justify-center overflow-hidden text-white">
 
             {/* Background Container for UnicornStudio */}
             <div id="contact-bg" className="absolute inset-0 z-0 opacity-20"></div>

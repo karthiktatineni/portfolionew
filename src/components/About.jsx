@@ -12,7 +12,7 @@ export default function About() {
     ];
 
     return (
-        <section id="about" className="py-32 relative bg-black text-white overflow-hidden">
+        <section id="about" className="py-32 relative text-white overflow-hidden">
             {/* Background Decor */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-gray-900/20 to-transparent pointer-events-none" />
 

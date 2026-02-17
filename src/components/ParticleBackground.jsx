@@ -1,23 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function ParticleBackground() {
     const canvasRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            // Check scroll position
-            const scrollThreshold = 100; // Show particles almost immediately after leaving the very top
-            if (window.scrollY > scrollThreshold) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll(); // Initial check
-
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -83,7 +69,7 @@ export default function ParticleBackground() {
         function initParticles() {
             particles = [];
             // Visible density
-            let numberOfParticles = (canvas.width * canvas.height) / 12000;
+            let numberOfParticles = (canvas.width * canvas.height) / 10000;
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = Math.random() * 2 + 1;
                 let x = Math.random() * (window.innerWidth - size * 2) + size * 2;
@@ -116,7 +102,7 @@ export default function ParticleBackground() {
 
                     if (distance < (canvas.width / 10) * (canvas.height / 10)) {
                         let opacityValue = 1 - (distance / 20000);
-                        ctx.strokeStyle = `rgba(201, 168, 76, ${opacityValue * 0.2})`;
+                        ctx.strokeStyle = `rgba(201, 168, 76, ${opacityValue * 0.3})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -135,7 +121,6 @@ export default function ParticleBackground() {
         animate();
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseout', handleMouseLeave);
@@ -146,7 +131,7 @@ export default function ParticleBackground() {
     return (
         <canvas
             ref={canvasRef}
-            className={`fixed inset-0 z-[1] pointer-events-none transition-opacity duration-1000 ${isVisible ? 'opacity-40' : 'opacity-0'}`}
+            className="fixed inset-0 z-0 pointer-events-none opacity-40"
         />
     );
 }

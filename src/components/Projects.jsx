@@ -62,7 +62,7 @@ export default function Projects() {
     if (!projects) return <div className="text-white text-center py-20">Loading Projects...</div>;
 
     return (
-        <section id="projects" className="py-32 bg-[#0a0a0a] border-t border-[#262626] relative z-20">
+        <section id="projects" className="py-32 border-t border-[#262626] relative z-20">
             <div className="container mx-auto px-6 max-w-[1400px]">
                 {/* Header */}
                 <motion.div
@@ -89,8 +89,8 @@ export default function Projects() {
                                 transition={{ delay: 0.2 + (index * 0.05) }}
                                 onClick={() => setFilter(cat)}
                                 className={`text-xs tracking-widest uppercase transition-colors duration-300 pb-1 relative ${filter === cat
-                                        ? 'text-white border-b border-gold'
-                                        : 'text-[#737373] hover:text-gold border-b border-transparent'
+                                    ? 'text-white border-b border-gold'
+                                    : 'text-[#737373] hover:text-gold border-b border-transparent'
                                     }`}
                             >
                                 {cat}

@@ -14,7 +14,7 @@ export default function Media() {
     ];
 
     return (
-        <section id="media" className="py-24 bg-black overflow-hidden relative">
+        <section id="media" className="py-24 overflow-hidden relative">
             <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
 
             <div className="container mx-auto px-6" ref={ref}>

@@ -3,7 +3,7 @@ import { skillCategories } from '../data/skills';
 
 export default function Skills() {
     return (
-        <section id="skills" className="py-24 bg-[#0a0a0a] border-t border-[#262626]">
+        <section id="skills" className="py-24 border-t border-[#262626]">
             <div className="container mx-auto px-6">
 
                 <div className="mb-16 max-w-2xl">

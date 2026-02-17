@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Match the contacts collection
+    match /contacts/{contactId} {
+      // Allow anyone to create a contact message
+      // Basic validation: ensure data contains required fields and isn't too large
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'message'])
+                    && request.resource.data.name is string
+                    && request.resource.data.email is string
+                    && request.resource.data.message is string
+                    && request.resource.data.name.size() < 100
+                    && request.resource.data.message.size() < 5000;
+      
+      // Deny read/update/delete for everyone (only accessible via Firebase Admin SDK or Console)
+      allow read, update, delete: if false;
+    }
+
+    // Default deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

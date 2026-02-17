@@ -1,0 +1,72 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" rx="20" fill="#09090B"/>
+  <rect x="2" y="2" width="796" height="596" rx="18" stroke="#27272A" stroke-width="2"/>
+  
+  <!-- Definitions for Gradients -->
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- User Label -->
+  <text x="400" y="50" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="14" font-weight="600">INCOMING TRAFFIC</text>
+  
+  <!-- Cloudflare / Load Balancer -->
+  <rect x="300" y="80" width="200" height="60" rx="10" fill="#1E1E2E" stroke="#3B82F6" stroke-width="2"/>
+  <text x="400" y="115" text-anchor="middle" fill="white" font-family="sans-serif" font-size="16" font-weight="bold">LOAD BALANCER</text>
+  <text x="400" y="130" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="10">Cloudflare / Nginx</text>
+
+  <!-- Arrow -->
+  <path d="M400 140V180" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- API Gateway -->
+  <rect x="300" y="180" width="200" height="60" rx="10" fill="#1E1E2E" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="400" y="215" text-anchor="middle" fill="white" font-family="sans-serif" font-size="16" font-weight="bold">API GATEWAY</text>
+  <text x="400" y="230" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="10">Security &amp; Routing</text>
+
+  <!-- Split Arrows -->
+  <path d="M400 240V280M400 280H200V320M400 280H600V320" stroke="#8B5CF6" stroke-width="2"/>
+
+  <!-- Docker Section -->
+  <rect x="100" y="320" width="200" height="120" rx="10" fill="#1E1E2E" stroke="#0091E2" stroke-width="2"/>
+  <text x="200" y="350" text-anchor="middle" fill="white" font-family="sans-serif" font-size="14" font-weight="bold">FRONTEND SERVICE</text>
+  <rect x="120" y="370" width="160" height="20" rx="4" fill="#0091E2" fill-opacity="0.2"/>
+  <text x="200" y="385" text-anchor="middle" fill="#0091E2" font-family="sans-serif" font-size="10">Docker Instance A</text>
+  <rect x="120" y="400" width="160" height="20" rx="4" fill="#0091E2" fill-opacity="0.2"/>
+  <text x="200" y="415" text-anchor="middle" fill="#0091E2" font-family="sans-serif" font-size="10">Docker Instance B</text>
+
+  <rect x="500" y="320" width="200" height="120" rx="10" fill="#1E1E2E" stroke="#0091E2" stroke-width="2"/>
+  <text x="600" y="350" text-anchor="middle" fill="white" font-family="sans-serif" font-size="14" font-weight="bold">BACKEND SERVICE</text>
+  <rect x="520" y="370" width="160" height="20" rx="4" fill="#0091E2" fill-opacity="0.2"/>
+  <text x="600" y="385" text-anchor="middle" fill="#0091E2" font-family="sans-serif" font-size="10">Docker Instance A</text>
+  <rect x="520" y="400" width="160" height="20" rx="4" fill="#0091E2" fill-opacity="0.2"/>
+  <text x="600" y="415" text-anchor="middle" fill="#0091E2" font-family="sans-serif" font-size="10">Docker Instance B</text>
+
+  <!-- Horizontal Data Line -->
+  <path d="M300 380H500" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4"/>
+  <text x="400" y="375" text-anchor="middle" fill="#94A3B8" font-family="sans-serif" font-size="10">Internal API</text>
+
+  <!-- Caching & DB -->
+  <path d="M600 440V500" stroke="#94A3B8" stroke-width="2"/>
+  
+  <!-- Redis -->
+  <rect x="440" y="500" width="140" height="50" rx="25" fill="#1E1E2E" stroke="#EF4444" stroke-width="2"/>
+  <text x="510" y="530" text-anchor="middle" fill="white" font-family="sans-serif" font-size="14" font-weight="bold">REDIS CACHE</text>
+
+  <!-- Firebase -->
+  <rect x="620" y="500" width="140" height="50" rx="10" fill="#1E1E2E" stroke="#F59E0B" stroke-width="2"/>
+  <text x="690" y="530" text-anchor="middle" fill="white" font-family="sans-serif" font-size="14" font-weight="bold">FIREBASE DB</text>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3B82F6" />
+    </marker>
+  </defs>
+</svg>

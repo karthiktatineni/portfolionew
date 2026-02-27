@@ -24,7 +24,7 @@ export const skillCategories = [
             'ESP', 'Arduino IDE', 'Firebase', 'Cloudflare', 'UltimakerCura',
             'NI Multisim', 'Proteus', 'Cadence', 'Blender', 'Blynk',
             'I2C / SPI / UART', 'Git & GitHub', 'Vercel', 'Postman',
-            'Fusion 360', 'Docker (basic)', 'Flutter (basic)'
+            'Fusion 360', 'Docker', 'Flutter (basic)'
         ],
     },
 ];

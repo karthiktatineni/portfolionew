@@ -1,5 +1,19 @@
 export const projects = [
     {
+        id: 'ai-integrated-smart-home',
+        title: '🔌 AI-Integrated Smart Home Automation System',
+        shortDescription: 'Alexa + Siri + Web Dashboard + ESP32 + Firebase',
+        fullDescription: [
+            "This project is a fully functional cloud-connected smart home automation system that enables real-time control of electrical appliances through multiple interfaces: Amazon Alexa, Apple Siri, and a custom web dashboard.",
+            "Built around an ESP32 microcontroller integrated with Firebase Realtime Database, creating a scalable, low-latency IoT architecture.",
+            "Allows users to control devices such as lights, fans, and power outlets using voice commands or remote web access, while also supporting physical wall switches for manual control.",
+            "The system ensures two-way synchronization between physical switches and cloud commands, maintaining consistent device states across all control interfaces."
+        ],
+        technologies: ['ESP32', 'Firebase', 'Next.js', 'Alexa', 'Siri', 'Node.js', 'C++'],
+        category: 'Cloud, IoT',
+        images: ['/videos/homeweb.png', '/videos/homefire.png', '/videos/alexahome.png']
+    },
+    {
         id: 'smart-anti-theft-bag',
         title: 'Smart Anti-Theft Bag',
         shortDescription: 'ESP8266-based bag with RFID access and Telegram alerts for real-time theft detection.',

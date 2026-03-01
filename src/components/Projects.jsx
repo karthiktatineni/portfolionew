@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects, categories } from '../data/projects';
 import TiltCard from './TiltCard';
@@ -7,9 +7,20 @@ export default function Projects() {
     const [filter, setFilter] = useState('All');
     const [selectedProject, setSelectedProject] = useState(null);
 
+    useEffect(() => {
+        if (selectedProject) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [selectedProject]);
+
     const filteredProjects = filter === 'All'
         ? projects
-        : projects.filter(p => p.category === filter);
+        : projects.filter(p => p.category.includes(filter));
 
     // Animation Variants
     const containerVariants = {
@@ -195,7 +206,7 @@ export default function Projects() {
                                 </button>
 
                                 {/* SCROLLABLE MEDIA COLUMN - LEFT */}
-                                <div className="w-full md:w-[60%] bg-black p-4 md:p-8 overflow-y-auto border-r border-[#262626] scrollbar-hide space-y-8">
+                                <div className="w-full md:w-[60%] bg-black p-4 md:p-8 overflow-y-auto border-r border-[#262626] scrollbar-hide space-y-8" data-lenis-prevent="true">
                                     {/* Videos */}
                                     {selectedProject.videos?.map((video, idx) => (
                                         <div key={`vid-${idx}`} className="w-full">
@@ -215,7 +226,7 @@ export default function Projects() {
                                 </div>
 
                                 {/* CONTENT COLUMN - RIGHT */}
-                                <div className="w-full md:w-[40%] p-8 overflow-y-auto bg-[#0a0a0a]">
+                                <div className="w-full md:w-[40%] p-8 overflow-y-auto bg-[#0a0a0a]" data-lenis-prevent="true">
                                     <motion.div
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}

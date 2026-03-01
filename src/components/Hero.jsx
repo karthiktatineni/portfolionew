@@ -71,7 +71,7 @@ export default function Hero() {
                 <div className="flex flex-col items-center gap-8 pointer-events-auto">
                     <div className="overflow-hidden bg-black/40 backdrop-blur-md px-6 py-2 rounded-full border border-gold/30 shadow-lg">
                         <h2 className="text-sm md:text-xl font-light tracking-[0.3em] text-white uppercase flex gap-3 items-center">
-                            <span>Engineer </span>
+                            <span>Student</span>
                         </h2>
                     </div>
 

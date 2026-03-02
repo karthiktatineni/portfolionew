@@ -261,6 +261,21 @@ export const projects = [
         githubUrl: 'https://github.com/karthiktatineni/munproduction',
         githubUrl2: 'https://github.com/karthiktatineni/productionbackend'
     },
+    {
+        id: 'personal-home-server',
+        title: '🌌 Personal Home Server & Private Cloud',
+        shortDescription: 'High-performance self-hosted infrastructure featuring Nextcloud, Plex, n8n, and a custom DC monitor.',
+        fullDescription: [
+            "A high-performance, self-hosted infrastructure designed for seamless cloud storage, media orchestration, workflow automation, and real-time system monitoring.",
+            "Built on a modular, containerized architecture using Docker Compose, ensuring high availability and security through Cloudflare Tunnels for encrypted, port-less public access.",
+            "Features a custom-built 'Datacenter Monitor' with real-time WebSocket metrics for tracking CPU, Memory, Disk, and container health with bulk management capabilities.",
+            "Includes fully integrated services: Nextcloud for enterprise-grade file sync, Plex for media streaming, n8n for workflow automation, and a Dockerized Minecraft server."
+        ],
+        technologies: ['Docker', 'Cloudflare Tunnel', 'Nginx', 'Nextcloud', 'Plex', 'n8n', 'Node.js', 'PostgreSQL', 'WebSockets'],
+        category: 'Cloud,DevOps',
+        images: ['/videos/server-main.png', '/videos/api.png', '/videos/server-monitor.png', '/videos/server-cloud.png'],
+        githubUrl: 'https://github.com/karthiktatineni/homeserver' // Same repo as the server setup
+    },
 ];
 
 export const categories = ['All', 'IoT', 'AI/ML', 'Web', 'Electronics', 'VLSI', 'Cloud', 'DevOps'];

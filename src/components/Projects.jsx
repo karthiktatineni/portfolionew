@@ -118,11 +118,14 @@ export default function Projects() {
                     whileInView="visible"
                     viewport={{ once: true, margin: "-10%" }}
                 >
-                    <AnimatePresence mode='popLayout'>
+                    <AnimatePresence>
                         {filteredProjects.map((project) => (
                             <motion.div
                                 key={project.id}
                                 layout
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
                                 variants={cardVariants}
                                 className="h-full"
                             >

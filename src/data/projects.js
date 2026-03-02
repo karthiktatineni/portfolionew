@@ -11,7 +11,7 @@ export const projects = [
         ],
         technologies: ['ESP32', 'Firebase', 'Next.js', 'Alexa', 'Siri', 'Node.js', 'C++'],
         category: 'Cloud, IoT',
-        images: ['/videos/homeweb.png', '/videos/homefire.png', '/videos/alexahome.png']
+        images: ['/videos/homeweb.png', '/videos/homearch.png', '/videos/homefire.png', '/videos/alexahome.png']
     },
     {
         id: 'smart-anti-theft-bag',

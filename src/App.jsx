@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import Cursor from './components/Cursor';
 import SmoothScroll from './components/SmoothScroll';
 import ParticleBackground from './components/ParticleBackground';
+import ChatBot from './components/ChatBot';
 
 // Direct imports
 import Hero from './components/Hero';
@@ -45,6 +46,7 @@ function App() {
           <About />
           <Skills />
           <Projects />
+          <ChatBot />
           <Media />
           <Contact />
         </main>

@@ -263,7 +263,7 @@ export const projects = [
     },
     {
         id: 'personal-home-server',
-        title: '🌌 Personal Home Server & Private Cloud',
+        title: 'Personal Home Server & Private Cloud',
         shortDescription: 'High-performance self-hosted infrastructure featuring Nextcloud, Plex, n8n, and a custom DC monitor.',
         fullDescription: [
             "A high-performance, self-hosted infrastructure designed for seamless cloud storage, media orchestration, workflow automation, and real-time system monitoring.",
@@ -275,6 +275,37 @@ export const projects = [
         category: 'Cloud,DevOps',
         images: ['/videos/server-main.png', '/videos/api.png', '/videos/server-monitor.png', '/videos/server-cloud.png'],
         githubUrl: 'https://github.com/karthiktatineni/homeserver' // Same repo as the server setup
+    },
+    {
+        id: 'college-farewell-2026',
+        title: 'College Farewell Project - Batch of 2026',
+        shortDescription: 'Digital memory archives and farewell platform for the IARE Class of 2026.',
+        fullDescription: [
+            "This project is a dedicated digital 'memory box' built for the IARE Batch of 2026, providing a lasting space for students to revisit their college journey.",
+            "The platform features a secure authentication system, allowing students to log in and access restricted sections like the testimonial archives and student-only galleries.",
+            "Built with a focus on community and nostalgia, it includes a large-scale student directory, a gallery of shared memories, and personalized student profiles.",
+            "The project successfully handles high traffic during the farewell season, ensuring a smooth and emotional experience for the graduating class."
+        ],
+        technologies: ['React', 'Firebase', 'Tailwind CSS', 'Vercel', 'Authentication'],
+        category: 'Web',
+        images: ['/videos/farewell-home.png', '/videos/farewell-gallery.png', '/videos/farewell-footer.png'],
+        githubUrl: 'https://github.com/karthiktatineni/batchof2026',
+        websiteUrl: 'https://www.iareeceb.in'
+    },
+    {
+        id: 'ai-agent-team',
+        title: ' Autonomous AI Agentic Team',
+        shortDescription: 'Multi-agent developer pipeline using MCP and Claude Code for end-to-end software builds.',
+        fullDescription: [
+            "A fully autonomous, multi-agent development pipeline designed to transform high-level ideas into production-ready software systems with minimal human intervention.",
+            "Leverages the Model Context Protocol (MCP) to facilitate seamless communication and shared memory between a specialized team of 10+ AI agents, including Researchers, Architects, Coders, and Security Auditors.",
+            "Features a real-time web-based dashboard that monitors agent thought processes, live logs, project memory mapping, and phase-by-phase progression from Research to Deployment.",
+            "Implements sophisticated failover logic and a Coder-Reviewer feedback loop, ensuring code quality through automated testing and iterative refinement."
+        ],
+        technologies: ['Claude Code', 'MCP Protocol', 'Node.js', 'React', 'Ollama', 'Docker', 'WebSockets'],
+        category: 'AI/ML',
+        images: ['/images/ai-team/dashboard.png', '/images/ai-team/terminal.png'],
+        githubUrl: 'https://github.com/karthiktatineni/claude-code-agentic-team'
     },
 ];
 

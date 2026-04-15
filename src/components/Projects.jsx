@@ -259,16 +259,28 @@ export default function Projects() {
                                             </div>
                                         </div>
 
-                                        {selectedProject.githubUrl && (
-                                            <a
-                                                href={selectedProject.githubUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="block w-full text-center py-4 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gold transition-colors rounded-sm"
-                                            >
-                                                View Code on GitHub
-                                            </a>
-                                        )}
+                                        <div className="flex flex-col gap-3">
+                                            {selectedProject.githubUrl && (
+                                                <a
+                                                    href={selectedProject.githubUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="block w-full text-center py-4 bg-[#171717] border border-[#262626] text-white font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm"
+                                                >
+                                                    View Code on GitHub
+                                                </a>
+                                            )}
+                                            {selectedProject.websiteUrl && (
+                                                <a
+                                                    href={selectedProject.websiteUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="block w-full text-center py-4 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gold transition-colors rounded-sm"
+                                                >
+                                                    Visit Live Website
+                                                </a>
+                                            )}
+                                        </div>
                                     </motion.div>
                                 </div>
                             </div>

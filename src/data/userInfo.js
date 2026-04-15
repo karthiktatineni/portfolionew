@@ -24,7 +24,10 @@ I aim to build a future where I can contribute to impactful tech solutions that 
         "React", "Next.js", "Node.js", "Vite", "Firebase", "Docker", "Nginx",
         "ESP32", "ESP8266", "Arduino", "C++", "Verilog", "VLSI",
         "Python", "AI/ML", "YOLOv5", "CNN",
-        "Google Gemini AI", "Groq", "LLM Integration",
+        "Google Gemini AI", "ChatGPT", "Antigravity", "Claude AI", "Claude Code CLI", "Perplexity AI", "Groq",
+        "Ollama (Local LLMs)", "Whisk", "Flow", "LLM Integration", "Bolt.new",
+        "Cursor AI", "GitHub Copilot", "Copilot CLI", "Code Agents", "MCP Server",
+        "AI Skills", "Autonomous Agents", "Botpress",
         "Cloudflare Tunnel", "PostgreSQL", "WebSockets", "REST APIs",
         "Tailwind CSS", "Framer Motion", "Git", "Vercel",
         "Self-Hosting", "DevOps", "Microservices", "IoT"
@@ -191,6 +194,14 @@ I aim to build a future where I can contribute to impactful tech solutions that 
             description: "A high-performance, self-hosted infrastructure using Docker Compose featuring: Nextcloud for cloud storage, Plex for media streaming, n8n for workflow automation, custom Datacenter Monitor with real-time WebSocket metrics, and a Dockerized Minecraft server. Secured via Cloudflare Tunnels.",
             tech: ["Docker", "Cloudflare Tunnel", "Nginx", "Nextcloud", "Plex", "n8n", "Node.js", "PostgreSQL", "WebSockets"],
             github: "https://github.com/karthiktatineni/homeserver"
+        },
+        {
+            id: "ai-agent-team",
+            title: "Autonomous AI Agentic Team",
+            category: "AI/ML",
+            description: "A fully autonomous, multi-agent development pipeline designed to transform high-level ideas into production-ready software systems. Uses MCP Protocol to coordinate a team of 10+ AI agents (Researcher, Architect, Coder, etc.) through a central orchestrator and real-time dashboard.",
+            tech: ["Claude Code", "MCP Protocol", "Node.js", "React", "Ollama", "WebSockets"],
+            github: "https://github.com/karthiktatineni/claude-code-agentic-team"
         }
     ],
 
@@ -200,6 +211,7 @@ I aim to build a future where I can contribute to impactful tech solutions that 
         github: "https://github.com/karthiktatineni",
         linkedin: "https://linkedin.com/in/karthik-tatineni",
         instagram: "https://instagram.com/_karthik._.14",
+        ContactNumber: "+91 7995466261",
     }
 };
 

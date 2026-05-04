@@ -202,6 +202,14 @@ I aim to build a future where I can contribute to impactful tech solutions that 
             description: "A fully autonomous, multi-agent development pipeline designed to transform high-level ideas into production-ready software systems. Uses MCP Protocol to coordinate a team of 10+ AI agents (Researcher, Architect, Coder, etc.) through a central orchestrator and real-time dashboard.",
             tech: ["Claude Code", "MCP Protocol", "Node.js", "React", "Ollama", "WebSockets"],
             github: "https://github.com/karthiktatineni/claude-code-agentic-team"
+        },
+        {
+            id: "gymapp-flutter",
+            title: "GYMapp - AI Fitness Tracker",
+            category: "AI/ML, App",
+            description: "A premium AI-powered workout planner built with Flutter and Google Gemini AI. Features secure Firebase authentication, personalized workout generation, and cross-platform support. Built with production-grade security and clean architecture.",
+            tech: ["Flutter", "Firebase", "Google Gemini AI", "Dart", "Provider"],
+            github: "https://github.com/karthiktatineni/GYMapp-flutter"
         }
     ],
 
@@ -259,5 +267,9 @@ IMPORTANT RULES:
 - Be helpful, friendly, and concise. Be precise with technical details.
 - If asked about something not covered above, say you don't have that specific info but the user can contact Karthik directly on GitHub.
 - NEVER answer questions unrelated to Karthik Tatineni.
-- Keep answers clear and well-structured. Use bullet points or bold text when helpful.`;
+- Keep answers clear and conversational.
+- CRITICAL: DO NOT use any markdown formatting like bold (**text**), italics (*text*), or headers.
+- CRITICAL: DO NOT use asterisks (*) for bullet points. Use simple dashes (-) or plain paragraphs.
+- Provide links as bare URLs (e.g., https://github.com/karthiktatineni) so the system can handle them.
+- Respond in a natural, clean chatbot style without any special formatting characters.`;
 }

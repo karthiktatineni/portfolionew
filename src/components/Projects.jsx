@@ -56,8 +56,8 @@ export default function Projects() {
             return (
                 <video
                     src={src}
-                    controls autoPlay loop
-                    className="w-full h-auto object-contain rounded-sm shadow-xl"
+                    controls autoPlay loop muted playsInline
+                    className="mx-auto max-h-[85vh] w-auto block object-contain rounded-sm shadow-2xl bg-black/10"
                 />
             );
         }

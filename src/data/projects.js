@@ -307,6 +307,21 @@ export const projects = [
         images: ['/images/ai-team/dashboard.png', '/images/ai-team/terminal.png'],
         githubUrl: 'https://github.com/karthiktatineni/claude-code-agentic-team'
     },
+    {
+        id: 'gymapp-flutter',
+        title: '🏋️ AI-Powered Fitness Tracker',
+        shortDescription: 'Premium AI workout planner and fitness tracker built with Flutter and Google Gemini AI.',
+        fullDescription: [
+            "A premium, AI-driven fitness application built with Flutter that provides personalized workout plans tailored to user goals.",
+            "Integrates Google Gemini AI to dynamically generate exercise routines based on fitness levels and equipment availability.",
+            "Features secure Firebase authentication, comprehensive progress tracking, and a cross-platform experience across Android, iOS, and Web.",
+            "Follows production-grade security practices including build-time environment configuration and code obfuscation."
+        ],
+        technologies: ['Flutter', 'Firebase', 'Google Gemini AI', 'Dart', 'Provider'],
+        category: 'AI/ML, App',
+        videos: ['/videos/Gymapp.mp4', '/videos/Gymapp2.mp4'],
+        githubUrl: 'https://github.com/karthiktatineni/GYMapp-flutter'
+    },
 ];
 
-export const categories = ['All', 'IoT', 'AI/ML', 'Web', 'Electronics', 'VLSI', 'Cloud', 'DevOps'];
+export const categories = ['All', 'IoT', 'AI/ML', 'App', 'Web', 'Electronics', 'VLSI', 'Cloud', 'DevOps'];

@@ -248,7 +248,7 @@ export const projects = [
     },
     {
         id: 'iare-mun-devops',
-        title: 'IARE MUN - Full DevOps Architecture',
+        title: 'IARE MUN - Microservices Architecture',
         shortDescription: 'Enterprise-grade MUN platform with Load Balancers, API Gateways, and Dockerized microservices.',
         fullDescription: [
             "High-availability infrastructure transformation for the IARE MUN platform with advanced DevOps components.",

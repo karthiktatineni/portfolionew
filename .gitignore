@@ -34,3 +34,7 @@ dist-ssr
 # Common temporary files
 tmp
 temp
+
+# Large media files
+public/videos/Arova.mp4
+

@@ -5,11 +5,11 @@ export const projects = [
 
     // #1 — Arova Interiors CMS (NEW)
     {
-        id: 'arova-interiors-cms',
-        title: 'Arova Interiors — Full-Stack CMS Platform',
+        id: 'XYZ-interiors-cms',
+        title: 'Interiors — Full-Stack CMS Platform',
         shortDescription: 'Enterprise interior design platform with Sanity CMS, AI chat, 3D visualization, cost estimator, and Supabase auth.',
         fullDescription: [
-            "Arova Interiors is a full-stack, enterprise-grade interior design platform built with Next.js 16, Sanity CMS, and Supabase authentication — designed for a real-world interior design business.",
+            "Interiors is a full-stack, enterprise-grade interior design platform built with Next.js 16, Sanity CMS, and Supabase authentication — designed for a real-world interior design business.",
             "Features a headless CMS architecture powered by Sanity Studio, enabling non-technical clients to manage projects, services, architects, testimonials, and homepage content in real-time without any code changes.",
             "Includes an AI-powered chat widget integrated with OpenAI for instant client consultation, a dynamic cost estimator tool, and an interactive 3D apartment visualization built with React Three Fiber and Three.js.",
             "The platform ships with full SEO optimization, Vercel Analytics, Speed Insights, structured JSON-LD data, server-side rendering, and a responsive luxury design system using Tailwind CSS and Framer Motion."

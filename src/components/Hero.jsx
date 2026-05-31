@@ -79,9 +79,17 @@ export default function Hero() {
                         <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} className="group relative px-10 py-4 bg-gold text-black font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors rounded-full overflow-hidden shadow-[0_0_30px_rgba(201,168,76,0.3)]">
                             View Work
                         </MagneticButton>
-                        <MagneticButton onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-400 hover:text-white transition-colors text-xs tracking-widest uppercase border-b border-transparent hover:border-white pb-1">
-                            Contact Me
-                        </MagneticButton>
+                        <a
+                            href="/Tatineni_karthik.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <MagneticButton
+                                className="text-gray-400 hover:text-white transition-colors text-xs tracking-widest uppercase border-b border-transparent hover:border-white pb-1"
+                            >
+                                Resume
+                            </MagneticButton>
+                        </a>
                     </div>
                 </div>
             </motion.div>

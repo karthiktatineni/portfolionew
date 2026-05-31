@@ -2,7 +2,38 @@ export const projects = [
     // ========================================
     // SOFTWARE PROJECTS (Web, AI/ML, App, Cloud, DevOps) — TOP
     // ========================================
-
+    {
+        id: 'aegis-ai',
+        title: 'Aegis AI — Local-First AI Assistant Platform',
+        shortDescription: 'Full-stack AI platform with local LLMs, RAG, long-term memory, agent planning, streaming chat, and ChromaDB-powered retrieval.',
+        fullDescription: [
+            "Aegis AI is a production-ready, local-first AI assistant platform built with Next.js 15, FastAPI, and Hugging Face Transformers. It enables users to run powerful Large Language Models locally while maintaining complete control over their data and infrastructure.",
+            "The platform features real-time streaming chat, persistent conversation history, long-term memory storage, Retrieval-Augmented Generation (RAG), and semantic search powered by ChromaDB vector databases and Sentence Transformers embeddings.",
+            "Aegis AI includes an extensible agent architecture with planning capabilities, tool execution, command sandboxing, document ingestion pipelines, and contextual memory retrieval that allows the assistant to remember and utilize information across conversations.",
+            "Built with a modern full-stack architecture, the system leverages FastAPI, SQLAlchemy, SQLite/PostgreSQL, PyTorch, Transformers, Docker, and cloud deployment support. It supports local deployment of models such as Mistral 7B and Qwen 2.5 7B while providing a responsive Next.js interface optimized for performance and scalability."
+        ],
+        technologies: [
+            'Next.js',
+            'FastAPI',
+            'Python',
+            'TypeScript',
+            'PyTorch',
+            'Transformers',
+            'Mistral 7B',
+            'Qwen 2.5',
+            'ChromaDB',
+            'Sentence Transformers',
+            'SQLAlchemy',
+            'SQLite',
+            'PostgreSQL',
+            'Docker',
+            'Tailwind CSS'
+        ],
+        category: 'AI/ML',
+        videos: ['/videos/aegis.mp4'],
+        githubUrl: 'https://github.com/karthiktatineni/Aegis-AI',
+        websiteUrl: 'https://llm-web-rho.vercel.app/'
+    },
     // #1 — Arova Interiors CMS (NEW)
     {
         id: 'XYZ-interiors-cms',

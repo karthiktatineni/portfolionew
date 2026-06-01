@@ -22,6 +22,20 @@ const certifications = [
         title: "Data Science basics using python(Field Project)",
         issuer: "NSIC",
         url: "https://www.tatinenikarthik.online/nsiccert.jpeg"
+    },
+    {
+        title: "Claude AI Certification Path",
+        issuer: "Anthropic",
+        subCerts: [
+            {
+                title: "Claude 101",
+                url: "https://verify.skilljar.com/c/px7xd4erd3j5"
+            },
+            {
+                title: "Claude Code 101",
+                url: "https://verify.skilljar.com/c/3jbrx9vwaxrd"
+            }
+        ]
     }
 ];
 
@@ -119,15 +133,33 @@ export default function Certifications() {
                                         <h3 className="text-lg font-bold text-white mb-8 leading-snug">
                                             {cert.title}
                                         </h3>
+                                        {cert.subCerts && (
+                                            <div className="flex flex-col gap-3 mb-6">
+                                                {cert.subCerts.map((sub, i) => (
+                                                    <a
+                                                        key={i}
+                                                        href={sub.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center justify-between group"
+                                                    >
+                                                        <span className="text-[#a3a3a3] text-sm group-hover:text-gold transition-colors">{sub.title}</span>
+                                                        <span className="text-gold opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
-                                    <a
-                                        href={cert.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block px-6 py-3 bg-[#171717] border border-[#262626] text-white text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
-                                    >
-                                        View Certificate
-                                    </a>
+                                    {!cert.subCerts && (
+                                        <a
+                                            href={cert.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-block px-6 py-3 bg-[#171717] border border-[#262626] text-white text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
+                                        >
+                                            View Certificate
+                                        </a>
+                                    )}
                                 </div>
                             </TiltCard>
                         </motion.div>

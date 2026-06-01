@@ -19,7 +19,7 @@ const certifications = [
         url: "https://www.udemy.com/certificate/UC-63fd98e5-921f-4c84-a8fd-e6ec7d72f3be/"
     },
     {
-        title: "Data Science basics using python",
+        title: "Data Science basics using python(Field Project)",
         issuer: "NSIC",
         url: "https://www.tatinenikarthik.online/nsiccert.jpeg"
     }

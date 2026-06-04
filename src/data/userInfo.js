@@ -213,6 +213,15 @@ I aim to build a future where I can contribute to impactful tech solutions that 
         }
     ],
 
+    certifications: [
+        { title: "MySQL & Database Management: Create, Manage & Query Databases", issuer: "Udemy" },
+        { title: "GenAI For Image & Video Creation", issuer: "Udemy" },
+        { title: "HTML & CSS: The Complete Web Development Guide", issuer: "Udemy" },
+        { title: "Data Science basics using python -(Field Project)", issuer: "NSIC" },
+        { title: "Claude 101", issuer: "Anthropic" },
+        { title: "Claude AI Certification Path (Claude Code 101 & Claude Code in Action)", issuer: "Anthropic" }
+    ],
+
     interests: ["IoT", "AI/ML", "VLSI", "Embedded Systems", "Self-Hosting", "Gaming", "Web Development", "DevOps", "Cloud Computing"],
 
     contact: {
@@ -227,6 +236,10 @@ I aim to build a future where I can contribute to impactful tech solutions that 
 export function buildSystemPrompt() {
     const projectList = userInfo.projects
         .map(p => `  - ${p.title} (${p.category}): ${p.description} | Tech: ${p.tech.join(", ")}${p.github ? ` | GitHub: ${p.github}` : ""}`)
+        .join("\n");
+
+    const certificationList = userInfo.certifications
+        .map(c => `  - ${c.title} (Issued by: ${c.issuer})`)
         .join("\n");
 
     return `You are an AI assistant embedded in the personal portfolio of ${userInfo.name}.
@@ -256,6 +269,9 @@ INTERESTS: ${userInfo.interests.join(", ")}
 
 PROJECTS (${userInfo.projects.length} total):
 ${projectList}
+
+CERTIFICATIONS:
+${certificationList}
 
 CONTACT:
 - GitHub: ${userInfo.contact.github}

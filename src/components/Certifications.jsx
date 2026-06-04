@@ -24,16 +24,21 @@ const certifications = [
         url: "https://www.tatinenikarthik.online/nsiccert.jpeg"
     },
     {
-        title: "Claude AI Certification Path",
+        title: "Claude 101",
+        issuer: "Anthropic",
+        url: "https://verify.skilljar.com/c/px7xd4erd3j5"
+    },
+    {
+        title: "Claude Code Certification",
         issuer: "Anthropic",
         subCerts: [
             {
-                title: "Claude 101",
-                url: "https://verify.skilljar.com/c/px7xd4erd3j5"
-            },
-            {
                 title: "Claude Code 101",
                 url: "https://verify.skilljar.com/c/3jbrx9vwaxrd"
+            },
+            {
+                title: "Claude Code in Action",
+                url: "https://verify.skilljar.com/c/x394gy9h2gvu"
             }
         ]
     }

@@ -5,10 +5,10 @@ export default function About() {
     const [ref, isVisible] = useScrollReveal(0.2);
 
     const stats = [
-        { label: 'Projects Built', value: '20+' },
+        { label: 'Projects Built', value: '25+' },
         { label: 'Tech Domains', value: '8+' },
         { label: 'Technologies', value: '15+' },
-        { label: 'Deployed Apps', value: '5+' },
+        { label: 'Deployed Apps', value: '7+' },
     ];
 
     return (
@@ -82,7 +82,7 @@ export default function About() {
                             className="flex justify-end"
                         >
                             <a href="#contact" className="inline-flex items-center gap-3 text-gold hover:text-white transition-colors group">
-                                <span className="text-lg font-medium">Lets Talk</span>
+                                <span className="text-lg font-medium"></span>
                                 <span className="w-12 h-[1px] bg-gold group-hover:w-20 transition-all duration-300"></span>
                             </a>
                         </motion.div>

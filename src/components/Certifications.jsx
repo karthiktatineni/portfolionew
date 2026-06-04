@@ -46,7 +46,7 @@ const certifications = [
 
 export default function Certifications() {
     return (
-        <section id="certifications" className="py-32 border-t border-[#262626] relative z-20 bg-[#0a0a0a]">
+        <section id="certifications" className="py-32 border-t border-[#262626] relative z-20">
             <div className="container mx-auto px-6 max-w-[1400px]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -55,9 +55,9 @@ export default function Certifications() {
                     transition={{ duration: 1 }}
                     className="mb-16"
                 >
-                    <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block mb-4">Achievements</span>
+                    <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block mb-4">04. Achievements</span>
                     <h2 className="text-5xl md:text-6xl font-bold font-display text-white">
-                        Publications & Certifications
+                        Publications & <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-white">Certifications</span>
                     </h2>
                 </motion.div>
 

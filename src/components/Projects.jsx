@@ -84,7 +84,7 @@ export default function Projects() {
                     className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8"
                 >
                     <div className="space-y-4">
-                        <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block">Showcase</span>
+                        <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block">03. Showcase</span>
                         <h2 className="text-5xl md:text-6xl font-bold font-display text-white">
                             Featured <span className="text-gold">Works</span>
                         </h2>

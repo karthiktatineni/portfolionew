@@ -68,7 +68,7 @@ export default function Contact() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block mb-4">Connect</span>
+                        <span className="text-gold font-display text-xs tracking-[0.3em] uppercase block mb-4">06. Connect</span>
                         <h2 className="text-5xl md:text-7xl font-bold font-display text-white mb-8">
                             Let's <span className="text-transparent stroke-text-gold">Talk</span>
                         </h2>

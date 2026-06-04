@@ -24,7 +24,7 @@ export default function Media() {
                     transition={{ duration: 0.8 }}
                     className="mb-16 text-center"
                 >
-                    <span className="text-gold font-display tracking-[0.2em] text-sm uppercase block mb-4">04. Gallery</span>
+                    <span className="text-gold font-display tracking-[0.2em] text-sm uppercase block mb-4">05. Gallery</span>
                     <h2 className="text-4xl md:text-5xl font-bold font-display text-white">
                         Visual <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-white">Stories</span>
                     </h2>

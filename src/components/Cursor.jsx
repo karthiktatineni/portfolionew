@@ -1,10 +1,13 @@
 import { useRef, useEffect } from 'react';
+import { useIsTouchDevice } from '../hooks/useIsTouchDevice';
 
 export default function Cursor() {
+    const isTouch = useIsTouchDevice();
     const cursorRef = useRef(null);
     const ringRef = useRef(null);
 
     useEffect(() => {
+        if (isTouch) return;
         const cursor = cursorRef.current;
         const ring = ringRef.current;
         if (!cursor || !ring) return;
@@ -37,7 +40,9 @@ export default function Cursor() {
         return () => {
             window.removeEventListener('mousemove', onMouseMove);
         };
-    }, []);
+    }, [isTouch]);
+
+    if (isTouch) return null;
 
     return (
         <>

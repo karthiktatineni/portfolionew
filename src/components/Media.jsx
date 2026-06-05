@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '../hooks/useAnimations';
+import { ProjectImage, ProjectVideo } from './ProjectMedia';
 
 export default function Media() {
     const [ref, isVisible] = useScrollReveal(0.1);
@@ -40,16 +41,16 @@ export default function Media() {
                             className="break-inside-avoid relative group rounded-2xl overflow-hidden shadow-2xl bg-gray-900 border border-gray-800"
                         >
                             {item.type === 'video' ? (
-                                <video
+                                <ProjectVideo
                                     src={item.src}
                                     muted
                                     loop
-                                    playsInline
-                                    autoPlay
+                                    autoPlayInView
+                                    controls={false}
                                     className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105 transition-transform duration-700"
                                 />
                             ) : (
-                                <img
+                                <ProjectImage
                                     src={item.src}
                                     alt={item.alt}
                                     className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105 transition-transform duration-700"

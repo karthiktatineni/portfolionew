@@ -111,8 +111,14 @@ body {
 }
 
 .stroke-text-gold {
-  -webkit-text-stroke: 2px rgba(201, 168, 76, 0.8);
+  -webkit-text-stroke: 1px rgba(201, 168, 76, 0.8);
   color: transparent;
+}
+
+@media (min-width: 640px) {
+  .stroke-text-gold {
+    -webkit-text-stroke: 2px rgba(201, 168, 76, 0.8);
+  }
 }
 
 .mask-image-gradient {
@@ -127,4 +133,18 @@ body {
 .group:hover .hover-reveal-img {
   transform: scale(1.05);
   filter: brightness(1.1);
+}
+
+/* Restore native cursor on touch devices */
+@media (hover: none), (pointer: coarse) {
+  .cursor-none,
+  .cursor-none * {
+    cursor: auto !important;
+  }
+}
+
+/* Prevent horizontal overflow on small screens */
+img,
+video {
+  max-width: 100%;
 }

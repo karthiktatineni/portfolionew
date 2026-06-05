@@ -159,7 +159,7 @@ export default function ChatBot() {
                 onClick={() => setIsOpen((o) => !o)}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
-                className="fixed bottom-8 right-8 z-[9998] w-16 h-16 rounded-full bg-gradient-to-br from-[#c9a84c] to-[#f0d080] shadow-[0_0_30px_rgba(201,168,76,0.5)] flex items-center justify-center text-black text-2xl font-bold cursor-pointer border-2 border-[#c9a84c]/40 hover:shadow-[0_0_50px_rgba(201,168,76,0.7)] transition-shadow"
+                className="fixed bottom-5 right-4 sm:bottom-8 sm:right-8 z-[9998] w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#c9a84c] to-[#f0d080] shadow-[0_0_30px_rgba(201,168,76,0.5)] flex items-center justify-center text-black text-2xl font-bold cursor-pointer border-2 border-[#c9a84c]/40 hover:shadow-[0_0_50px_rgba(201,168,76,0.7)] transition-shadow"
                 title="Chat with Karthik's AI"
             >
                 <AnimatePresence mode="wait" initial={false}>
@@ -204,7 +204,7 @@ export default function ChatBot() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 40, scale: 0.95 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                        className="fixed bottom-28 right-8 z-[9997] w-[370px] max-h-[600px] flex flex-col rounded-2xl overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.6)] border border-white/10"
+                        className="fixed bottom-[5.5rem] left-4 right-4 sm:left-auto sm:right-8 sm:bottom-28 z-[9997] w-auto sm:w-[370px] max-w-[calc(100vw-2rem)] sm:max-w-[370px] max-h-[min(600px,calc(100dvh-7rem))] flex flex-col rounded-2xl overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.6)] border border-white/10"
                         style={{ backdropFilter: 'blur(20px)', background: 'rgba(15,15,15,0.97)' }}
                     >
                         {/* Header */}

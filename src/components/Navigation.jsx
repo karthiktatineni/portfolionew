@@ -57,7 +57,7 @@ export default function Navigation() {
             </nav>
 
             {/* Mobile Menu */}
-            <div className={`fixed inset-0 bg-black/95 z-40 flex items-center justify-center transition-all duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`fixed inset-0 bg-black/95 z-[60] flex items-center justify-center transition-all duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
                 <div className="flex flex-col items-center gap-8">
                     {navLinks.map((link) => (
                         <a

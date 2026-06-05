@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Cursor from './components/Cursor';
 import SmoothScroll from './components/SmoothScroll';
 import ParticleBackground from './components/ParticleBackground';
 import ChatBot from './components/ChatBot';
+import { useIsTouchDevice } from './hooks/useIsTouchDevice';
 
 // Direct imports
 import Hero from './components/Hero';
@@ -17,6 +18,7 @@ import Contact from './components/Contact';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const isTouch = useIsTouchDevice();
 
   useEffect(() => {
     // Simple loader simulation
@@ -26,9 +28,9 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-[#0a0a0a] min-h-screen cursor-none selection:bg-gold selection:text-black">
+      <div className={`bg-[#0a0a0a] min-h-screen selection:bg-gold selection:text-black ${isTouch ? '' : 'cursor-none'}`}>
         <SmoothScroll />
-        <Cursor />
+        {!isTouch && <Cursor />}
 
         {/* Global Particles - Controlled inside component to hide on Hero */}
         <ParticleBackground />

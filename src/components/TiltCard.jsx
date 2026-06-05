@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-export default function TiltCard({ children, className = "" }) {
+export default function TiltCard({ children, className = "", disableTilt = false }) {
     const ref = useRef(null);
 
     const x = useMotionValue(0);
@@ -33,6 +33,10 @@ export default function TiltCard({ children, className = "" }) {
         x.set(0);
         y.set(0);
     };
+
+    if (disableTilt) {
+        return <div className={`relative ${className}`}>{children}</div>;
+    }
 
     return (
         <motion.div

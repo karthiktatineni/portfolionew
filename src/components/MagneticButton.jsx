@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useIsTouchDevice } from '../hooks/useIsTouchDevice';
 
-export default function MagneticButton({ children, className = "", onClick }) {
+export default function MagneticButton({ children, className = '', onClick, as: Tag = 'button', ...props }) {
     const ref = useRef(null);
+    const isTouch = useIsTouchDevice();
 
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -11,18 +13,13 @@ export default function MagneticButton({ children, className = "", onClick }) {
     const mouseY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
 
     const handleMouseMove = (e) => {
+        if (isTouch || !ref.current) return;
         const { clientX, clientY } = e;
         const { left, top, width, height } = ref.current.getBoundingClientRect();
         const centerX = left + width / 2;
         const centerY = top + height / 2;
-
-        // Calculate distance from center
-        const distanceX = clientX - centerX;
-        const distanceY = clientY - centerY;
-
-        // Apply magnetic pull (limit max distance)
-        x.set(distanceX * 0.3);
-        y.set(distanceY * 0.3);
+        x.set((clientX - centerX) * 0.3);
+        y.set((clientY - centerY) * 0.3);
     };
 
     const handleMouseLeave = () => {
@@ -30,16 +27,19 @@ export default function MagneticButton({ children, className = "", onClick }) {
         y.set(0);
     };
 
+    const MotionTag = motion[Tag] ?? motion.button;
+
     return (
-        <motion.button
+        <MotionTag
             ref={ref}
             className={className}
             onClick={onClick}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            style={{ x: mouseX, y: mouseY }}
+            style={isTouch ? undefined : { x: mouseX, y: mouseY }}
+            {...props}
         >
             {children}
-        </motion.button>
+        </MotionTag>
     );
 }

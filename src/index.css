@@ -135,6 +135,29 @@ body {
   filter: brightness(1.1);
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.5) rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.45);
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 168, 76, 0.7);
+}
+
 /* Restore native cursor on touch devices */
 @media (hover: none), (pointer: coarse) {
   .cursor-none,

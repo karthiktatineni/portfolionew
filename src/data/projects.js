@@ -2,6 +2,38 @@ export const projects = [
     // ========================================
     // SOFTWARE PROJECTS (Web, AI/ML, App, Cloud, DevOps) — TOP
     // ========================================
+
+    {
+    id: 'microservices-platform',
+    title: 'Microservices Platform — CI/CD pipeline and Azure Container Apps Production System',
+    shortDescription: 'Production-ready microservices architecture with Node.js services, Nginx reverse proxy, Redis caching, PostgreSQL, and Azure Container Apps CI/CD with automated deployments and rolling updates.',
+    fullDescription: [
+        "Microservices Platform is a production-grade distributed system built using Node.js microservices architecture, Docker containerization, and Azure Container Apps for scalable cloud deployment. It demonstrates a real-world backend system with service isolation, API gateway routing, and centralized infrastructure management.",
+        "The system consists of multiple independently deployable services including user-service, product-service, and auth-service, all communicating through an API Gateway with Redis caching for performance optimization and PostgreSQL for persistent data storage. A Vite-based frontend consumes the backend through an Nginx reverse proxy layer.",
+        "The platform includes a fully automated CI/CD pipeline using Azure DevOps, which builds Docker images, runs unit tests across all services, pushes versioned images to Azure Container Registry (ACR), and deploys updates to Azure Container Apps using rolling revision updates for zero-downtime releases.",
+        "Infrastructure is defined using Infrastructure-as-Code (Bicep/ARM templates), enabling reproducible environment provisioning including Container Apps Environment, container services, ingress configuration, and scaling policies. The system is designed for horizontal scalability with auto-scaling rules and cloud-native deployment patterns."
+    ],
+    technologies: [
+        'Node.js',
+        'Express.js',
+        'Nginx',
+        'Redis',
+        'PostgreSQL',
+        'Docker',
+        'Docker Compose',
+        'Azure Container Apps',
+        'Azure Container Registry',
+        'Azure DevOps',
+        'Bicep',
+        'ARM Templates',
+        'Vite',
+        'CI/CD Pipelines',
+        'REST APIs'
+    ],
+    category: 'Cloud,DevOps',
+    videos: ['/videos/microservices.mp4'],
+    websiteUrl: 'https://frontend.politefield-1bba4abe.westus2.azurecontainerapps.io/'
+},
     {
         id: 'aegis-ai',
         title: 'Aegis AI — Local-First AI Assistant Platform',

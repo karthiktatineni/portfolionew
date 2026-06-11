@@ -4,6 +4,22 @@ export const projects = [
     // ========================================
 
     {
+        id: 'disastermind-ai',
+        title: 'DisasterMind AI — Autonomous Disaster Intelligence',
+        shortDescription: 'Autonomous Emergency Operations Center using multi-agent AI to predict and manage disaster response.',
+        fullDescription: [
+            "DisasterMind AI is an enterprise-grade AI system designed to transform disaster management from reactive decision-making into proactive, AI-assisted planning. It acts as an autonomous Emergency Operations Center.",
+            "The platform uses a unique Multi-Agent Orchestration architecture where specialized AI agents collaborate, debate, and refine plans to solve complex emergency scenarios, minimizing hallucinations and ensuring high reliability.",
+            "Features predictive machine learning to forecast casualties, infrastructure damage, and hospital overload probabilities before they happen. It continuously stress-tests action plans against failing infrastructure via a simulation engine.",
+            "Built with Next.js, FastAPI, NVIDIA NIM/Build, Azure AI Foundry, PostgreSQL, and Redis. It grounds decisions using RAG and official emergency protocols, providing dynamic evacuation and resource allocation strategies."
+        ],
+        technologies: ['Next.js', 'FastAPI', 'NVIDIA NIM', 'Azure AI Foundry', 'PostgreSQL', 'Redis', 'Machine Learning', 'Multi-Agent AI'],
+        category: 'AI/ML',
+        videos: ['/videos/Disastermind.mp4'],
+        githubUrl: 'https://github.com/karthiktatineni/DisasterMind-AI-agents',
+        websiteUrl: 'https://disaster-mind-ai-agents.vercel.app/'
+    },
+    {
     id: 'microservices-platform',
     title: 'Microservices Platform — CI/CD pipeline and Azure Container Apps Production System',
     shortDescription: 'Production-ready microservices architecture with Node.js services, Nginx reverse proxy, Redis caching, PostgreSQL, and Azure Container Apps CI/CD with automated deployments and rolling updates.',

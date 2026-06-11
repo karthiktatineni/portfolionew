@@ -35,6 +35,14 @@ I aim to build a future where I can contribute to impactful tech solutions that 
 
     projects: [
         {
+            id: "disastermind-ai",
+            title: "DisasterMind AI",
+            category: "AI/ML",
+            description: "An autonomous Emergency Operations Center powered by a multi-agent AI system. It gathers real-time intelligence, predicts casualties and infrastructure damage, calculates resource requirements, and generates dynamic evacuation strategies using continuous scenario simulation and AI agent debate.",
+            tech: ["Next.js", "FastAPI", "NVIDIA NIM", "Azure AI Foundry", "PostgreSQL", "Redis", "Machine Learning"],
+            github: "https://github.com/karthiktatineni/DisasterMind-AI-agents"
+        },
+        {
             id: "ai-integrated-smart-home",
             title: "AI-Integrated Smart Home Automation System",
             category: "Cloud, IoT",

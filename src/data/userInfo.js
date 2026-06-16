@@ -6,18 +6,17 @@ export const userInfo = {
     branch: "Electronics and Communication Engineering (ECE)",
     github: "https://github.com/karthiktatineni",
 
-    bio: `I'm Karthik Tatineni, an Electronics and Communication Engineering student at IARE, Hyderabad.
-I have a strong passion for IoT, VLSI, AI technologies, automation, and embedded systems.
-I enjoy building small, functional projects using Arduino and ESP boards — transforming creative ideas into functional prototypes.
-Beyond academics, I enjoy gaming, which helps sharpen my reflexes and decision-making skills.
-My strengths include problem-solving, hands-on experimentation, and a solid grasp of both hardware and software integration.
-I aim to build a future where I can contribute to impactful tech solutions that improve everyday life.`,
+    bio: `I'm Karthik Tatineni, an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad.
+I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics.
+My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines.
+While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks.
+I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world.`,
 
     stats: {
         projectsBuilt: "20+",
         techDomains: "8+",
-        technologies: "15+",
-        deployedApps: "5+",
+        technologies: "25+",
+        deployedApps: "10+",
     },
 
     skills: [

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ExternalLink, Github, X } from 'lucide-react';
@@ -34,9 +34,37 @@ export default function Projects() {
         return () => window.removeEventListener('keydown', onKeyDown);
     }, [selectedProject]);
 
-    const filteredProjects = filter === 'All'
-        ? projects
-        : projects.filter(p => p.category.includes(filter));
+    const filteredProjects = useMemo(() => {
+        return filter === 'All'
+            ? projects
+            : projects.filter(p => p.category.includes(filter));
+    }, [filter]);
+
+    // Simple cache to prevent duplicate preloads
+    const preloadedAssets = useRef(new Set());
+
+    const handlePrefetch = useCallback((project) => {
+        if (!project || isTouch) return;
+        
+        // Prefetch images
+        project.images?.forEach(src => {
+            if (!preloadedAssets.current.has(src)) {
+                const img = new Image();
+                img.src = src;
+                preloadedAssets.current.add(src);
+            }
+        });
+        
+        // Prefetch videos (metadata)
+        project.videos?.forEach(src => {
+             if (!preloadedAssets.current.has(src)) {
+                const video = document.createElement('video');
+                video.preload = 'auto';
+                video.src = src;
+                preloadedAssets.current.add(src);
+             }
+        });
+    }, [isTouch]);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -87,6 +115,7 @@ export default function Projects() {
                 src={src}
                 alt="Project Media"
                 className={inModal ? modalClass : gridClass}
+                loading={inModal ? "eager" : "lazy"}
             />
         );
     };
@@ -151,6 +180,8 @@ export default function Projects() {
                                 <TiltCard className="h-full w-full" disableTilt={isTouch}>
                                     <div
                                         onClick={() => setSelectedProject(project)}
+                                        onMouseEnter={() => handlePrefetch(project)}
+                                        onTouchStart={() => handlePrefetch(project)}
                                         className="group cursor-pointer bg-[#141414] border border-[#262626] hover:border-gold/40 rounded-sm overflow-hidden flex flex-col shadow-2xl h-full transition-shadow duration-500 hover:shadow-[0_10px_40px_-10px_rgba(201,168,76,0.15)]"
                                     >
                                         <div className="relative aspect-video overflow-hidden bg-black">

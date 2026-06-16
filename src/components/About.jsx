@@ -5,10 +5,10 @@ export default function About() {
     const [ref, isVisible] = useScrollReveal(0.2);
 
     const stats = [
-        { label: 'Projects Built', value: '25+' },
-        { label: 'Tech Domains', value: '8+' },
-        { label: 'Technologies', value: '15+' },
-        { label: 'Deployed Apps', value: '7+' },
+        { label: 'Deployed Apps', value: '10+' },
+        { label: 'Tech Stack', value: '25+' },
+        { label: 'Users Scaled', value: '1k+' },
+        { label: 'Publications', value: '1' },
     ];
 
     return (
@@ -41,16 +41,16 @@ export default function About() {
                         className="space-y-6 text-lg text-gray-300 leading-relaxed font-light"
                     >
                         <p>
-                            I'm <strong className="text-white font-medium">Karthik Tatineni</strong>, an Electronics and Communication Engineering student at IARE, Hyderabad, with a strong interest in IoT, VLSI, AI technologies, automation, and embedded systems. I enjoy building small, functional projects using Arduino and ESP boards.
+                            I'm <strong className="text-white font-medium">Karthik Tatineni</strong>, an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad. I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics.
                         </p>
                         <p>
-                            Beyond academics, I enjoy gaming, which helps sharpen my reflexes and decision-making skills. I often spend time developing and tinkering with mini-projects using Arduino, ESP8266/32, and sensors — transforming creative ideas into functional prototypes.
+                            My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines. My stack includes React, Node.js, FastAPI, Docker, AWS, and modern databases.
                         </p>
                         <p>
-                            My strengths include problem-solving, hands-on experimentation, and a solid grasp of both hardware and software integration. I've developed projects like a smart anti-theft bag, home automation system, and an environmental monitoring platform.
+                            While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks, transforming creative ideas into functional prototypes.
                         </p>
                         <p className="border-l-4 border-gold pl-4 italic text-gold/80">
-                            "I aim to build a future where I can contribute to impactful tech solutions that improve everyday life."
+                            "I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world."
                         </p>
                     </motion.div>
 

@@ -10,7 +10,7 @@ function MediaFallback({ type }) {
     );
 }
 
-export function ProjectImage({ src, alt = 'Project Media', className = '' }) {
+export function ProjectImage({ src, alt = 'Project Media', className = '', loading = 'lazy' }) {
     const [failed, setFailed] = useState(false);
 
     if (failed) return <MediaFallback type="image" />;
@@ -19,7 +19,7 @@ export function ProjectImage({ src, alt = 'Project Media', className = '' }) {
         <img
             src={src}
             alt={alt}
-            loading="lazy"
+            loading={loading}
             decoding="async"
             onError={() => setFailed(true)}
             className={className}

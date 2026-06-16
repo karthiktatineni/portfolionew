@@ -7,7 +7,7 @@ export default function About() {
     const stats = [
         { label: 'Deployed Apps', value: '10+' },
         { label: 'Tech Stack', value: '25+' },
-        { label: 'Users Scaled', value: '1k+' },
+        { label: 'Users Scaled', value: '1.5k+' },
         { label: 'Publications', value: '1' },
     ];
 

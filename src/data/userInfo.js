@@ -1,4 +1,10 @@
 // Comprehensive personal information for AI Chatbot system prompt
+import { projects } from './projects.js';
+import { skillCategories } from './skills.js';
+
+// Flatten the skills from categories
+const allSkills = Array.from(new Set(skillCategories.flatMap(cat => cat.skills)));
+
 export const userInfo = {
     name: "Karthik Tatineni",
     title: "Student | Electronics & Communication Engineer | Full-Stack Developer | IoT & AI Enthusiast",
@@ -13,212 +19,22 @@ While my core focus is software engineering, my background in electronics gives 
 I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world.`,
 
     stats: {
-        projectsBuilt: "20+",
+        projectsBuilt: `${projects.length}+`,
         techDomains: "8+",
-        technologies: "25+",
+        technologies: `${allSkills.length}+`,
         deployedApps: "10+",
     },
 
-    skills: [
-        "React", "Next.js", "Node.js", "Vite", "Firebase", "Docker", "Nginx",
-        "ESP32", "ESP8266", "Arduino", "C++", "Verilog", "VLSI",
-        "Python", "AI/ML", "YOLOv5", "CNN",
-        "Google Gemini AI", "ChatGPT", "Antigravity", "Claude AI", "Claude Code CLI", "Perplexity AI", "Groq",
-        "Ollama (Local LLMs)", "Whisk", "Flow", "LLM Integration", "Bolt.new",
-        "Cursor AI", "GitHub Copilot", "Copilot CLI", "Code Agents", "MCP Server",
-        "AI Skills", "Autonomous Agents", "Botpress",
-        "Cloudflare Tunnel", "PostgreSQL", "WebSockets", "REST APIs",
-        "Tailwind CSS", "Framer Motion", "Git", "Vercel",
-        "Self-Hosting", "DevOps", "Microservices", "IoT"
-    ],
+    skills: allSkills,
 
-    projects: [
-        {
-            id: "disastermind-ai",
-            title: "DisasterMind AI",
-            category: "AI/ML",
-            description: "An autonomous Emergency Operations Center powered by a multi-agent AI system. It gathers real-time intelligence, predicts casualties and infrastructure damage, calculates resource requirements, and generates dynamic evacuation strategies using continuous scenario simulation and AI agent debate.",
-            tech: ["Next.js", "FastAPI", "NVIDIA NIM", "Azure AI Foundry", "PostgreSQL", "Redis", "Machine Learning"],
-            github: "https://github.com/karthiktatineni/DisasterMind-AI-agents"
-        },
-        {
-            id: "ai-integrated-smart-home",
-            title: "AI-Integrated Smart Home Automation System",
-            category: "Cloud, IoT",
-            description: "A fully functional cloud-connected smart home automation system that enables real-time control of electrical appliances through Amazon Alexa, Apple Siri, and a custom web dashboard. Built around ESP32 microcontroller with Firebase Realtime Database. Controls lights, fans, and power outlets using voice commands or remote web access. Ensures two-way synchronization between physical switches and cloud commands.",
-            tech: ["ESP32", "Firebase", "Next.js", "Alexa", "Siri", "Node.js", "C++"]
-        },
-        {
-            id: "smart-anti-theft-bag",
-            title: "Smart Anti-Theft Bag",
-            category: "IoT",
-            description: "A compact IoT-powered backpack that improves personal security using RFID authentication and real-time Telegram alerts. Built with ESP8266. If no valid RFID card is scanned within 5 seconds of zipper opening, a buzzer sounds and a Telegram alert is sent. Uses MFRC522 RFID reader, piezo buzzer, physical switch for zipper detection, and Wi-Fi cloud messaging.",
-            tech: ["ESP8266", "RFID MFRC522", "Telegram Bot API", "Arduino IDE", "Piezo Buzzer"],
-            github: "https://github.com/karthiktatineni/Smart-Bag"
-        },
-        {
-            id: "ai-powered-esp32",
-            title: "AI-Powered ESP32",
-            category: "AI/ML",
-            description: "Integration of ESP32 with Google Gemini AI to create an interactive AI-powered assistant with audio output — enabling voice-based interaction without a computer or heavy cloud setup. Applications include smart home voice assistants, accessibility tools, educational companions, and IoT devices.",
-            tech: ["ESP32", "Google Gemini AI", "Text-to-Speech", "Arduino IDE", "Wi-Fi"],
-            github: "https://github.com/karthiktatineni/Gemini-integrated-ESP32"
-        },
-        {
-            id: "ollama-local-ai",
-            title: "OLLAMA Based Local AI",
-            category: "AI/ML",
-            description: "Integration between ESP32 and Ollama — a local LLM engine running on a PC — allowing the ESP32 to communicate with advanced language models like LLaMA, Phi, Mistral, and Gemma without cloud services. Uses ngrok for secure tunneling. Works completely over local hardware.",
-            tech: ["ESP32", "Ollama", "LLaMA", "Phi", "Mistral", "Ngrok", "HTTP API"],
-            github: "https://github.com/karthiktatineni/Ollama_on_ESP32"
-        },
-        {
-            id: "klvora-fashion",
-            title: "Klvora - Fashion Website",
-            category: "Web",
-            description: "A modern fashion e-commerce website built with React and Neon DBMS for dynamic product management. Features automated email workflows for customer engagement, sleek responsive design, and seamless user experience.",
-            tech: ["React", "Neon DBMS", "Node.js", "Email Automation", "Tailwind CSS"],
-            github: "https://github.com/karthiktatineni/luxethreads-studio"
-        },
-        {
-            id: "personal-ai-bot",
-            title: "Personal AI Bot",
-            category: "AI/ML",
-            description: "A personalized AI bot trained on resume and portfolio details, built using Botpress and OpenAI. Hosted online and trained with FAQs, resume content, and personalized replies using knowledge base integration.",
-            tech: ["Botpress", "OpenAI GPT", "Knowledge Base", "Web Embedding"]
-        },
-        {
-            id: "helmet-detection",
-            title: "Helmet & Triple-Ride Detection",
-            category: "AI/ML",
-            description: "Deep learning system using YOLOv5 + CNN to detect motorcyclists violating traffic rules — specifically those not wearing helmets or riding with more than two passengers. Optimized for accuracy and real-time performance using OpenCV and PyTorch.",
-            tech: ["YOLOv5", "CNN", "OpenCV", "PyTorch", "Python"],
-            github: "https://github.com/karthiktatineni/Helmet-tripleride-Detection"
-        },
-        {
-            id: "smart-home-automation",
-            title: "Smart Home Automation (Sinric Pro + Alexa)",
-            category: "IoT",
-            description: "Smart home automation system using ESP8266 to wirelessly control appliances like lights and fans. Integrated with Alexa using Sinric Pro and the Cadio App for voice-controlled operation.",
-            tech: ["ESP8266", "Alexa", "Sinric Pro", "Relay Modules", "Arduino IDE"],
-            github: "https://github.com/karthiktatineni/Home-automation"
-        },
-        {
-            id: "environmental-monitoring",
-            title: "Environmental Monitoring System",
-            category: "IoT",
-            description: "Smart environmental monitoring system powered by ESP8266 and DHT11 sensor. Shows real-time temperature, humidity, and air quality on a web dashboard, auto-refreshed every few seconds with color-coded safe/unsafe ranges.",
-            tech: ["ESP8266", "DHT11", "HTML/CSS/JS", "REST API", "Arduino IDE"],
-            github: "https://github.com/karthiktatineni/weather_monitoring_System"
-        },
-        {
-            id: "smart-calling-bell",
-            title: "Smart Calling Bell System",
-            category: "IoT",
-            description: "ESP32-based calling bell system that notifies home occupants via Blynk app when a visitor presses the bell. Compact and suitable for smart homes, offices, and accessible homes.",
-            tech: ["ESP32", "Blynk", "Piezo Buzzer", "Arduino IDE", "OTA Updates"]
-        },
-        {
-            id: "audio-spectrum-analyzer",
-            title: "Analog Audio Spectrum Analyzer",
-            category: "Electronics",
-            description: "A pure analog electronics project that visualizes audio frequency spectrum without any microcontroller. Uses carefully designed circuits with capacitors, zener diodes, and rectifier diodes.",
-            tech: ["Analog Electronics", "Capacitors", "Zener Diodes", "Rectifier Diodes", "PCB Design"]
-        },
-        {
-            id: "ambient-light-esp",
-            title: "Ambient Light Using ESP",
-            category: "IoT",
-            description: "An immersive ambient lighting system using ESP8266 and WLED firmware to control WS2812 LED strips. Syncs with screen content through SignalRGB for a dynamic visual experience.",
-            tech: ["ESP8266", "WLED", "WS2812", "SignalRGB", "LED Programming"]
-        },
-        {
-            id: "esp-joke-generator",
-            title: "ESP Joke Generator",
-            category: "IoT",
-            description: "Fun IoT project using ESP to fetch jokes from an online API and display them on a 16x2 LCD screen, with an interactive button to reveal the punchline.",
-            tech: ["ESP8266", "LCD 16x2", "API Integration", "Arduino IDE", "C++"],
-            github: "https://github.com/karthiktatineni/ESP32-based-joke-generator"
-        },
-        {
-            id: "esp32-desk-mochi",
-            title: "ESP32 Desk Mochi",
-            category: "IoT",
-            description: "An adorable ESP32-powered desk companion that displays time and weather on an OLED screen, featuring dynamic facial expressions that change based on conditions.",
-            tech: ["ESP32", "OLED Display", "Weather API", "Animation", "C++"],
-            github: "https://github.com/karthiktatineni/Desk_mochi"
-        },
-        {
-            id: "verilog-logic-gates",
-            title: "Logic Gates Using Verilog",
-            category: "VLSI",
-            description: "Implements basic combinational logic gates — AND, OR, NOT, NAND, NOR, XOR, and XNOR — using Verilog HDL. VCD waveform files generated for visualization and verification.",
-            tech: ["EDAplayground", "Verilog", "Logic Gates", "RTL modeling"]
-        },
-        {
-            id: "verilog-half-adder-subtractor",
-            title: "Half Adder & Subtractor (Verilog)",
-            category: "VLSI",
-            description: "Combined Half Adder and Half Subtractor implemented using Verilog HDL with testbench and VCD waveform output.",
-            tech: ["EDAplayground", "Verilog", "Adder", "Subtractor", "RTL modeling"]
-        },
-        {
-            id: "iare-consortium",
-            title: "IARE Consortium Platform",
-            category: "Web",
-            description: "A comprehensive web platform built for IARE's technical consortium to streamline event management. Features a robust admin panel for organizing events, tracking registrations, and managing content dynamically.",
-            tech: ["React", "Vite", "Firebase", "Vercel", "Tailwind CSS", "Domain management"],
-            github: "https://github.com/karthiktatineni/iareconsortium25"
-        },
-        {
-            id: "iare-mun",
-            title: "IARE MUN Website",
-            category: "Web",
-            description: "Official website for IARE Model United Nations, designed for large-scale delegate registrations. Includes a secure admin dashboard for the secretariat to manage applications and allocate countries.",
-            tech: ["React", "Vite", "Firebase", "Vercel", "Tailwind CSS"],
-            github: "https://github.com/karthiktatineni/munfirebase"
-        },
-        {
-            id: "nextcloud-home-server",
-            title: "Nextcloud Home Cloud Server",
-            category: "Cloud",
-            description: "Self-hosted Nextcloud home server on a personal PC with Docker and external hard disk for persistent storage. Cloudflare Tunnel used to securely expose the server worldwide without port forwarding.",
-            tech: ["Nextcloud", "Docker", "PostgreSQL", "Cloudflare Tunnel", "Self-Hosting", "Networking"],
-            github: "https://github.com/karthiktatineni/localcloud"
-        },
-        {
-            id: "iare-mun-devops",
-            title: "IARE MUN - Full DevOps Architecture",
-            category: "DevOps",
-            description: "Enterprise-grade MUN platform with high-availability infrastructure: Layer 7 Load Balancers, API Gateway, Dockerized microservices, and sophisticated Redis caching layers.",
-            tech: ["Load Balancers", "API Gateway", "Docker", "Redis Caching", "Nginx", "Firebase", "Cloudflare", "React"],
-            github: "https://github.com/karthiktatineni/munproduction"
-        },
-        {
-            id: "personal-home-server",
-            title: "Personal Home Server & Private Cloud",
-            category: "Cloud, DevOps",
-            description: "A high-performance, self-hosted infrastructure using Docker Compose featuring: Nextcloud for cloud storage, Plex for media streaming, n8n for workflow automation, custom Datacenter Monitor with real-time WebSocket metrics, and a Dockerized Minecraft server. Secured via Cloudflare Tunnels.",
-            tech: ["Docker", "Cloudflare Tunnel", "Nginx", "Nextcloud", "Plex", "n8n", "Node.js", "PostgreSQL", "WebSockets"],
-            github: "https://github.com/karthiktatineni/homeserver"
-        },
-        {
-            id: "ai-agent-team",
-            title: "Autonomous AI Agentic Team",
-            category: "AI/ML",
-            description: "A fully autonomous, multi-agent development pipeline designed to transform high-level ideas into production-ready software systems. Uses MCP Protocol to coordinate a team of 10+ AI agents (Researcher, Architect, Coder, etc.) through a central orchestrator and real-time dashboard.",
-            tech: ["Claude Code", "MCP Protocol", "Node.js", "React", "Ollama", "WebSockets"],
-            github: "https://github.com/karthiktatineni/claude-code-agentic-team"
-        },
-        {
-            id: "gymapp-flutter",
-            title: "GYMapp - AI Fitness Tracker",
-            category: "AI/ML, App",
-            description: "A premium AI-powered workout planner built with Flutter and Google Gemini AI. Features secure Firebase authentication, personalized workout generation, and cross-platform support. Built with production-grade security and clean architecture.",
-            tech: ["Flutter", "Firebase", "Google Gemini AI", "Dart", "Provider"],
-            github: "https://github.com/karthiktatineni/GYMapp-flutter"
-        }
-    ],
+    projects: projects.map(p => ({
+        id: p.id,
+        title: p.title,
+        category: p.category,
+        description: p.shortDescription,
+        tech: p.technologies,
+        github: p.githubUrl || null
+    })),
 
     certifications: [
         { title: "MySQL & Database Management: Create, Manage & Query Databases", issuer: "Udemy" },

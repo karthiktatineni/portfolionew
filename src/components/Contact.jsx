@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useUnicornStudio } from '../hooks/useUnicornStudio';
-import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Twitter, Instagram } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, Twitter, Instagram, PhoneCall } from 'lucide-react';
+import RequestCallModal from './RequestCallModal';
 
 export default function Contact() {
     // Initialize UnicornStudio background
@@ -15,6 +16,7 @@ export default function Contact() {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
     const [errorMessage, setErrorMessage] = useState('');
+    const [isCallModalOpen, setIsCallModalOpen] = useState(false);
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -160,7 +162,7 @@ export default function Contact() {
                                 ></textarea>
                             </div>
 
-                            <div className="pt-4">
+                            <div className="pt-4 space-y-4">
                                 <button
                                     type="submit"
                                     disabled={status === 'loading'}
@@ -169,6 +171,17 @@ export default function Contact() {
                                     <span className="relative z-10 flex items-center justify-center gap-3">
                                         {status === 'loading' ? 'Encrypting & Sending...' : 'Initiate Conversation'}
                                         <ExternalLink className="w-4 h-4" />
+                                    </span>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setIsCallModalOpen(true)}
+                                    className="group relative w-full px-10 py-5 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-xs hover:border-gold hover:text-gold transition-all rounded-xl overflow-hidden"
+                                >
+                                    <span className="relative z-10 flex items-center justify-center gap-3">
+                                        Request AI Call
+                                        <PhoneCall className="w-4 h-4" />
                                     </span>
                                 </button>
 
@@ -187,6 +200,11 @@ export default function Contact() {
                     </motion.div>
                 </div>
             </div>
+
+            <RequestCallModal 
+                isOpen={isCallModalOpen} 
+                onClose={() => setIsCallModalOpen(false)} 
+            />
         </section>
     );
 }

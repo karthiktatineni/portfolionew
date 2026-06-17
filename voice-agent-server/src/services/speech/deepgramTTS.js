@@ -24,6 +24,7 @@ export async function deepgramTextToSpeechREST(text) {
                 model: 'aura-orion-en',
                 encoding: 'mulaw',
                 sample_rate: 8000,
+                container: 'none',
             }
         );
 

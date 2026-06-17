@@ -80,6 +80,17 @@ export default function RequestCallModal({ isOpen, onClose }) {
                 throw new Error(data.error || 'Failed to request call');
             }
 
+            // AUTO TRIGGER CALL
+            try {
+                fetch('/api/start-call', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ leadId: data.leadId })
+                });
+            } catch (triggerError) {
+                console.error("Failed to auto-trigger call:", triggerError);
+            }
+
             setStatus('success');
             setTimeout(() => {
                 setStatus('idle');

@@ -174,7 +174,7 @@ export default function Contact() {
                                     </span>
                                 </button>
 
-                                <button
+                                {/* <button
                                     type="button"
                                     onClick={() => setIsCallModalOpen(true)}
                                     className="group relative w-full px-10 py-5 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-xs hover:border-gold hover:text-gold transition-all rounded-xl overflow-hidden"
@@ -183,7 +183,7 @@ export default function Contact() {
                                         Request AI Call
                                         <PhoneCall className="w-4 h-4" />
                                     </span>
-                                </button>
+                                </button> */}
 
                                 {status === 'success' && (
                                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-gold text-xs text-center mt-6 tracking-widest">

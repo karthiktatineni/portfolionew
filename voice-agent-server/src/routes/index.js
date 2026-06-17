@@ -36,6 +36,10 @@ router.post('/api/start-call', requireApiKey, startCall);
 router.all('/api/twilio/voice', handleVoiceWebhook);
 router.all('/api/twilio/status', handleStatusWebhook);
 
+// Aliases just in case Twilio is configured directly via console
+router.all('/twilio/voice', handleVoiceWebhook);
+router.all('/twilio/status', handleStatusWebhook);
+
 // --- Knowledge Reload (manual trigger to refresh portfolio data) ---
 router.post('/api/reload-knowledge', requireApiKey, async (req, res) => {
     try {

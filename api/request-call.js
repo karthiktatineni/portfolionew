@@ -56,37 +56,7 @@ export default async function handler(req, res) {
 
     try {
         
-        // 3. Rate Limiting (max 3 requests per phone per day)
-        // Check requests from this phone number in the last 24 hours
-        const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-        const snapshot = await db.collection('leads')
-            .where('phone', '==', phone)
-            .get();
-
-        const recentPhoneLeads = snapshot.docs.filter(doc => {
-            const data = doc.data();
-            return data.createdAt && data.createdAt.toDate() >= oneDayAgo;
-        });
-
-        if (recentPhoneLeads.length >= 3) {
-            return res.status(429).json({ error: 'Rate limit exceeded. Maximum 3 requests per day.' });
-        }
-
-        // IP-based Rate Limiting (max 3 requests per IP per day)
-        if (ip !== 'unknown') {
-            const ipSnapshot = await db.collection('leads')
-                .where('ip', '==', ip)
-                .get();
-
-            const recentIpLeads = ipSnapshot.docs.filter(doc => {
-                const data = doc.data();
-                return data.createdAt && data.createdAt.toDate() >= oneDayAgo;
-            });
-
-            if (recentIpLeads.length >= 3) {
-                return res.status(429).json({ error: 'Rate limit exceeded for your IP address.' });
-            }
-        }
+        // Rate limiting temporarily disabled for testing
 
         // 4. Create Lead
         const newLead = {

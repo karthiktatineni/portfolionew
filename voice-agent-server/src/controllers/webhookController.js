@@ -8,7 +8,7 @@ import logger from '../utils/logger.js';
  * Returns TwiML that connects to our Media Stream WebSocket.
  */
 export async function handleVoiceWebhook(req, res) {
-    const leadId = req.query.leadId || req.body.leadId;
+    const leadId = req.query?.leadId || req.body?.leadId;
 
     if (!leadId) {
         logger.error('Webhook', 'Voice webhook called without leadId');
@@ -17,6 +17,10 @@ export async function handleVoiceWebhook(req, res) {
     }
 
     logger.call('Webhook', `Voice webhook triggered for lead ${leadId}`);
+    
+    // Debug Twilio Payload
+    console.log("TWILIO BODY:", req.body || "undefined body");
+    console.log("HEADERS:", req.headers);
 
     const twiml = generateStreamTwiML(leadId);
     res.type('text/xml');
@@ -28,10 +32,10 @@ export async function handleVoiceWebhook(req, res) {
  * Twilio calls this on call status changes.
  */
 export async function handleStatusWebhook(req, res) {
-    const leadId = req.query.leadId || req.body.leadId;
-    const callStatus = req.body.CallStatus;
-    const callDuration = parseInt(req.body.CallDuration || '0', 10);
-    const callSid = req.body.CallSid || '';
+    const leadId = req.query?.leadId || req.body?.leadId;
+    const callStatus = req.body?.CallStatus;
+    const callDuration = parseInt(req.body?.CallDuration || '0', 10);
+    const callSid = req.body?.CallSid || '';
 
     logger.call('Webhook', `Status update: ${callStatus} for lead ${leadId} (SID: ${callSid})`);
 

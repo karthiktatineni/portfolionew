@@ -4,6 +4,14 @@ import TiltCard from './TiltCard';
 
 const certifications = [
     {
+        title: "AI Skills Fest 2026",
+        issuer: "Microsoft",
+        date: "June 19, 2026",
+        badge: true,
+        badgeImage: "https://images.credly.com/images/082c8d0c-5232-4597-b6c4-6bebcc4f3046/twitter_thumb_201604_blob",
+        url: "https://www.credly.com/badges/0150928e-85cc-4c03-8e20-1f9b0a94c81a/public_url"
+    },
+    {
         title: "MySQL & Database Management: Create, Manage & Query Databases",
         issuer: "Udemy",
         url: "https://www.udemy.com/certificate/UC-0e5326e8-9e6b-4f48-90d7-28302959799e/"
@@ -119,7 +127,7 @@ export default function Certifications() {
                     <h3 className="text-2xl font-bold text-white border-b border-[#262626] pb-4">Certifications</h3>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {certifications.map((cert, index) => (
                         <motion.div
                             key={index}
@@ -130,16 +138,36 @@ export default function Certifications() {
                             className="h-full"
                         >
                             <TiltCard className="h-full">
-                                <div className="p-8 bg-[#141414] border border-[#262626] hover:border-gold/40 rounded-sm transition-all duration-500 hover:shadow-[0_10px_40px_-10px_rgba(201,168,76,0.15)] h-full flex flex-col justify-between">
+                                <div className="p-6 bg-[#141414] border border-[#262626] hover:border-gold/40 rounded-sm transition-all duration-500 hover:shadow-[0_10px_40px_-10px_rgba(201,168,76,0.15)] h-full flex flex-col justify-between">
                                     <div>
-                                        <div className="text-gold text-xs uppercase tracking-widest font-bold mb-4">
-                                            {cert.issuer}
-                                        </div>
-                                        <h3 className="text-lg font-bold text-white mb-8 leading-snug">
+                                        {cert.badge && cert.badgeImage && (
+                                            <div className="flex items-center gap-4 mb-4">
+                                                <img
+                                                    src={cert.badgeImage}
+                                                    alt={`${cert.title} badge`}
+                                                    className="w-12 h-12 object-contain rounded-md"
+                                                />
+                                                <div>
+                                                    <div className="text-gold text-[10px] uppercase tracking-widest font-bold">
+                                                        {cert.issuer}
+                                                    </div>
+                                                    {cert.date && (
+                                                        <div className="text-[#666] text-[10px] mt-0.5">{cert.date}</div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                        {!cert.badge && (
+                                            <div className="text-gold text-[10px] uppercase tracking-widest font-bold mb-3">
+                                                {cert.issuer}
+                                            </div>
+                                        )}
+                                        <h3 className="text-base font-bold text-white mb-6 leading-snug">
                                             {cert.title}
                                         </h3>
+                                        
                                         {cert.subCerts && (
-                                            <div className="flex flex-col gap-3 mb-6">
+                                            <div className="flex flex-col gap-2 mb-6">
                                                 {cert.subCerts.map((sub, i) => (
                                                     <a
                                                         key={i}
@@ -148,7 +176,7 @@ export default function Certifications() {
                                                         rel="noopener noreferrer"
                                                         className="flex items-center justify-between group"
                                                     >
-                                                        <span className="text-[#a3a3a3] text-sm group-hover:text-gold transition-colors">{sub.title}</span>
+                                                        <span className="text-[#a3a3a3] text-xs group-hover:text-gold transition-colors">{sub.title}</span>
                                                         <span className="text-gold opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                                                     </a>
                                                 ))}
@@ -160,9 +188,9 @@ export default function Certifications() {
                                             href={cert.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-block px-6 py-3 bg-[#171717] border border-[#262626] text-white text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
+                                            className="inline-block px-4 py-2.5 bg-[#171717] border border-[#262626] text-white text-[10px] uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center mt-auto"
                                         >
-                                            View Certificate
+                                            {cert.badge ? 'Verify Badge' : 'View Certificate'}
                                         </a>
                                     )}
                                 </div>

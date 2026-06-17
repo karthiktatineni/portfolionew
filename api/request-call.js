@@ -61,10 +61,14 @@ export default async function handler(req, res) {
         const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const snapshot = await db.collection('leads')
             .where('phone', '==', phone)
-            .where('createdAt', '>=', Timestamp.fromDate(oneDayAgo))
             .get();
 
-        if (snapshot.size >= 3) {
+        const recentPhoneLeads = snapshot.docs.filter(doc => {
+            const data = doc.data();
+            return data.createdAt && data.createdAt.toDate() >= oneDayAgo;
+        });
+
+        if (recentPhoneLeads.length >= 3) {
             return res.status(429).json({ error: 'Rate limit exceeded. Maximum 3 requests per day.' });
         }
 
@@ -72,10 +76,14 @@ export default async function handler(req, res) {
         if (ip !== 'unknown') {
             const ipSnapshot = await db.collection('leads')
                 .where('ip', '==', ip)
-                .where('createdAt', '>=', Timestamp.fromDate(oneDayAgo))
                 .get();
 
-            if (ipSnapshot.size >= 3) {
+            const recentIpLeads = ipSnapshot.docs.filter(doc => {
+                const data = doc.data();
+                return data.createdAt && data.createdAt.toDate() >= oneDayAgo;
+            });
+
+            if (recentIpLeads.length >= 3) {
                 return res.status(429).json({ error: 'Rate limit exceeded for your IP address.' });
             }
         }

@@ -1,31 +1,4 @@
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore, FieldValue, Timestamp } from 'firebase-admin/firestore';
-
-// Initialize Firebase Admin if not already initialized
-if (getApps().length === 0) {
-    try {
-        // If FIREBASE_SERVICE_ACCOUNT is provided as a JSON string, use it.
-        // Otherwise try to construct from individual vars.
-        if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-            const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-            initializeApp({
-                credential: cert(serviceAccount)
-            });
-        } else if (process.env.FIREBASE_PRIVATE_KEY) {
-            initializeApp({
-                credential: cert({
-                    projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-                    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-                })
-            });
-        } else {
-            console.warn("Firebase Admin credentials missing. Function may fail.");
-        }
-    } catch (error) {
-        console.error('Firebase admin initialization error', error);
-    }
-}
+import { db, FieldValue, Timestamp } from './lib/firebase-admin.js';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -82,7 +55,6 @@ export default async function handler(req, res) {
     }
 
     try {
-        const db = getFirestore();
         
         // 3. Rate Limiting (max 3 requests per phone per day)
         // Check requests from this phone number in the last 24 hours

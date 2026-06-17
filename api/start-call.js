@@ -4,6 +4,8 @@
  * Called from the Dashboard to trigger an AI call.
  * Forwards the request to the Voice Agent Server (Render).
  */
+import { db } from './lib/firebase-admin.js';
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });

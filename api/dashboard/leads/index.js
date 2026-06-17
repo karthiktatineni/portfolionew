@@ -1,28 +1,6 @@
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { db } from '../../lib/firebase-admin.js';
 import jwt from 'jsonwebtoken';
 import { parse } from 'cookie';
-
-if (getApps().length === 0) {
-    try {
-        if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-            const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-            initializeApp({
-                credential: cert(serviceAccount)
-            });
-        } else if (process.env.FIREBASE_PRIVATE_KEY) {
-            initializeApp({
-                credential: cert({
-                    projectId: process.env.VITE_FIREBASE_PROJECT_ID || process.env.FIREBASE_PROJECT_ID,
-                    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-                })
-            });
-        }
-    } catch (error) {
-        console.error('Firebase admin initialization error', error);
-    }
-}
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -44,7 +22,6 @@ export default async function handler(req, res) {
     }
 
     try {
-        const db = getFirestore();
         const snapshot = await db.collection('leads')
             .orderBy('createdAt', 'desc')
             .get();

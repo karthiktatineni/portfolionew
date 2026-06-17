@@ -33,8 +33,8 @@ router.get('/health', (req, res) => {
 router.post('/api/start-call', requireApiKey, startCall);
 
 // --- Twilio Webhooks (called by Twilio, no API key needed) ---
-router.post('/api/twilio/voice', handleVoiceWebhook);
-router.post('/api/twilio/status', handleStatusWebhook);
+router.all('/api/twilio/voice', handleVoiceWebhook);
+router.all('/api/twilio/status', handleStatusWebhook);
 
 // --- Knowledge Reload (manual trigger to refresh portfolio data) ---
 router.post('/api/reload-knowledge', requireApiKey, async (req, res) => {

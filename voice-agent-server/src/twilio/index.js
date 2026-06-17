@@ -41,23 +41,17 @@ export async function createOutboundCall(phoneNumber, leadId) {
  * Generate TwiML that connects the call to a Media Stream WebSocket.
  */
 export function generateStreamTwiML(leadId) {
-    const VoiceResponse = twilio.twiml.VoiceResponse;
-    const response = new VoiceResponse();
-
-    // Greeting before the stream connects (gives Deepgram/ElevenLabs time to initialize)
-    response.say(
-        { voice: 'Polly.Aditi', language: 'en-IN' },
-        'Please hold for a moment while I connect you.'
-    );
-    response.pause({ length: 1 });
-
-    const connect = response.connect();
-    const stream = connect.stream({
-        url: `wss://${new URL(env.serverBaseUrl).host}/media-stream`,
-    });
-    stream.parameter({ name: 'leadId', value: leadId });
-
-    return response.toString();
+    const wsUrl = `wss://${new URL(env.serverBaseUrl).host}/media-stream`;
+    // We pass the leadId as a parameter inside the stream URL or rely on the start message.
+    // Twilio <Stream> allows custom parameters natively:
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Connect>
+        <Stream url="${wsUrl}">
+            <Parameter name="leadId" value="${leadId}" />
+        </Stream>
+    </Connect>
+</Response>`;
 }
 
 export { getClient };

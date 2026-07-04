@@ -4,6 +4,11 @@ import TiltCard from './TiltCard';
 
 const certifications = [
     {
+        title: "Microsoft Certified: Azure AI Fundamentals",
+        issuer: "Microsoft AI Learning Path",
+        url: "https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/37eb3c2ffc89de40?ref=https%3A%2F%2Fwww.linkedin.com%2F"
+    },
+    {
         title: "Introduction to Large Language Models",
         issuer: "Google",
         url: "https://www.skills.google/public_profiles/348e9844-ad7d-4229-a178-2f63e864d4d9/badges/25318902"

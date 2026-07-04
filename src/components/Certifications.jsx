@@ -4,6 +4,14 @@ import TiltCard from './TiltCard';
 
 const certifications = [
     {
+        title: "Introduction to Large Language Models",
+        issuer: "Google",
+        date: "July 4, 2026",
+        badge: true,
+        badgeImage: "https://cdn.qwiklabs.com/hnOtl9pWXF3CfJK998eXZfhYm9wpSEo2%2FBnj29l6BEE%3D",
+        url: "https://www.skills.google/public_profiles/348e9844-ad7d-4229-a178-2f63e864d4d9/badges/25318902"
+    },
+    {
         title: "AI Skills Fest 2026",
         issuer: "Microsoft",
         date: "June 19, 2026",

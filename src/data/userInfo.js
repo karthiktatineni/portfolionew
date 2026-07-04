@@ -37,6 +37,7 @@ I aim to architect scalable software solutions and build impactful technologies 
     })),
 
     certifications: [
+        { title: "Introduction to Large Language Models", issuer: "Google" },
         { title: "MySQL & Database Management: Create, Manage & Query Databases", issuer: "Udemy" },
         { title: "GenAI For Image & Video Creation", issuer: "Udemy" },
         { title: "HTML & CSS: The Complete Web Development Guide", issuer: "Udemy" },

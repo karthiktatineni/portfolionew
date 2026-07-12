@@ -20,6 +20,7 @@ export default function Navigation() {
         { name: 'Certifications', href: '#certifications' },
         { name: 'Media', href: '#media' },
         { name: 'Contact', href: '#contact' },
+        { name: 'AI Console', href: '/3d-lab' },
     ];
 
     return (
@@ -36,10 +37,12 @@ export default function Navigation() {
                             <a
                                 key={link.name}
                                 href={link.href}
-                                className="text-sm uppercase tracking-widest text-gray-400 hover:text-gold transition-colors duration-300 relative group"
+                                className={`text-sm uppercase tracking-widest transition-all duration-300 relative group ${link.name === 'AI Console' ? 'text-gold px-3.5 py-1.5 border border-gold/30 rounded-full hover:bg-gold/10 hover:border-gold/65' : 'text-gray-400 hover:text-gold'}`}
                             >
                                 {link.name}
-                                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gold transition-all duration-300 group-hover:w-full"></span>
+                                {link.name !== 'AI Console' && (
+                                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gold transition-all duration-300 group-hover:w-full"></span>
+                                )}
                             </a>
                         ))}
                     </div>
@@ -64,7 +67,7 @@ export default function Navigation() {
                             key={link.name}
                             href={link.href}
                             onClick={() => setIsOpen(false)}
-                            className="text-3xl font-display font-light text-white hover:text-gold transition-colors duration-300"
+                            className={`text-3xl font-display font-light transition-colors duration-300 ${link.name === 'AI Console' ? 'text-gold border border-gold/30 px-6 py-2 rounded-full hover:bg-gold/10' : 'text-white hover:text-gold'}`}
                         >
                             {link.name}
                         </a>

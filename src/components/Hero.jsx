@@ -75,18 +75,21 @@ export default function Hero() {
                         </h2>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-6 items-center">
-                        <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} className="group relative px-10 py-4 bg-gold text-black font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors rounded-full overflow-hidden shadow-[0_0_30px_rgba(201,168,76,0.3)]">
+                    <div className="flex flex-col md:flex-row gap-4 items-center mt-4">
+                        <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} className="px-8 py-3 bg-gold text-black font-semibold uppercase tracking-widest text-xs hover:bg-white transition-colors rounded-full shadow-[0_0_20px_rgba(201,168,76,0.3)]">
                             View Work
                         </MagneticButton>
+                        <a href="/3d-lab">
+                            <MagneticButton className="px-8 py-3 bg-transparent text-white border border-white/20 font-semibold uppercase tracking-widest text-xs hover:bg-white/10 hover:border-white/40 transition-colors rounded-full backdrop-blur-md">
+                                AI Console
+                            </MagneticButton>
+                        </a>
                         <a
                             href="/Tatineni_karthik.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <MagneticButton
-                                className="text-gray-400 hover:text-white transition-colors text-xs tracking-widest uppercase border-b border-transparent hover:border-white pb-1"
-                            >
+                            <MagneticButton className="px-8 py-3 text-gray-400 font-semibold uppercase tracking-widest text-xs hover:text-gold transition-colors rounded-full">
                                 Resume
                             </MagneticButton>
                         </a>

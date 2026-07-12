@@ -20,6 +20,7 @@ import Contact from './components/Contact';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import LeadsDashboard from './components/Dashboard/LeadsDashboard';
 import LeadDetail from './components/Dashboard/LeadDetail';
+import CreativeDemo from './components/CreativeDemo';
 
 const MainSite = ({ isLoading, isTouch }) => (
   <div className={`bg-[#0a0a0a] min-h-screen selection:bg-gold selection:text-black ${isTouch ? '' : 'cursor-none'}`}>
@@ -78,6 +79,9 @@ function App() {
       <Routes>
         {/* Main Portfolio Route */}
         <Route path="/" element={<MainSite isLoading={isLoading} isTouch={isTouch} />} />
+
+        {/* Creative 3D Lab Route */}
+        <Route path="/3d-lab" element={<CreativeDemo />} />
 
         {/* Dashboard Routes */}
         <Route path="/admin/leads" element={<DashboardLayout />}>

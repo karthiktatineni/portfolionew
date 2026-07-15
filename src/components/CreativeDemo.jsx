@@ -1152,74 +1152,7 @@ export default function CreativeDemo() {
                 </motion.div>
             </div>
 
-            {/* ========= JARVIS TERMINAL ========= */}
-            <section className="relative z-20 max-w-[1600px] mx-auto px-6 md:px-10 pb-16">
-                <div className="relative overflow-hidden rounded-lg border border-gold/25 bg-black/85 shadow-[0_0_44px_rgba(201,168,76,0.12)] font-mono">
-                    <canvas ref={bgCanvasRef} className="absolute inset-0 h-full w-full pointer-events-none opacity-60" />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.08),rgba(10,10,10,0.88)_58%,rgba(10,10,10,0.98)_100%)] pointer-events-none" />
 
-                    <div className="relative p-5 md:p-6">
-                        <div className="flex items-center gap-2 border-b border-gold/20 pb-3">
-                            <Terminal className="w-4 h-4 text-gold" />
-                            <span className="text-gold text-xs uppercase tracking-widest">JARVIS Terminal</span>
-                            <span className="ml-auto text-gold-light text-[10px] uppercase tracking-[0.2em]">{statusText}</span>
-                        </div>
-
-                        <div className="grid min-h-[320px] grid-cols-1 items-stretch gap-4 py-5 lg:grid-cols-[minmax(0,1fr)_320px_minmax(0,1fr)]">
-                            <div className="rounded-sm border border-gold/10 bg-black/60 p-4">
-                                <div className="mb-2 text-[10px] uppercase tracking-[0.24em] text-gold/50">STT Transcript</div>
-                                <p className="min-h-40 text-sm leading-relaxed text-gray-300">
-                                    {transcript || 'Awaiting microphone input...'}
-                                </p>
-                            </div>
-
-                            <div className="relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-sm border border-gold/20 bg-black/35">
-                                <div className="absolute h-56 w-56 rounded-full border border-gold/15 shadow-[0_0_70px_rgba(201,168,76,0.18)]" />
-                                <div className="absolute h-36 w-36 rounded-full border border-gold/10" />
-                                {jarvisStatus === 'listening' && (
-                                    <>
-                                        <div className="absolute h-28 w-28 rounded-full border-2 border-gold-light/40 animate-ping" />
-                                        <div className="absolute h-44 w-44 rounded-full border border-gold/20 animate-ping" style={{ animationDelay: '0.3s' }} />
-                                    </>
-                                )}
-                                {jarvisStatus === 'speaking' && (
-                                    <div className="absolute h-40 w-40 rounded-full border-2 border-gold-light/35 animate-ping" />
-                                )}
-
-                                <button
-                                    onClick={jarvisStatus === 'listening' ? stopListening : startListening}
-                                    disabled={!isSpeechSupported}
-                                    className={`relative z-10 flex h-20 w-20 items-center justify-center rounded-full transition-all duration-300
-                                        ${jarvisStatus === 'listening' || jarvisStatus === 'speaking'
-                                            ? 'border-2 border-gold-light bg-gold/15 shadow-[0_0_32px_rgba(201,168,76,0.28)]'
-                                            : 'border border-gold/40 bg-black/60 hover:border-gold hover:bg-gold/10'
-                                        }
-                                        ${!isSpeechSupported ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}
-                                    `}
-                                    title={!isSpeechSupported ? 'Speech Recognition not supported in this browser' : 'Click to speak'}
-                                >
-                                    {jarvisStatus === 'listening' ? (
-                                        <MicOff className="h-7 w-7 text-gold-light" />
-                                    ) : (
-                                        <Mic className={`h-7 w-7 ${jarvisStatus === 'speaking' ? 'text-gold-light' : 'text-gold'}`} />
-                                    )}
-                                </button>
-                            </div>
-
-                            <div className="rounded-sm border border-gold/20 bg-black/70 p-4 shadow-[inset_0_0_24px_rgba(201,168,76,0.05)]">
-                                <div className="mb-2 text-[10px] uppercase tracking-[0.24em] text-gold/50">TTS Transcript</div>
-                                <p className={`min-h-40 text-sm leading-relaxed text-gold-light ${jarvisStatus === 'processing' ? 'animate-pulse' : ''}`}>
-                                    {jarvisResponse}
-                                </p>
-                            </div>
-                        </div>
-
-                        <p className="text-center text-[9px] uppercase tracking-[0.22em] text-gold/45">
-                            {isSpeechSupported ? 'Click the core mic to speak to AI' : 'Speech not supported in this browser'}
-                        </p>
-                    </div>
-                </div>
-            </section>
 
             {/* ========= NODE DETAIL TOOLTIP (on click) ========= */}
             <AnimatePresence>

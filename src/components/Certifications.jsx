@@ -113,14 +113,24 @@ export default function Certifications() {
                                         ICMCER 2026 (Scopus Indexed)
                                     </p>
                                 </div>
-                                <a
-                                    href="https://www.tatinenikarthik.online/Cert.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block px-6 py-3 bg-[#171717] border border-[#262626] text-white text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
-                                >
-                                    View Certificate
-                                </a>
+                                <div className="flex gap-4">
+                                    <a
+                                        href="https://www.tatinenikarthik.online/Cert.pdf"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 inline-block px-4 py-3 bg-[#171717] border border-[#262626] text-white text-[10px] sm:text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
+                                    >
+                                        Certificate
+                                    </a>
+                                    <a
+                                        href="/paper.docx"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 inline-block px-4 py-3 bg-[#171717] border border-[#262626] text-white text-[10px] sm:text-xs uppercase tracking-widest font-bold hover:bg-gold hover:text-black transition-colors rounded-sm text-center"
+                                    >
+                                        View Paper
+                                    </a>
+                                </div>
                             </div>
                         </TiltCard>
                     </motion.div>
@@ -175,7 +185,7 @@ export default function Certifications() {
                                         <h3 className="text-base font-bold text-white mb-6 leading-snug">
                                             {cert.title}
                                         </h3>
-                                        
+
                                         {cert.subCerts && (
                                             <div className="flex flex-col gap-2 mb-6">
                                                 {cert.subCerts.map((sub, i) => (

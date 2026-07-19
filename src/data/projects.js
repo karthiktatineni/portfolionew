@@ -3,6 +3,35 @@ export const projects = [
     // SOFTWARE PROJECTS (Web, AI/ML, App, Cloud, DevOps) — TOP
     // ========================================
 
+
+    {
+        id: 'deepseek-finetuning',
+        title: 'DeepSeek Coder Fine-Tuning — Domain-Specific Coding Assistant',
+        shortDescription: 'Fine-tuned DeepSeek Coder 6.7B using QLoRA to create a specialized coding assistant for software engineering tasks.',
+        fullDescription: [
+            "Built an end-to-end LLM fine-tuning pipeline to adapt DeepSeek Coder 6.7B into a domain-specific programming assistant using parameter-efficient QLoRA training.",
+            "Designed a complete data pipeline that downloads, preprocesses, cleans, tokenizes, and formats large-scale coding instruction datasets including OpenCoder Stage 2, CodeAlpaca, and ClassEval into conversational training data.",
+            "Implemented 4-bit quantization with BitsAndBytes, LoRA adapters, Hugging Face Transformers, TRL, and PEFT to enable efficient fine-tuning on consumer GPU hardware while significantly reducing memory requirements.",
+            "Developed an automated training and evaluation workflow with dataset inspection, tokenization, adapter checkpointing, inference comparison, and performance benchmarking between the base model and fine-tuned model to measure improvements in code generation quality."
+        ],
+        technologies: [
+            'Python',
+            'PyTorch',
+            'DeepSeek Coder 6.7B',
+            'QLoRA',
+            'LoRA',
+            'BitsAndBytes',
+            'Transformers',
+            'TRL',
+            'PEFT',
+            'Hugging Face',
+            'Datasets'
+        ],
+        category: 'AI/ML',
+        images: ['/videos/LLM1.png', '/videos/LLM2.png', '/videos/LLM3.png'],
+        githubUrl: 'https://github.com/karthiktatineni/Finetuning-deepseek-coder-6.7b'
+    },
+
     {
         id: 'disastermind-ai',
         title: 'DisasterMind AI — Autonomous Disaster Intelligence',
@@ -20,36 +49,36 @@ export const projects = [
         websiteUrl: 'https://disaster-mind-ai-agents.vercel.app/'
     },
     {
-    id: 'microservices-platform',
-    title: 'Microservices Platform — CI/CD pipeline and Azure Container Apps Production System',
-    shortDescription: 'Production-ready microservices architecture with Node.js services, Nginx reverse proxy, Redis caching, PostgreSQL, and Azure Container Apps CI/CD with automated deployments and rolling updates.',
-    fullDescription: [
-        "Microservices Platform is a production-grade distributed system built using Node.js microservices architecture, Docker containerization, and Azure Container Apps for scalable cloud deployment. It demonstrates a real-world backend system with service isolation, API gateway routing, and centralized infrastructure management.",
-        "The system consists of multiple independently deployable services including user-service, product-service, and auth-service, all communicating through an API Gateway with Redis caching for performance optimization and PostgreSQL for persistent data storage. A Vite-based frontend consumes the backend through an Nginx reverse proxy layer.",
-        "The platform includes a fully automated CI/CD pipeline using Azure DevOps, which builds Docker images, runs unit tests across all services, pushes versioned images to Azure Container Registry (ACR), and deploys updates to Azure Container Apps using rolling revision updates for zero-downtime releases.",
-        "Infrastructure is defined using Infrastructure-as-Code (Bicep/ARM templates), enabling reproducible environment provisioning including Container Apps Environment, container services, ingress configuration, and scaling policies. The system is designed for horizontal scalability with auto-scaling rules and cloud-native deployment patterns."
-    ],
-    technologies: [
-        'Node.js',
-        'Express.js',
-        'Nginx',
-        'Redis',
-        'PostgreSQL',
-        'Docker',
-        'Docker Compose',
-        'Azure Container Apps',
-        'Azure Container Registry',
-        'Azure DevOps',
-        'Bicep',
-        'ARM Templates',
-        'Vite',
-        'CI/CD Pipelines',
-        'REST APIs'
-    ],
-    category: 'Cloud,DevOps',
-    videos: ['/videos/microservices.mp4'],
-    websiteUrl: 'https://frontend.politefield-1bba4abe.westus2.azurecontainerapps.io/'
-},
+        id: 'microservices-platform',
+        title: 'Microservices Platform — CI/CD pipeline and Azure Container Apps Production System',
+        shortDescription: 'Production-ready microservices architecture with Node.js services, Nginx reverse proxy, Redis caching, PostgreSQL, and Azure Container Apps CI/CD with automated deployments and rolling updates.',
+        fullDescription: [
+            "Microservices Platform is a production-grade distributed system built using Node.js microservices architecture, Docker containerization, and Azure Container Apps for scalable cloud deployment. It demonstrates a real-world backend system with service isolation, API gateway routing, and centralized infrastructure management.",
+            "The system consists of multiple independently deployable services including user-service, product-service, and auth-service, all communicating through an API Gateway with Redis caching for performance optimization and PostgreSQL for persistent data storage. A Vite-based frontend consumes the backend through an Nginx reverse proxy layer.",
+            "The platform includes a fully automated CI/CD pipeline using Azure DevOps, which builds Docker images, runs unit tests across all services, pushes versioned images to Azure Container Registry (ACR), and deploys updates to Azure Container Apps using rolling revision updates for zero-downtime releases.",
+            "Infrastructure is defined using Infrastructure-as-Code (Bicep/ARM templates), enabling reproducible environment provisioning including Container Apps Environment, container services, ingress configuration, and scaling policies. The system is designed for horizontal scalability with auto-scaling rules and cloud-native deployment patterns."
+        ],
+        technologies: [
+            'Node.js',
+            'Express.js',
+            'Nginx',
+            'Redis',
+            'PostgreSQL',
+            'Docker',
+            'Docker Compose',
+            'Azure Container Apps',
+            'Azure Container Registry',
+            'Azure DevOps',
+            'Bicep',
+            'ARM Templates',
+            'Vite',
+            'CI/CD Pipelines',
+            'REST APIs'
+        ],
+        category: 'Cloud,DevOps',
+        videos: ['/videos/microservices.mp4'],
+        websiteUrl: 'https://frontend.politefield-1bba4abe.westus2.azurecontainerapps.io/'
+    },
     {
         id: 'aegis-ai',
         title: 'Aegis AI — Local-First AI Assistant Platform',

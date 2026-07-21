@@ -4,7 +4,12 @@ import TiltCard from './TiltCard';
 
 const certifications = [
     {
-        title: "Microsoft Certified: Azure AI Fundamentals",
+        title: "Microsoft Certified(AI-103): Azure AI Apps and Agents Developer Associate",
+        issuer: "Microsoft AI Learning Path",
+        url: "https://learn.microsoft.com/api/credentials/share/en-us/karthiktatineni-3461/606DBB90559009F5?sharingId=AE56B08C475F73D4"
+    },
+    {
+        title: "Microsoft Certified(AI-901): Azure AI Fundamentals",
         issuer: "Microsoft AI Learning Path",
         url: "https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/37eb3c2ffc89de40?ref=https%3A%2F%2Fwww.linkedin.com%2F"
     },

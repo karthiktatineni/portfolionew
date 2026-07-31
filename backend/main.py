@@ -47,18 +47,118 @@ HALLUCINATIONS = {
     "thanks for watching!", "thanks for watching."
 }
 
-WHISPER_MODELS_TO_TRY = ["large-v3-turbo", "large-v3", "large-v2"]
+# Elite Whisper models - ONLY the highest accuracy models available
+WHISPER_MODELS_TO_TRY = [
+    "large-v3",              # Absolute best accuracy, massive model
+    "large-v2",              # Previous gold standard, very high accuracy  
+    "medium.en"              # Fallback English-only with good accuracy
+]
+
+# Elite transcription parameters for maximum accuracy
+WHISPER_ELITE_CONFIG = {
+    "beam_size": 10,                    # Maximum beam search for best results
+    "best_of": 10,                      # Top 10 candidates to evaluate
+    "temperature": 0.0,                 # Zero randomness/deterministic
+    "compression_ratio_threshold": 2.4, # Balancer accuracy vs brevity
+    "no_speech_threshold": 0.6,         # Threshold for silence detection
+    "condition_on_previous_text": True, # Use conversation context
+    "initial_prompt": "My name is Karthik Tatineni",  # Prime model with context
+    "prefix": "My name is Karthik Tatineni",         # Force name at start
+    "suppress_tokens": [],             # Don't suppress any tokens
+    "word_timestamps": True,           # Get detailed timing
+    " Vad_filter": True,               # Advanced voice activity detection
+}
+
+# Enhanced VAD parameters for precise speech detection
+VAD_ELITE_CONFIG = {
+    "min_silence_duration_ms": 300,    # Shorter silences between phrases
+    "speech_pad_ms": 300,              # Capture speech start/end precisely
+    "threshold": 0.45,                 # Sensitive but not too aggressive
+    "min_speech_duration_ms": 250,     # Minimum speech duration to consider
+}
 
 def fix_karthik_phonetics(text: str) -> str:
     if not text:
         return ""
-    pattern = r"\b(karki|karkis|karki's|karkey|kendi|carthik|carthiks|carthik's|carthage|cardiac|car thick|car tick|garlic|car pick|target|targets|target's)\b"
+    pattern = r"\b(karki|karkis|karki\'s|karkey|kendi|carthik|carthiks|carthik\'s|carthage|cardiac|car thick|car tick|garlic|car pick|target|targets|target\'s)\b"
     def replacer(match):
         val = match.group(0).lower()
-        if val.endswith("'s") or val in ("targets", "karkis", "carthiks", "target's"):
-            return "Karthik's"
+        if val.endswith("\'s") or val in ("targets", "karkis", "carthiks", "target\'s"):
+            return "Karthik\'s"
         return "Karthik"
     return re.sub(pattern, replacer, text, flags=re.IGNORECASE)
+
+def elite_post_processing(text: str) -> str:
+    """Advanced post-processing for maximum transcription accuracy"""
+    if not text:
+        return ""
+    
+    # Fix common mishearings of "Elmi" and related patterns (improved patterns)
+    text = re.sub(r'\belmi\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\belmii\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\belmy\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\belmio\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bellamie\b', 'My name', text, flags=re.IGNORECASE)
+    
+    # Fix "evo" mishearings - remove "e I" pattern and standalone "am"
+    text = re.sub(r'\bmy name i\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bmy name am\b', 'My name', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bevo\b', 'is', text, flags=re.IGNORECASE)
+    text = re.sub(r'\beva\b', 'is', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bever\b', 'is', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bI am\b', 'is', text, flags=re.IGNORECASE)
+    
+    # Fix "karnik" -> "Karthik" (expanded patterns)
+    text = re.sub(r'\bkarnik\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarni\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarnick\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarnic\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarnie\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkardick\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkardic\b', 'Karthik', text, flags=re.IGNORECASE)
+    
+    # Fix "karki" -> "Karthik" (expanded patterns)
+    text = re.sub(r'\bkarki\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarkie\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bkarkis\b', 'Karthik', text, flags=re.IGNORECASE)
+    
+    # Fix "carthik" -> "Karthik" (expanded patterns)
+    text = re.sub(r'\bcarthik\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bcarthic\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bcarthicks\b', 'Karthik', text, flags=re.IGNORECASE)
+    
+    # Fix "car tick" -> "Karthik" (expanded patterns)
+    text = re.sub(r'\bcar tick\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bcar\s*tick\b', 'Karthik', text, flags=re.IGNORECASE)
+    
+    # Fix "car" name patterns -> "Karthik"
+    text = re.sub(r'\bcar\s*k\b', 'Karthik', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bcar\s*key\b', 'Karthik', text, flags=re.IGNORECASE)
+    
+    # Fix "tata" -> "Tatineni" (expanded patterns)
+    text = re.sub(r'\btata\b', 'Tatineni', text, flags=re.IGNORECASE)
+    text = re.sub(r'\btater\b', 'Tatineni', text, flags=re.IGNORECASE)
+    text = re.sub(r'\btatter\b', 'Tatineni', text, flags=re.IGNORECASE)
+    text = re.sub(r'\btate\b', 'Tatineni', text, flags=re.IGNORECASE)
+    text = re.sub(r'\btatenni\b', 'Tatineni', text, flags=re.IGNORECASE)
+    
+    # Fix "ta ta" -> "Tatineni"
+    text = re.sub(r'\bta\s*ta\b', 'Tatineni', text, flags=re.IGNORECASE)
+    
+    # Fix "tatineni" -> "Tatineni" (capitalization)
+    text = re.sub(r'\btatineni\b', 'Tatineni', text, flags=re.IGNORECASE)
+    
+    # Fix other common phonetic errors
+    text = re.sub(r'\beis\b', 'is', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bthes\b', 'the', text, flags=re.IGNORECASE)
+    text = re.sub(r'\bthats\b', "that's", text, flags=re.IGNORECASE)
+    text = re.sub(r'\bwit\b', 'with', text, flags=re.IGNORECASE)
+    
+    # Clean up extra spaces and punctuation
+    text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'\.\s+\.', '.', text)
+    
+    return text
 
 def get_whisper_model():
     global _whisper_model
@@ -67,12 +167,17 @@ def get_whisper_model():
             from faster_whisper import WhisperModel
             for model_size in WHISPER_MODELS_TO_TRY:
                 try:
-                    logger.info(f"Initializing faster-whisper model ({model_size} with VAD)...")
-                    _whisper_model = WhisperModel(model_size, device="cpu", compute_type="int8")
-                    logger.info(f"Successfully loaded faster-whisper model: {model_size}")
+                    logger.info(f"Loading elite Whisper model: {model_size} for maximum accuracy...")
+                    _whisper_model = WhisperModel(
+                        model_size, 
+                        device="cpu", 
+                        compute_type="int8"
+                    )
+                    logger.info(f"Successfully loaded elite Whisper model: {model_size}")
+                    logger.info(f"Configuration: beam_size={WHISPER_ELITE_CONFIG['beam_size']}, best_of={WHISPER_ELITE_CONFIG['best_of']}")
                     break
                 except Exception as e:
-                    logger.warning(f"Could not load faster-whisper model {model_size}: {e}")
+                    logger.warning(f"Could not load Whisper model {model_size}: {e}")
                     continue
         except Exception as e:
             logger.warning(f"faster-whisper import failed: {e}")
@@ -83,7 +188,23 @@ def get_whisper_model():
 
 class LLMRequest(BaseModel):
     messages: List[dict]
-    system_prompt: Optional[str] = "You are Karthik's AI assistant. Keep responses clear, professional, concise, and conversational."
+    system_prompt: Optional[str] = """You are Karthik's AI assistant. Your responses should be:
+- NATURAL: Greet users back when they say hello, hi, hey, etc.
+- CONVERSATIONAL: Maintain a friendly, engaging tone
+- HELPFUL: Answer questions about Karthik when asked
+- CONCISE: Keep responses brief and to the point
+- APPROPRIATE: Match the user's energy and intent
+
+CRITICAL RULES:
+1. If user says "hello", "hi", "hey", etc. -> Greet them warmly and ask how you can help
+2. If user asks about Karthik -> Provide information about Karthik
+3. If user has questions -> Answer their specific questions directly
+4. Never provide unsolicited information about Karthik when not asked
+
+Examples:
+User: "Hello" -> Assistant: "Hello! I'm Karthik's AI assistant. How can I help you today?"
+User: "Tell me about Karthik" -> Assistant: "Karthik is a full-stack developer with expertise in electronics and communication engineering..."
+User: "What projects has he built?" -> Assistant: "Karthik has built several projects including IoT applications and full-stack web applications..."""
 
 class TTSRequest(BaseModel):
     text: str
@@ -119,38 +240,60 @@ async def speech_to_text(file: UploadFile = File(...)):
         model = get_whisper_model()
 
         if model and model is not False:
+            # Elite transcription with maximum accuracy configuration
             segments, _ = model.transcribe(
                 tmp_path,
-                beam_size=7,
-                best_of=5,
-                temperature=0.0,
+                beam_size=WHISPER_ELITE_CONFIG["beam_size"],           # Maximum beam search
+                best_of=WHISPER_ELITE_CONFIG["best_of"],               # Top candidates evaluation
+                temperature=WHISPER_ELITE_CONFIG["temperature"],       # Deterministic results
                 vad_filter=True,
-                vad_parameters=dict(
-                    min_silence_duration_ms=500,
-                    speech_pad_ms=400,
-                    threshold=0.5
+                vad_parameters=(
+                    VAD_ELITE_CONFIG["min_silence_duration_ms"],
+                    VAD_ELITE_CONFIG["speech_pad_ms"], 
+                    VAD_ELITE_CONFIG["threshold"]
                 ),
-                initial_prompt="Karthik Tatineni",
+                initial_prompt=WHISPER_ELITE_CONFIG["initial_prompt"],  # Force context awareness
                 language="en",
-                condition_on_previous_text=True
+                condition_on_previous_text=WHISPER_ELITE_CONFIG["condition_on_previous_text"],
+                word_timestamps=WHISPER_ELITE_CONFIG["word_timestamps"],
+                no_speech_threshold=WHISPER_ELITE_CONFIG["no_speech_threshold"]
             )
-            transcript = " ".join([segment.text for segment in segments]).strip()
+            # Extract and verify transcript segments
+            segments_list = list(segments)
+            transcript = " ".join([segment.text for segment in segments_list]).strip()
+            
+            # Additional accuracy check - if empty but should have content
+            if not transcript and len(audio_bytes) > 1000:
+                logger.warning("Empty transcript with valid audio, retrying with relaxed settings")
+                segments_fallback, _ = model.transcribe(
+                    tmp_path,
+                    beam_size=5,
+                    best_of=3,
+                    temperature=0.3,  # Slight randomness for retry
+                    initial_prompt=WHISPER_ELITE_CONFIG["initial_prompt"],
+                    language="en"
+                )
+                transcript = " ".join([segment.text for segment in segments_fallback]).strip()
         else:
             try:
                 import whisper
+                # Elite fallback configuration
                 py_model = whisper.load_model("large-v3")
                 result = py_model.transcribe(
                     tmp_path,
-                    initial_prompt="Karthik Tatineni",
+                    initial_prompt=WHISPER_ELITE_CONFIG["initial_prompt"],
                     language="en",
-                    temperature=0.0,
-                    beam_size=5,
-                    best_of=5,
-                    fp16=False
+                    temperature=WHISPER_ELITE_CONFIG["temperature"],
+                    beam_size=8,          # High beam for fallback
+                    best_of=8,            # High best_of for fallback
+                    fp16=False,
+                    word_timestamps=True,
+                    condition_on_previous_text=True
                 )
                 transcript = result.get("text", "").strip()
+                logger.info("Elite fallback transcription completed")
             except Exception as ex:
-                logger.error(f"Local Whisper transcription failed: {ex}")
+                logger.error(f"Elite fallback transcription failed: {ex}")
                 return {"text": "", "error": "Whisper model unavailable"}
 
         if os.path.exists(tmp_path):
@@ -160,7 +303,10 @@ async def speech_to_text(file: UploadFile = File(...)):
             logger.info(f"Filtered hallucinated silence phrase: '{transcript}'")
             transcript = ""
 
+        # Apply elite name correction and post-processing
         transcript = fix_karthik_phonetics(transcript)
+        transcript = elite_post_processing(transcript)
+        
         return {"text": transcript}
 
     except HTTPException as he:
@@ -201,9 +347,11 @@ async def llm_answer(req: LLMRequest):
             payload = {
                 "model": model_name,
                 "messages": formatted_messages,
-                "temperature": 0.7,
-                "max_tokens": 256,
-                "top_p": 1.0
+                "temperature": 0.8,  # Slightly higher for more natural conversation
+                "max_tokens": 256,   # Keep responses concise
+                "top_p": 0.9,        # Slightly more focused vocabulary
+                "frequency_penalty": 0.3,  # Reduce repetition
+                "presence_penalty": 0.3   # Encourage variety
             }
             resp = requests.post(NVIDIA_LLM_URL, headers=headers, json=payload, timeout=15)
             if resp.status_code == 200:
@@ -291,10 +439,22 @@ async def voice_pipeline(file: UploadFile = File(...)):
             "has_audio": False
         }
 
-    # Step 2: LLM
-    llm_req = LLMRequest(messages=[{"role": "user", "content": transcript}])
-    llm_res = await llm_answer(llm_req)
-    answer_text = llm_res.get("response", "")
+    # Enhanced greeting detection and immediate response for greetings
+    greeting_patterns = ['hello', 'hi', 'hey', 'hi there', 'hello there', 'good morning', 'good afternoon', 'good evening']
+    lower_transcript = transcript.lower().strip()
+    
+    # Check for greetings and provide immediate warm response
+    is_greeting = any(pattern in lower_transcript for pattern in greeting_patterns)
+    
+    if is_greeting:
+        # Immediate warm response for greetings
+        answer_text = "Hello! I'm Karthik's AI assistant. How can I help you today?"
+        logger.info(f"Detected greeting: '{transcript}' -> responding with greeting")
+    else:
+        # Step 2: LLM for non-greeting inputs
+        llm_req = LLMRequest(messages=[{"role": "user", "content": transcript}])
+        llm_res = await llm_answer(llm_req)
+        answer_text = llm_res.get("response", "")
 
     # Step 3: TTS
     audio_b64 = ""

@@ -5,6 +5,7 @@ import Cursor from './components/Cursor';
 import SmoothScroll from './components/SmoothScroll';
 import ParticleBackground from './components/ParticleBackground';
 import ChatBot from './components/ChatBot';
+import HealthStatus from './components/HealthStatus';
 import { useIsTouchDevice } from './hooks/useIsTouchDevice';
 
 // Main Site Components
@@ -60,10 +61,10 @@ function App() {
     // Simple loader simulation
     const timer = setTimeout(() => setIsLoading(false), 1000);
 
-    // Ping the backend every 5 minutes to keep Vercel and Render servers awake
+    // Ping the backend every 5-7 minutes to keep Vercel and Render servers awake
     const pingInterval = setInterval(() => {
         fetch('/api/ping').catch(() => {});
-    }, 5 * 60 * 1000);
+    }, 6 * 60 * 1000); // 6 minutes
 
     // Initial ping
     fetch('/api/ping').catch(() => {});
@@ -76,6 +77,7 @@ function App() {
 
   return (
     <Router>
+      <HealthStatus />
       <Routes>
         {/* Main Portfolio Route */}
         <Route path="/" element={<MainSite isLoading={isLoading} isTouch={isTouch} />} />

@@ -58,10 +58,10 @@ const splitCompleteSentences = (text) => {
 
 const RATE_LIMIT_KEY = 'jarvis_terminal_rate_limit_v1';
 const RATE_LIMIT = {
-    cooldownMs: 8000,
-    windowMs: 10 * 60 * 1000,
-    maxWindowRequests: 8,
-    maxDailyRequests: 40,
+    cooldownMs: 5000,
+    windowMs: 10 * 1000,
+    maxWindowRequests: 10,
+    maxDailyRequests: 200,
 };
 
 const getDayKey = (time) => new Date(time).toISOString().slice(0, 10);
@@ -105,6 +105,7 @@ const checkRateLimit = () => {
         writeRateLimitStore({ ...store, timestamps, dayKey, dailyCount });
         return {
             allowed: false,
+            waitMs: cooldownRemaining,
             message: `Rate limit active. Try again in ${formatWait(cooldownRemaining)}.`,
         };
     }
@@ -114,6 +115,7 @@ const checkRateLimit = () => {
         writeRateLimitStore({ ...store, timestamps, dayKey, dailyCount });
         return {
             allowed: false,
+            waitMs,
             message: `Too many JARVIS requests. Try again in ${formatWait(waitMs)}.`,
         };
     }
@@ -123,6 +125,7 @@ const checkRateLimit = () => {
         tomorrow.setUTCHours(24, 0, 0, 0);
         return {
             allowed: false,
+            waitMs: tomorrow.getTime() - now,
             message: `Daily JARVIS limit reached. Try again in ${formatWait(tomorrow.getTime() - now)}.`,
         };
     }
@@ -310,12 +313,17 @@ export default function CreativeDemo() {
     const highlightedEdgesRef = useRef(new Set());
     const graphDataRef = useRef(null);
     const recognitionRef = useRef(null);
+    const mediaRecorderRef = useRef(null);
+    const audioChunksRef = useRef([]);
+    const activeAudioRef = useRef(null);
     const selectedNodeRef = useRef(null);
     const speechQueueRef = useRef(Promise.resolve());
     const activeRequestRef = useRef(0);
     const finalTranscriptRef = useRef('');
     const liveTranscriptRef = useRef('');
     const recognitionSubmittedRef = useRef(false);
+    const isListeningRef = useRef(false);
+    const rateLimitTimerRef = useRef(null);
 
     // -- State --
     const [selectedNode, setSelectedNode] = useState(null);
@@ -328,9 +336,16 @@ export default function CreativeDemo() {
     const [typedCommand, setTypedCommand] = useState('');
     const [rateLimitMessage, setRateLimitMessage] = useState('');
 
-    // -- Check speech support --
+    // -- Check speech support (MediaRecorder or WebSpeech) --
     const isSpeechSupported = typeof window !== 'undefined' &&
-        ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+        ((navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') ||
+            'SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+
+
+
+    // NVIDIA & Voice Backend Configuration
+    const NVIDIA_API_KEY = import.meta.env.VITE_NVIDIA_API_KEY || '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';
+    const VOICE_BACKEND_URL = import.meta.env.VITE_VOICE_BACKEND_URL || 'http://localhost:8000';
 
     // ============================================================
     // GRAPH DATA (recalculated when dimensions change)
@@ -342,13 +357,48 @@ export default function CreativeDemo() {
     }, [graphDimensions]);
 
     // ============================================================
-    // VOICE ENGINE & LLM
+    // VOICE ENGINE (NVIDIA RIVA TTS + Browser WebSpeech Fallback)
     // ============================================================
-    const speak = useCallback((text) => {
+    const speak = useCallback(async (text) => {
         const cleanText = cleanForSpeech(text);
-        if (!cleanText || typeof window === 'undefined' || !window.speechSynthesis) {
-            return Promise.resolve();
+        if (!cleanText || typeof window === 'undefined') return Promise.resolve();
+
+        // 1. Try NVIDIA Riva TTS endpoint first
+        try {
+            const resp = await fetch(`${VOICE_BACKEND_URL}/api/tts`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: cleanText, voice: 'Chatterbox-Multilingual.en-US.Male' })
+            });
+
+            if (resp.ok) {
+                const blob = await resp.blob();
+                const audioUrl = URL.createObjectURL(blob);
+                if (activeAudioRef.current) {
+                    activeAudioRef.current.pause();
+                }
+                const audio = new Audio(audioUrl);
+                activeAudioRef.current = audio;
+                setJarvisStatus('speaking');
+
+                return new Promise((resolve) => {
+                    audio.onended = () => {
+                        setJarvisStatus('idle');
+                        resolve();
+                    };
+                    audio.onerror = () => {
+                        setJarvisStatus('idle');
+                        resolve();
+                    };
+                    audio.play().catch(() => resolve());
+                });
+            }
+        } catch {
+            // Riva TTS backend offline, fall back to browser Speech Synthesis
         }
+
+        // 2. Fallback to Browser Speech Synthesis
+        if (!window.speechSynthesis) return Promise.resolve();
 
         speechQueueRef.current = speechQueueRef.current
             .catch(() => { })
@@ -371,7 +421,7 @@ export default function CreativeDemo() {
             }));
 
         return speechQueueRef.current;
-    }, []);
+    }, [VOICE_BACKEND_URL]);
 
     const handleVoiceCommand = useCallback(async (spokenText) => {
         const userText = spokenText.trim();
@@ -379,10 +429,23 @@ export default function CreativeDemo() {
 
         const limit = checkRateLimit();
         if (!limit.allowed) {
-            setRateLimitMessage(limit.message);
+            if (rateLimitTimerRef.current) clearInterval(rateLimitTimerRef.current);
+            let remaining = Math.ceil((limit.waitMs || RATE_LIMIT.cooldownMs) / 1000);
+            const updateCountdown = () => {
+                if (remaining <= 0) {
+                    clearInterval(rateLimitTimerRef.current);
+                    rateLimitTimerRef.current = null;
+                    setRateLimitMessage('');
+                    setJarvisResponse('Rate limit cleared. You can speak again.');
+                    return;
+                }
+                setRateLimitMessage(`Rate limit active. Ready in ${remaining}s...`);
+                setJarvisResponse(`Rate limit active. Ready in ${remaining}s...`);
+                remaining--;
+            };
+            updateCountdown();
+            rateLimitTimerRef.current = setInterval(updateCountdown, 1000);
             setJarvisStatus('idle');
-            setJarvisResponse(limit.message);
-            setTimeout(() => setRateLimitMessage(''), RATE_LIMIT.cooldownMs);
             return;
         }
         recordRateLimitHit();
@@ -391,22 +454,86 @@ export default function CreativeDemo() {
         const requestId = activeRequestRef.current + 1;
         activeRequestRef.current = requestId;
 
+        if (activeAudioRef.current) activeAudioRef.current.pause();
         window.speechSynthesis?.cancel();
         speechQueueRef.current = Promise.resolve();
         setTranscript(userText);
         setJarvisStatus('processing');
         setJarvisResponse('');
 
-        try {
-            const newMessages = [...messages, { role: 'user', content: userText }];
-            setMessages(newMessages);
+        const newMessages = [...messages, { role: 'user', content: userText }];
+        setMessages(newMessages);
 
+        const formattedMessages = [
+            { role: 'system', content: VOICE_SYSTEM_PROMPT },
+            ...newMessages.map((m) => ({ role: m.role, content: m.content })),
+        ];
+
+        // 1. Try Python NVIDIA LLM Backend first
+        try {
+            const llmResp = await fetch(`${VOICE_BACKEND_URL}/api/llm`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+                    system_prompt: VOICE_SYSTEM_PROMPT
+                })
+            });
+
+            if (llmResp.ok) {
+                const data = await llmResp.json();
+                const fullResponse = data.response || '';
+                if (requestId !== activeRequestRef.current) return;
+                setJarvisResponse(fullResponse);
+                setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
+                await speak(fullResponse);
+                if (requestId === activeRequestRef.current) setJarvisStatus('idle');
+                return;
+            }
+        } catch {
+            // Fallback to direct NVIDIA AI Cloud API
+        }
+
+        // 2. Direct NVIDIA AI Cloud API (meta/llama-3.3-70b-instruct)
+        if (NVIDIA_API_KEY) {
+            try {
+                const nvResp = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${NVIDIA_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'meta/llama-3.3-70b-instruct',
+                        messages: formattedMessages,
+                        temperature: 0.7,
+                        max_tokens: 256,
+                        top_p: 1.0
+                    })
+                });
+
+                if (nvResp.ok) {
+                    const data = await nvResp.json();
+                    const fullResponse = data.choices?.[0]?.message?.content || '';
+                    if (fullResponse) {
+                        if (requestId !== activeRequestRef.current) return;
+                        setJarvisResponse(fullResponse);
+                        setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
+                        await speak(fullResponse);
+                        if (requestId === activeRequestRef.current) setJarvisStatus('idle');
+                        return;
+                    }
+                }
+            } catch (nvErr) {
+                console.warn('Direct NVIDIA AI API call failed, trying Groq fallback:', nvErr);
+            }
+        }
+
+        // 3. Fallback to Groq API (llama-3.3-70b-versatile)
+        try {
             const stream = await groq.chat.completions.create({
-                messages: [
-                    { role: 'system', content: VOICE_SYSTEM_PROMPT },
-                    ...newMessages.map((m) => ({ role: m.role, content: m.content })),
-                ],
-                model: 'openai/gpt-oss-120b',
+                messages: formattedMessages,
+                model: 'llama-3.3-70b-versatile',
                 temperature: 0.7,
                 max_completion_tokens: 256,
                 top_p: 1,
@@ -435,14 +562,14 @@ export default function CreativeDemo() {
             if (requestId === activeRequestRef.current) setJarvisStatus('idle');
 
         } catch (error) {
-            console.error('Groq error:', error);
+            console.error('AI response error:', error);
             if (requestId !== activeRequestRef.current) return;
             const errRes = "I'm sorry, I'm having trouble connecting to my neural network right now.";
             setJarvisResponse(errRes);
             await speak(errRes);
             if (requestId === activeRequestRef.current) setJarvisStatus('idle');
         }
-    }, [messages, speak]);
+    }, [messages, speak, VOICE_BACKEND_URL]);
 
     const submitTypedCommand = useCallback(() => {
         const command = typedCommand.trim();
@@ -451,125 +578,135 @@ export default function CreativeDemo() {
         handleVoiceCommand(command);
     }, [typedCommand, jarvisStatus, handleVoiceCommand]);
 
-    const startListening = useCallback(() => {
-        if (!isSpeechSupported) {
-            setJarvisResponse('Speech recognition is not supported in this browser. Use the typed command below.');
-            return;
+    // Phonetic normalization for Karthik's name in STT results
+    const fixKarthikPhonetics = (text) => {
+        if (!text) return '';
+        return text.replace(/\b(karki|karkis|karki's|karkey|kendi|carthik|carthiks|carthik's|carthage|cardiac|car thick|car tick|garlic|car pick|target|targets|target's)\b/gi, (match) => {
+            const lower = match.toLowerCase();
+            if (lower.endsWith("'s") || lower === 'targets' || lower === 'karkis' || lower === 'carthiks') return "Karthik's";
+            return "Karthik";
+        });
+    };
+
+    // Transcribe recorded audio blob via Groq Whisper API
+    const transcribeAudioBlob = useCallback(async (audioBlob) => {
+        if (!groq || !import.meta.env.VITE_GROQ_API_KEY) return null;
+
+        try {
+            const audioFile = new File([audioBlob], 'audio.webm', { type: audioBlob.type || 'audio/webm' });
+            const transcription = await groq.audio.transcriptions.create({
+                file: audioFile,
+                model: 'whisper-large-v3-turbo',
+                response_format: 'json',
+                language: 'en',
+                temperature: 0.0,
+                prompt: "Karthik Tatineni",
+            });
+            if (transcription && transcription.text?.trim()) {
+                return fixKarthikPhonetics(transcription.text.trim());
+            }
+        } catch (groqWhisperErr) {
+            console.warn('Groq Whisper STT API failed:', groqWhisperErr);
         }
+
+        return null;
+    }, []);
+
+    const startListening = useCallback(async () => {
         if (jarvisStatus === 'processing') return;
 
         activeRequestRef.current += 1;
-        recognitionRef.current?.abort?.();
+        if (activeAudioRef.current) activeAudioRef.current.pause();
         window.speechSynthesis?.cancel();
         speechQueueRef.current = Promise.resolve();
-        finalTranscriptRef.current = '';
+        setTranscript('🎤 Recording... Speak into your mic, then click mic again to process.');
         liveTranscriptRef.current = '';
+        finalTranscriptRef.current = '';
         recognitionSubmittedRef.current = false;
-        setTranscript('');
+        isListeningRef.current = true;
         setJarvisStatus('listening');
-        setJarvisResponse('Listening...');
+        setJarvisResponse('Listening... Speak clearly and click mic when finished.');
 
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
-        recognition.maxAlternatives = 1;
-
-        const submitRecognizedText = (text) => {
-            const cleanText = text.trim();
-            if (!cleanText || recognitionSubmittedRef.current) return;
-            recognitionSubmittedRef.current = true;
-            recognitionRef.current = null;
-            handleVoiceCommand(cleanText);
-            try {
-                recognition.stop();
-            } catch {
-                // The browser may already be ending the session.
-            }
-        };
-
-        recognition.onresult = (event) => {
-            let interimText = '';
-            let finalText = '';
-
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                const text = event.results[i]?.[0]?.transcript || '';
-                if (event.results[i].isFinal) {
-                    finalText += text;
-                } else {
-                    interimText += text;
-                }
-            }
-
-            if (finalText.trim()) {
-                finalTranscriptRef.current = `${finalTranscriptRef.current} ${finalText}`.trim();
-            }
-
-            const visibleText = `${finalTranscriptRef.current} ${interimText}`.trim();
-            liveTranscriptRef.current = visibleText;
-            if (visibleText) setTranscript(visibleText);
-
-            if (finalTranscriptRef.current) {
-                submitRecognizedText(finalTranscriptRef.current);
-            }
-        };
-
-        recognition.onerror = (event) => {
-            if (event.error === 'aborted') return;
-            const capturedText = finalTranscriptRef.current.trim() || liveTranscriptRef.current.trim();
-            recognitionRef.current = null;
-            if (capturedText && !recognitionSubmittedRef.current) {
-                recognitionSubmittedRef.current = true;
-                handleVoiceCommand(capturedText);
-                return;
-            }
+        if (typeof window === 'undefined' || !navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+            isListeningRef.current = false;
             setJarvisStatus('idle');
-            if (event.error === 'not-allowed') {
-                setJarvisResponse('Microphone access is blocked. Enable mic permission or use the typed command below.');
-            } else if (event.error === 'no-speech') {
-                setJarvisResponse('I did not hear anything. Try again or use the typed command below.');
-            } else {
-                setJarvisResponse(`Speech recognition stopped (${event.error}). Brave may block Web Speech; use the typed command below.`);
-            }
-        };
-
-        recognition.onend = () => {
-            recognitionRef.current = null;
-            if (!recognitionSubmittedRef.current && liveTranscriptRef.current.trim()) {
-                submitRecognizedText(liveTranscriptRef.current);
-                return;
-            }
-            setJarvisStatus(prev => prev === 'listening' ? 'idle' : prev);
-        };
+            setJarvisResponse('Microphone access is not supported in this browser. Use typed input below.');
+            return;
+        }
 
         try {
-            recognitionRef.current = recognition;
-            recognition.start();
-        } catch (error) {
-            console.error('Speech recognition error:', error);
-            recognitionRef.current = null;
-            setJarvisStatus('idle');
-            setJarvisResponse('I could not start speech recognition. Use the typed command below.');
-        }
-    }, [isSpeechSupported, jarvisStatus, handleVoiceCommand]);
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true,
+                }
+            });
+            audioChunksRef.current = [];
+            const options = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+                ? { mimeType: 'audio/webm;codecs=opus' }
+                : MediaRecorder.isTypeSupported('audio/webm')
+                    ? { mimeType: 'audio/webm' }
+                    : {};
+            const recorder = new MediaRecorder(stream, options);
+            mediaRecorderRef.current = recorder;
 
-    const stopListening = useCallback(() => {
-        activeRequestRef.current += 1;
-        const text = finalTranscriptRef.current.trim() || liveTranscriptRef.current.trim();
-        recognitionSubmittedRef.current = true;
-        if (recognitionRef.current) {
-            recognitionRef.current.stop?.();
-            recognitionRef.current = null;
-        }
-        window.speechSynthesis?.cancel();
-        speechQueueRef.current = Promise.resolve();
-        if (text) {
-            handleVoiceCommand(text);
-        } else {
+            recorder.ondataavailable = (event) => {
+                if (event.data && event.data.size > 0) {
+                    audioChunksRef.current.push(event.data);
+                }
+            };
+
+            recorder.start();
+        } catch (micErr) {
+            console.error('Mic access error:', micErr);
+            isListeningRef.current = false;
             setJarvisStatus('idle');
+            setJarvisResponse('Microphone access denied. Please grant mic permissions in your browser settings.');
         }
-    }, [handleVoiceCommand]);
+    }, [jarvisStatus]);
+
+    const stopListening = useCallback(async () => {
+        isListeningRef.current = false;
+        const recorder = mediaRecorderRef.current;
+
+        if (recorder && recorder.state === 'recording') {
+            const stream = recorder.stream;
+            const recordMime = recorder.mimeType || 'audio/webm';
+            setJarvisStatus('processing');
+            setJarvisResponse('Transcribing audio with Whisper AI...');
+
+            recorder.onstop = async () => {
+                stream?.getTracks().forEach(t => t.stop());
+                const audioBlob = audioChunksRef.current.length > 0
+                    ? new Blob(audioChunksRef.current, { type: recordMime })
+                    : null;
+
+                if (!audioBlob || audioBlob.size < 300) {
+                    setJarvisStatus('idle');
+                    setTranscript('');
+                    setJarvisResponse('No audio recorded. Speak into your mic and click mic when finished.');
+                    return;
+                }
+
+                const transcribedText = await transcribeAudioBlob(audioBlob);
+                if (transcribedText && transcribedText.trim()) {
+                    const cleanText = transcribedText.trim();
+                    setTranscript(cleanText);
+                    handleVoiceCommand(cleanText);
+                } else {
+                    setJarvisStatus('idle');
+                    setTranscript('');
+                    setJarvisResponse('Could not recognize any speech in the recording. Speak clearly and try again.');
+                }
+            };
+
+            try { recorder.stop(); } catch { setJarvisStatus('idle'); }
+            return;
+        }
+
+        setJarvisStatus('idle');
+    }, [handleVoiceCommand, transcribeAudioBlob]);
 
     // ============================================================
     // CANVAS SIZE CALCULATION
@@ -954,7 +1091,13 @@ export default function CreativeDemo() {
     // ============================================================
     useEffect(() => {
         return () => {
-            recognitionRef.current?.stop();
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+                mediaRecorderRef.current.stop();
+            }
+            recognitionRef.current?.stop?.();
+            if (activeAudioRef.current) {
+                activeAudioRef.current.pause();
+            }
             window.speechSynthesis?.cancel();
         };
     }, []);

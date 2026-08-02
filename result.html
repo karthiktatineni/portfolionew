@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deepseek-coder-6.7b-instruct · LoRA Eval Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0B0D0F;
+            --bg-raised: #101317;
+            --bg-inset: #060708;
+            --line: #1E2328;
+            --line-soft: #171B1F;
+            --text: #E8E6E1;
+            --text-dim: #9CA3AF;
+            --text-mute: #5B6470;
+            --pass: #39FF6A;
+            --pass-dim: #1F7A3E;
+            --cyan: #00D9C0;
+            --amber: #FFB454;
+            --fail: #FF5C3D;
+            --fail-dim: #7A2C1F;
+            --violet: #A78BFA;
+            --mono: 'JetBrains Mono', ui-monospace, monospace;
+            --sans: 'Inter', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(1100px 500px at 15% -8%, rgba(57, 255, 106, 0.05), transparent 55%),
+                radial-gradient(900px 460px at 92% 6%, rgba(0, 217, 192, 0.05), transparent 50%),
+                var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+        }
+
+        ::selection {
+            background: rgba(57, 255, 106, 0.25);
+            color: #fff;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ---------- top status bar ---------- */
+        .statusbar {
+            border-bottom: 1px solid var(--line);
+            background: rgba(6, 7, 8, 0.7);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .statusbar .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 0;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--text-dim);
+        }
+
+        .statusbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--text);
+            font-weight: 600;
+            letter-spacing: .01em;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--pass);
+            box-shadow: 0 0 0 3px rgba(57, 255, 106, 0.15);
+            flex: none;
+        }
+
+        .statusbar .meta {
+            display: flex;
+            gap: 22px;
+        }
+
+        .statusbar .meta span b {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        @media (max-width:760px) {
+            .statusbar .meta {
+                display: none;
+            }
+        }
+
+        /* ---------- hero ---------- */
+        .hero {
+            padding: 64px 0 40px;
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.018) 0px, rgba(255, 255, 255, 0.018) 1px, transparent 1px, transparent 3px);
+            mask-image: linear-gradient(180deg, black, transparent 70%);
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--pass);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow .rule {
+            height: 1px;
+            width: 36px;
+            background: var(--pass-dim);
+        }
+
+        h1 {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: clamp(28px, 4.6vw, 48px);
+            letter-spacing: -0.01em;
+            margin: 0 0 14px;
+            color: var(--text);
+        }
+
+        h1 .path {
+            color: var(--text-mute);
+            font-weight: 500;
+        }
+
+        h1 .highlight {
+            color: var(--pass);
+        }
+
+        .hero p.sub {
+            font-size: 15.5px;
+            color: var(--text-dim);
+            max-width: 620px;
+            margin: 0 0 34px;
+        }
+
+        .heroGrid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        @media (max-width:920px) {
+            .heroGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .scoreCard {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 26px 28px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scoreCard::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(57, 255, 106, 0.14), transparent 70%);
+        }
+
+        .scoreRing {
+            flex: none;
+        }
+
+        .scoreCard .txt .big {
+            font-family: var(--mono);
+            font-weight: 800;
+            font-size: 44px;
+            color: var(--pass);
+            line-height: 1;
+            letter-spacing: -.02em;
+        }
+
+        .scoreCard .txt .lbl {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-mute);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .scoreCard .txt .note {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 10px;
+            max-width: 230px;
+        }
+
+        .statTiles {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .tile {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tile .v {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 26px;
+            color: var(--text);
+        }
+
+        .tile .v.up {
+            color: var(--pass);
+        }
+
+        .tile .v.warn {
+            color: var(--amber);
+        }
+
+        .tile .k {
+            font-size: 12px;
+            color: var(--text-mute);
+            margin-top: 4px;
+        }
+
+        /* ---------- section shell ---------- */
+        section {
+            padding: 56px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sectionHead {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sectionHead h2 {
+            font-family: var(--mono);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--text-mute);
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sectionHead h2 .n {
+            color: var(--pass);
+        }
+
+        .sectionHead .desc {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* ---------- category bars ---------- */
+        .catGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            align-items: start;
+        }
+
+        @media (max-width:920px) {
+            .catGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .catList {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .catRow {
+            display: grid;
+            grid-template-columns: 150px 1fr 62px;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 4px;
+            border-bottom: 1px solid var(--line-soft);
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        .catRow:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .catRow.active {
+            background: rgba(57, 255, 106, 0.05);
+        }
+
+        .catRow .name {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .catRow .count {
+            font-size: 10.5px;
+            color: var(--text-mute);
+            font-weight: 500;
+        }
+
+        .barTrack {
+            height: 9px;
+            background: var(--bg-inset);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid var(--line-soft);
+        }
+
+        .barFill {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--pass-dim), var(--pass));
+            transition: width .8s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .barFill.mid {
+            background: linear-gradient(90deg, #6B5A1E, var(--amber));
+        }
+
+        .barFill.low {
+            background: linear-gradient(90deg, var(--fail-dim), var(--fail));
+        }
+
+        .catRow .val {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+            text-align: right;
+            color: var(--text);
+        }
+
+        .radarBox {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .radarBox canvas {
+            max-height: 340px;
+        }
+
+        /* ---------- ledger ---------- */
+        .ledgerWrap {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .ledgerToolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--line);
+            background: var(--bg-inset);
+        }
+
+        .filterGroup {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            color: var(--text-dim);
+            cursor: pointer;
+            background: transparent;
+            transition: all .15s ease;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            border-color: var(--text-mute);
+            color: var(--text);
+        }
+
+        .chip.on {
+            background: var(--pass);
+            color: #04140A;
+            border-color: var(--pass);
+            font-weight: 600;
+        }
+
+        .sortHint {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-mute);
+        }
+
+        .ledgerHead {
+            display: grid;
+            grid-template-columns: 28px 1fr 150px 90px 78px 68px;
+            gap: 14px;
+            padding: 10px 18px;
+            font-family: var(--mono);
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text-mute);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .ledgerHead span[data-sort] {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .ledgerHead span[data-sort]:hover {
+            color: var(--text-dim);
+        }
+
+        .ledgerHead .arrow {
+            opacity: 0;
+            transition: opacity .15s;
+        }
+
+        .ledgerHead span.sorted .arrow {
+            opacity: 1;
+            color: var(--pass);
+        }
+
+        .ledgerBody {
+            max-height: 640px;
+            overflow-y: auto;
+        }
+
+        .ledgerBody::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .ledgerBody::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .ledgerBody::-webkit-scrollbar-thumb {
+            background: var(--line);
+            border-radius: 4px;
+        }
+
+        .lrow {
+            display: grid;
+            grid-template-columns: 28px 1fr 150px 90px 78px 68px;
+            gap: 14px;
+            padding: 12px 18px;
+            align-items: center;
+            border-bottom: 1px solid var(--line-soft);
+            transition: background .12s ease;
+            cursor: pointer;
+        }
+
+        .lrow:hover {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .lrow.hidden {
+            display: none;
+        }
+
+        .lrow .rank {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-mute);
+        }
+
+        .lrow .name {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .lrow .name .catTag {
+            display: inline-block;
+            margin-left: 9px;
+            font-size: 9.5px;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: var(--bg-inset);
+            color: var(--text-mute);
+            border: 1px solid var(--line);
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            vertical-align: middle;
+        }
+
+        .spark {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 26px;
+        }
+
+        .spark i {
+            display: block;
+            width: 9px;
+            border-radius: 1.5px 1.5px 0 0;
+            background: var(--pass);
+            opacity: .9;
+        }
+
+        .spark i.mid {
+            background: var(--amber);
+        }
+
+        .spark i.low {
+            background: var(--fail);
+        }
+
+        .lrow .score {
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .lrow .exec {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--text-mute);
+            text-align: right;
+        }
+
+        .lrow .badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            text-align: center;
+            padding: 3px 0;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+
+        .badge.pass {
+            background: rgba(57, 255, 106, 0.12);
+            color: var(--pass);
+        }
+
+        .badge.mid {
+            background: rgba(255, 180, 84, 0.12);
+            color: var(--amber);
+        }
+
+        .badge.low {
+            background: rgba(255, 92, 61, 0.12);
+            color: var(--fail);
+        }
+
+        /* ---------- distribution + insight cards ---------- */
+        .insightGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width:920px) {
+            .insightGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .iCard {
+            background: var(--bg-raised);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .iCard .tag {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--text-mute);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .iCard.best {
+            border-color: rgba(57, 255, 106, 0.25);
+        }
+
+        .iCard.worst {
+            border-color: rgba(255, 92, 61, 0.25);
+        }
+
+        .iCard h3 {
+            font-family: var(--mono);
+            font-size: 19px;
+            margin: 0 0 8px;
+            color: var(--text);
+        }
+
+        .iCard.best h3 {
+            color: var(--pass);
+        }
+
+        .iCard.worst h3 {
+            color: var(--fail);
+        }
+
+        .iCard p {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin: 0;
+        }
+
+        .iCard .figure {
+            font-family: var(--mono);
+            font-size: 32px;
+            font-weight: 800;
+            margin: 6px 0 4px;
+        }
+
+        .distBox canvas {
+            max-height: 220px;
+        }
+
+        /* ---------- footer ---------- */
+        footer {
+            padding: 36px 0 60px;
+        }
+
+        .footRow {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--text-mute);
+        }
+
+        .footRow code {
+            color: var(--text-dim);
+            background: var(--bg-inset);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+        }
+
+        /* tooltip */
+        .tt {
+            position: fixed;
+            pointer-events: none;
+            z-index: 200;
+            background: #04140A;
+            border: 1px solid var(--pass-dim);
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 11.5px;
+            padding: 8px 11px;
+            border-radius: 8px;
+            max-width: 260px;
+            opacity: 0;
+            transition: opacity .1s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .tt b {
+            color: var(--pass);
+        }
+
+        @media (max-width:640px) {
+
+            .ledgerHead,
+            .lrow {
+                grid-template-columns: 22px 1fr 68px 58px;
+            }
+
+            .ledgerHead span:nth-child(4),
+            .ledgerHead span:nth-child(5),
+            .lrow .exec,
+            .lrow .badge {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="statusbar">
+        <div class="wrap row">
+            <div class="brand"><span class="dot"></span> EVAL RUN #a4f9e2 &nbsp;·&nbsp; STATUS: COMPLETE</div>
+            <div class="meta">
+                <span>benchmarks <b>30/30</b></span>
+                <span>prompts <b>300</b></span>
+                <span>runtime <b>149.6m</b></span>
+                <span>device <b>cuda</b></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+
+        <section class="hero" style="border-bottom:none;">
+            <div class="eyebrow"><span class="rule"></span> LoRA Adapter Evaluation · 2026-08-02</div>
+            <h1><span class="path">deepseek-ai/</span>deepseek-coder-6.7b-instruct <span class="highlight">+lora</span>
+            </h1>
+            <p class="sub">Fine-tuned on a 100K-example instruction set. Thirty benchmarks, ten prompts each, scored on
+                length adequacy and expected-keyword coverage. This report is the full ledger — every raw score, not
+                just the averages.</p>
+
+            <div class="heroGrid">
+                <div class="scoreCard">
+                    <svg class="scoreRing" width="118" height="118" viewBox="0 0 118 118">
+                        <circle cx="59" cy="59" r="50" fill="none" stroke="#171B1F" stroke-width="10" />
+                        <circle id="ringFg" cx="59" cy="59" r="50" fill="none" stroke="url(#ringGrad)" stroke-width="10"
+                            stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16"
+                            transform="rotate(-90 59 59)" />
+                        <defs>
+                            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1F7A3E" />
+                                <stop offset="100%" stop-color="#39FF6A" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="txt">
+                        <div class="big">79.2</div>
+                        <div class="lbl">overall quality index</div>
+                        <div class="note">Mean across 300 scored responses · variance 0.0084 (tight — no runaway
+                            categories)</div>
+                    </div>
+                </div>
+
+                <div class="statTiles">
+                    <div class="tile">
+                        <div class="v up">30</div>
+                        <div class="k">benchmarks completed</div>
+                    </div>
+                    <div class="tile">
+                        <div class="v">0</div>
+                        <div class="k">failed benchmarks</div>
+                    </div>
+                    <div class="tile">
+                        <div class="v" style="color:var(--pass)">93.7</div>
+                        <div class="k">best · text_processing</div>
+                    </div>
+                    <div class="tile">
+                        <div class="v warn">62.8</div>
+                        <div class="k">worst · python_advanced</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories">
+            <div class="sectionHead">
+                <h2><span class="n">01</span> / Category performance</h2>
+                <div class="desc">8 categories · click a row to isolate it in the ledger below</div>
+            </div>
+            <div class="catGrid">
+                <div class="catList" id="catList"></div>
+                <div class="radarBox"><canvas id="radarChart"></canvas></div>
+            </div>
+        </section>
+
+        <section id="ledger">
+            <div class="sectionHead">
+                <h2><span class="n">02</span> / Benchmark ledger</h2>
+                <div class="desc">Sparkline = 10 raw per-prompt scores, left→right</div>
+            </div>
+            <div class="ledgerWrap">
+                <div class="ledgerToolbar">
+                    <div class="filterGroup" id="chipRow"></div>
+                    <div class="sortHint">sort: <span id="sortLabel">score ↓</span></div>
+                </div>
+                <div class="ledgerHead">
+                    <span>#</span>
+                    <span data-sort="name">benchmark <span class="arrow">↕</span></span>
+                    <span>distribution</span>
+                    <span data-sort="score" class="sorted">score <span class="arrow">↓</span></span>
+                    <span data-sort="exec">latency <span class="arrow">↕</span></span>
+                    <span>status</span>
+                </div>
+                <div class="ledgerBody" id="ledgerBody"></div>
+            </div>
+        </section>
+
+        <section id="insights">
+            <div class="sectionHead">
+                <h2><span class="n">03</span> / Score distribution &amp; outliers</h2>
+                <div class="desc">Where the model is reliable vs. where variance spikes</div>
+            </div>
+            <div class="insightGrid">
+                <div class="iCard best">
+                    <span class="tag">top performer</span>
+                    <h3>text_processing</h3>
+                    <div class="figure" style="color:var(--pass)">93.7</div>
+                    <p>NLP/tokenization tasks scored highest — 6 of 10 prompts hit perfect keyword coverage. Model
+                        reliably names the right libraries (spaCy, NLTK) and structures multi-step pipelines.</p>
+                </div>
+                <div class="iCard worst">
+                    <span class="tag">weakest performer</span>
+                    <h3>python_advanced</h3>
+                    <div class="figure" style="color:var(--fail)">62.8</div>
+                    <p>Metaclasses, multiprocessing, and memory-efficient structures scored lowest — one prompt
+                        (memory-efficient data structures) hit 0.40, the single worst score in the entire run.</p>
+                </div>
+                <div class="iCard">
+                    <span class="tag">distribution shape</span>
+                    <div class="distBox"><canvas id="distChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="scatter" style="border-bottom:none;">
+            <div class="sectionHead">
+                <h2><span class="n">04</span> / Quality vs. latency</h2>
+                <div class="desc">Each point = one benchmark · no strong correlation, meaning slow ≠ better here</div>
+            </div>
+            <div class="radarBox"><canvas id="scatterChart" height="90"></canvas></div>
+        </section>
+
+        <footer>
+            <div class="footRow">
+                <span>base_model=<code>deepseek-ai/deepseek-coder-6.7b-instruct</code></span>
+                <span>adapter_dir=<code>checkpoints/final_adapter</code></span>
+                <span>device=<code>cuda</code></span>
+                <span>evaluator=<code>v1.0.0</code></span>
+                <span>generated 2026-08-02T05:48:46Z</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="tt" id="tooltip"></div>
+
+    <script>
+        /* ============================================================
+           DATA — pulled 1:1 from eval_data.json
+           ============================================================ */
+        const RAW = {
+            overall: 0.7924444444444446,
+            variance: 0.008408632098765434,
+            categoryAverages: {
+                coding: 0.8214285714285715, web: 0.6950000000000001, data_science: 0.8200000000000001,
+                machine_learning: 0.8750000000000002, algorithms: 0.8377777777777778, api: 0.7333333333333335,
+                database: 0.6600000000000001, general: 0.7780555555555556
+            },
+            benchmarks: [
+                { name: "python_basics", category: "coding", avg: 0.7213333333333334, exec: 239.09082508087158, scores: [0.9400000000000002, 0.6000000000000001, 0.6733333333333333, 0.8666666666666667, 0.7333333333333334, 0.8666666666666667, 0.6000000000000001, 0.6000000000000001, 0.6000000000000001, 0.7333333333333334] },
+                { name: "python_advanced", category: "coding", avg: 0.6280000000000001, exec: 372.631808757782, scores: [0.8, 0.6000000000000001, 0.8, 0.6000000000000001, 0.8, 0.54, 0.4, 0.6000000000000001, 0.54, 0.6000000000000001] },
+                { name: "javascript_basics", category: "coding", avg: 0.8886666666666667, exec: 213.24579167366028, scores: [0.8066666666666666, 0.8666666666666667, 1.0, 0.7333333333333334, 0.7466666666666666, 1.0, 1.0, 0.8666666666666667, 1.0, 0.8666666666666667] },
+                { name: "java_programming", category: "coding", avg: 0.8699999999999999, exec: 267.9936888217926, scores: [0.8, 1.0, 0.8, 0.9, 0.66, 0.9, 0.9, 1.0, 0.8400000000000001, 0.9] },
+                { name: "cpp_programming", category: "coding", avg: 0.8799999999999999, exec: 294.1754789352417, scores: [1.0, 1.0, 0.7000000000000001, 1.0, 1.0, 0.9, 0.7000000000000001, 0.8, 1.0, 0.7000000000000001] },
+                { name: "go_programming", category: "coding", avg: 0.9099999999999999, exec: 250.33809161186218, scores: [0.9400000000000002, 1.0, 0.9, 1.0, 0.8400000000000001, 0.8400000000000001, 0.8400000000000001, 0.9, 0.9400000000000002, 0.9] },
+                { name: "rust_programming", category: "coding", avg: 0.8520000000000001, exec: 278.41131258010864, scores: [0.8400000000000001, 0.9, 0.9, 0.8400000000000001, 0.8400000000000001, 0.9, 0.8, 0.8, 0.9, 0.8] },
+                { name: "html_css", category: "web", avg: 0.6433333333333334, exec: 292.81551909446716, scores: [0.6333333333333334, 0.6333333333333334, 0.6333333333333334, 0.6333333333333334, 0.6333333333333334, 0.5, 0.6333333333333334, 0.6333333333333334, 0.8666666666666667, 0.6333333333333334] },
+                { name: "react_development", category: "web", avg: 0.7466666666666668, exec: 276.68825030326843, scores: [0.7666666666666667, 0.9000000000000001, 0.9000000000000001, 0.7666666666666667, 0.7333333333333334, 0.6333333333333334, 0.7666666666666667, 0.7333333333333334, 0.6333333333333334, 0.6333333333333334] },
+                { name: "pandas_analysis", category: "data_science", avg: 0.8100000000000002, exec: 322.6245369911194, scores: [1.0, 0.8666666666666667, 0.8666666666666667, 0.6333333333333334, 0.8666666666666667, 0.8666666666666667, 0.8666666666666667, 0.8666666666666667, 0.6333333333333334, 0.6333333333333334] },
+                { name: "numpy_computations", category: "data_science", avg: 0.8300000000000001, exec: 322.61876916885376, scores: [0.8666666666666667, 0.8666666666666667, 1.0, 0.8666666666666667, 0.7333333333333334, 0.8666666666666667, 0.7333333333333334, 0.6333333333333334, 0.8666666666666667, 0.8666666666666667] },
+                { name: "sklearn_basics", category: "machine_learning", avg: 0.9100000000000001, exec: 318.77213072776794, scores: [0.9000000000000001, 1.0, 0.8, 0.9, 1.0, 0.9, 1.0, 0.8, 1.0, 0.8] },
+                { name: "tensorflow_basics", category: "machine_learning", avg: 0.8400000000000002, exec: 323.8031904697418, scores: [0.8666666666666667, 1.0, 0.5, 1.0, 0.6333333333333334, 0.7666666666666667, 1.0, 1.0, 0.6333333333333334, 1.0] },
+                { name: "algorithms_sorting", category: "algorithms", avg: 0.9066666666666668, exec: 311.83332777023315, scores: [0.8666666666666667, 0.8666666666666667, 0.8666666666666667, 1.0, 0.8666666666666667, 0.8666666666666667, 1.0, 1.0, 0.8666666666666667, 0.8666666666666667] },
+                { name: "algorithms_searching", category: "algorithms", avg: 0.8666666666666668, exec: 327.8729877471924, scores: [1.0, 0.8666666666666667, 0.8666666666666667, 0.8666666666666667, 0.8666666666666667, 0.7333333333333334, 0.8666666666666667, 0.7333333333333334, 0.8666666666666667, 1.0] },
+                { name: "dynamic_programming", category: "algorithms", avg: 0.7399999999999999, exec: 314.8238277435303, scores: [0.6799999999999999, 0.78, 0.6799999999999999, 0.8, 0.9, 0.9, 0.48, 0.9, 0.6000000000000001, 0.6799999999999999] },
+                { name: "api_development", category: "api", avg: 0.7333333333333335, exec: 322.7435247898102, scores: [0.9200000000000002, 0.7866666666666667, 0.6533333333333334, 0.6533333333333334, 0.7866666666666667, 0.6533333333333334, 0.6533333333333334, 0.7866666666666667, 0.6533333333333334, 0.7866666666666667] },
+                { name: "database_operations", category: "database", avg: 0.6600000000000001, exec: 284.9401285648346, scores: [0.7200000000000001, 0.8200000000000001, 0.52, 0.52, 0.8200000000000001, 0.8200000000000001, 0.7200000000000001, 0.52, 0.6200000000000001, 0.52] },
+                { name: "text_processing", category: "general", avg: 0.9366666666666668, exec: 311.0295424461365, scores: [0.8666666666666667, 1.0, 0.8666666666666667, 0.8666666666666667, 1.0, 0.9000000000000001, 1.0, 0.8666666666666667, 1.0, 1.0] },
+                { name: "file_operations", category: "general", avg: 0.8600000000000001, exec: 293.18736839294434, scores: [1.0, 0.7000000000000001, 0.9, 1.0, 0.7000000000000001, 0.7000000000000001, 1.0, 0.9, 0.7000000000000001, 1.0] },
+                { name: "network_programming", category: "general", avg: 0.7899999999999999, exec: 323.37728118896484, scores: [0.8, 0.7000000000000001, 0.7000000000000001, 0.9, 0.9, 1.0, 0.7000000000000001, 0.9, 0.6000000000000001, 0.7000000000000001] },
+                { name: "security_implementation", category: "general", avg: 0.72, exec: 313.8124101161957, scores: [0.8, 0.8, 0.6000000000000001, 0.6000000000000001, 0.7000000000000001, 0.7000000000000001, 0.7000000000000001, 0.9, 0.6000000000000001, 0.8] },
+                { name: "performance_optimization", category: "general", avg: 0.74, exec: 321.75316882133484, scores: [0.9, 0.9, 0.7000000000000001, 0.8, 0.6000000000000001, 0.6000000000000001, 0.6000000000000001, 0.8, 0.8, 0.7000000000000001] },
+                { name: "error_handling", category: "general", avg: 0.8099999999999999, exec: 292.5501434803009, scores: [1.0, 0.9, 0.6000000000000001, 0.7000000000000001, 0.6000000000000001, 0.9000000000000001, 0.9, 0.9, 0.9, 0.7000000000000001] },
+                { name: "testing_strategies", category: "general", avg: 0.76, exec: 326.11723828315735, scores: [0.9, 0.8, 0.9, 0.7000000000000001, 0.7000000000000001, 0.6000000000000001, 0.9, 0.8, 0.6000000000000001, 0.7000000000000001] },
+                { name: "devops_tasks", category: "general", avg: 0.7100000000000001, exec: 327.1467978954315, scores: [0.7000000000000001, 0.7000000000000001, 0.9, 0.8, 0.7000000000000001, 0.6000000000000001, 0.7000000000000001, 0.7000000000000001, 0.6000000000000001, 0.7000000000000001] },
+                { name: "code_documentation", category: "general", avg: 0.6599999999999999, exec: 261.21915578842163, scores: [0.7000000000000001, 0.8, 0.7000000000000001, 0.7000000000000001, 0.30000000000000004, 0.8, 0.6000000000000001, 0.8, 0.6000000000000001, 0.6000000000000001] },
+                { name: "code_review", category: "general", avg: 0.63, exec: 250.55166816711426, scores: [0.6000000000000001, 0.6000000000000001, 0.8, 0.8, 0.8, 0.30000000000000004, 0.6000000000000001, 0.4, 0.6000000000000001, 0.8] },
+                { name: "software_design", category: "general", avg: 0.8400000000000001, exec: 304.9327561855316, scores: [0.9, 0.8, 0.9, 0.9, 0.9, 0.8, 0.8, 1.0, 0.7000000000000001, 0.7000000000000001] },
+                { name: "git_workflow", category: "general", avg: 0.8800000000000001, exec: 317.0977795124054, scores: [1.0, 0.7000000000000001, 1.0, 0.9000000000000001, 0.9, 1.0, 0.8, 0.8, 0.8, 0.9000000000000001] }
+            ]
+        };
+
+        const CAT_LABEL = {
+            coding: "Coding", web: "Web", data_science: "Data Science", machine_learning: "Machine Learning",
+            algorithms: "Algorithms", api: "API", database: "Database", general: "General"
+        };
+        const CAT_ORDER = ["coding", "web", "data_science", "machine_learning", "algorithms", "api", "database", "general"];
+
+        function tier(v) { return v >= 0.8 ? 'pass' : v >= 0.65 ? 'mid' : 'low'; }
+        function pct(v) { return (v * 100).toFixed(1); }
+
+        /* ============================================================
+           Score ring animation
+           ============================================================ */
+        window.addEventListener('DOMContentLoaded', () => {
+            const circumference = 2 * Math.PI * 50;
+            const offset = circumference - (RAW.overall * circumference);
+            const ring = document.getElementById('ringFg');
+            requestAnimationFrame(() => {
+                ring.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)';
+                ring.style.strokeDashoffset = offset;
+            });
+        });
+
+        /* ============================================================
+           Category rows
+           ============================================================ */
+        const catListEl = document.getElementById('catList');
+        let activeCat = null;
+
+        CAT_ORDER.forEach(key => {
+            const val = RAW.categoryAverages[key];
+            const count = RAW.benchmarks.filter(b => b.category === key).length;
+            const row = document.createElement('div');
+            row.className = 'catRow';
+            row.dataset.cat = key;
+            row.innerHTML = `
+    <div class="name">${CAT_LABEL[key]} <span class="count">${count}×</span></div>
+    <div class="barTrack"><div class="barFill ${tier(val) === 'low' ? 'low' : tier(val) === 'mid' ? 'mid' : ''}" style="width:0%" data-w="${pct(val)}"></div></div>
+    <div class="val">${pct(val)}</div>
+  `;
+            row.addEventListener('click', () => {
+                const isActive = row.classList.contains('active');
+                document.querySelectorAll('.catRow').forEach(r => r.classList.remove('active'));
+                if (!isActive) { row.classList.add('active'); activeCat = key; } else { activeCat = null; }
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+                if (activeCat) {
+                    const chip = document.querySelector(`.chip[data-cat="${activeCat}"]`);
+                    if (chip) chip.classList.add('on');
+                } else {
+                    document.querySelector('.chip[data-cat="all"]').classList.add('on');
+                }
+                renderLedger();
+            });
+            catListEl.appendChild(row);
+        });
+
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                document.querySelectorAll('.barFill').forEach(el => {
+                    el.style.transition = 'width 1s cubic-bezier(.16,1,.3,1)';
+                    el.style.width = el.dataset.w + '%';
+                });
+            }, 120);
+        });
+
+        /* ============================================================
+           Filter chips
+           ============================================================ */
+        const chipRow = document.getElementById('chipRow');
+        const allChip = document.createElement('button');
+        allChip.className = 'chip on'; allChip.textContent = 'all'; allChip.dataset.cat = 'all';
+        chipRow.appendChild(allChip);
+        CAT_ORDER.forEach(key => {
+            const c = document.createElement('button');
+            c.className = 'chip'; c.textContent = CAT_LABEL[key].toLowerCase(); c.dataset.cat = key;
+            chipRow.appendChild(c);
+        });
+        chipRow.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                chipRow.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+                chip.classList.add('on');
+                activeCat = chip.dataset.cat === 'all' ? null : chip.dataset.cat;
+                document.querySelectorAll('.catRow').forEach(r => r.classList.toggle('active', r.dataset.cat === activeCat));
+                renderLedger();
+            });
+        });
+
+        /* ============================================================
+           Ledger
+           ============================================================ */
+        let sortKey = 'score', sortDir = -1;
+        const ledgerBody = document.getElementById('ledgerBody');
+        const tooltip = document.getElementById('tooltip');
+
+        function sparkline(scores) {
+            const max = 1.0;
+            return scores.map(s => {
+                const h = Math.max(3, Math.round((s / max) * 26));
+                const cls = tier(s) === 'low' ? 'low' : tier(s) === 'mid' ? 'mid' : '';
+                return `<i class="${cls}" style="height:${h}px" data-score="${(s * 100).toFixed(0)}"></i>`;
+            }).join('');
+        }
+
+        function renderLedger() {
+            let list = [...RAW.benchmarks];
+            if (activeCat) list = list.filter(b => b.category === activeCat);
+
+            list.sort((a, b) => {
+                let av, bv;
+                if (sortKey === 'name') { av = a.name; bv = b.name; return sortDir * av.localeCompare(bv); }
+                if (sortKey === 'exec') { av = a.exec; bv = b.exec; }
+                else { av = a.avg; bv = b.avg; }
+                return sortDir * (av - bv);
+            });
+
+            ledgerBody.innerHTML = '';
+            list.forEach((b, i) => {
+                const t = tier(b.avg);
+                const row = document.createElement('div');
+                row.className = 'lrow';
+                row.innerHTML = `
+      <div class="rank">${String(i + 1).padStart(2, '0')}</div>
+      <div class="name">${b.name}<span class="catTag">${CAT_LABEL[b.category]}</span></div>
+      <div class="spark">${sparkline(b.scores)}</div>
+      <div class="score" style="color:${t === 'pass' ? 'var(--pass)' : t === 'mid' ? 'var(--amber)' : 'var(--fail)'}">${pct(b.avg)}</div>
+      <div class="exec">${b.exec.toFixed(0)}s</div>
+      <div class="badge ${t}">${t === 'pass' ? 'STRONG' : t === 'mid' ? 'OK' : 'WEAK'}</div>
+    `;
+                row.addEventListener('mousemove', (e) => {
+                    const min = Math.min(...b.scores), max = Math.max(...b.scores);
+                    tooltip.innerHTML = `<b>${b.name}</b><br>10 prompts · min ${(min * 100).toFixed(0)} · max ${(max * 100).toFixed(0)}<br>mean ${pct(b.avg)} · category: ${CAT_LABEL[b.category]}`;
+                    tooltip.style.left = (e.clientX + 16) + 'px';
+                    tooltip.style.top = (e.clientY + 16) + 'px';
+                    tooltip.style.opacity = 1;
+                });
+                row.addEventListener('mouseleave', () => { tooltip.style.opacity = 0; });
+                ledgerBody.appendChild(row);
+            });
+        }
+
+        document.querySelectorAll('[data-sort]').forEach(el => {
+            el.addEventListener('click', () => {
+                const key = el.dataset.sort;
+                if (sortKey === key) { sortDir *= -1; } else { sortKey = key; sortDir = key === 'name' ? 1 : -1; }
+                document.querySelectorAll('.ledgerHead span').forEach(s => s.classList.remove('sorted'));
+                el.classList.add('sorted');
+                el.querySelector('.arrow').textContent = sortDir === 1 ? '↑' : '↓';
+                document.getElementById('sortLabel').textContent = `${key} ${sortDir === 1 ? '↑' : '↓'}`;
+                renderLedger();
+            });
+        });
+
+        renderLedger();
+
+        /* ============================================================
+           Chart.js — global defaults
+           ============================================================ */
+        Chart.defaults.font.family = "'JetBrains Mono', monospace";
+        Chart.defaults.color = '#9CA3AF';
+        Chart.defaults.font.size = 11;
+
+        /* Radar: category profile */
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: CAT_ORDER.map(k => CAT_LABEL[k]),
+                datasets: [{
+                    label: 'Quality',
+                    data: CAT_ORDER.map(k => +(RAW.categoryAverages[k] * 100).toFixed(1)),
+                    backgroundColor: 'rgba(57,255,106,0.12)',
+                    borderColor: '#39FF6A',
+                    pointBackgroundColor: '#39FF6A',
+                    pointBorderColor: '#0B0D0F',
+                    pointRadius: 4,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#04140A', borderColor: '#1F7A3E', borderWidth: 1, titleColor: '#39FF6A', bodyColor: '#E8E6E1',
+                        callbacks: { label: (ctx) => ` ${ctx.formattedValue}% mean quality` }
+                    }
+                },
+                scales: {
+                    r: {
+                        min: 0, max: 100,
+                        ticks: { display: false, stepSize: 25 },
+                        grid: { color: '#1E2328' },
+                        angleLines: { color: '#1E2328' },
+                        pointLabels: { color: '#E8E6E1', font: { size: 11.5, family: "'JetBrains Mono'" } }
+                    }
+                }
+            }
+        });
+
+        /* Distribution histogram of ALL 300 raw scores */
+        const allScores = RAW.benchmarks.flatMap(b => b.scores);
+        const buckets = [0, 0, 0, 0, 0, 0, 0]; // 0.3-.4,.4-.5,.5-.6,.6-.7,.7-.8,.8-.9,.9-1.0
+        allScores.forEach(s => {
+            let idx = Math.floor((s - 0.3) / 0.1);
+            idx = Math.max(0, Math.min(6, idx));
+            buckets[idx]++;
+        });
+        new Chart(document.getElementById('distChart'), {
+            type: 'bar',
+            data: {
+                labels: ['.30-.40', '.40-.50', '.50-.60', '.60-.70', '.70-.80', '.80-.90', '.90-1.0'],
+                datasets: [{
+                    data: buckets,
+                    backgroundColor: buckets.map((_, i) => i < 3 ? '#FF5C3D' : i < 5 ? '#FFB454' : '#39FF6A'),
+                    borderRadius: 4,
+                    barThickness: 18
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#04140A', borderColor: '#1F7A3E', borderWidth: 1, titleColor: '#39FF6A', bodyColor: '#E8E6E1',
+                        callbacks: { label: (ctx) => ` ${ctx.formattedValue} of 300 prompts` }
+                    }
+                },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#5B6470', font: { size: 9.5 } } },
+                    y: { grid: { color: '#171B1F' }, ticks: { color: '#5B6470', font: { size: 9.5 } } }
+                }
+            }
+        });
+
+        /* Scatter: quality vs latency */
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'benchmarks',
+                    data: RAW.benchmarks.map(b => ({ x: b.exec, y: +(b.avg * 100).toFixed(1), name: b.name })),
+                    backgroundColor: RAW.benchmarks.map(b => tier(b.avg) === 'pass' ? '#39FF6A' : tier(b.avg) === 'mid' ? '#FFB454' : '#FF5C3D'),
+                    pointRadius: 6,
+                    pointHoverRadius: 9,
+                    borderColor: '#0B0D0F',
+                    borderWidth: 1.5
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#04140A', borderColor: '#1F7A3E', borderWidth: 1, titleColor: '#39FF6A', bodyColor: '#E8E6E1',
+                        callbacks: {
+                            title: (items) => RAW.benchmarks.map(b => b.exec === items[0].raw.x && +(b.avg * 100).toFixed(1) === items[0].raw.y ? b.name : null).filter(Boolean)[0] || items[0].raw.name,
+                            label: (ctx) => ` quality ${ctx.raw.y}% · latency ${ctx.raw.x.toFixed(0)}s`
+                        }
+                    }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'execution time (s)', color: '#5B6470', font: { size: 10.5 } }, grid: { color: '#171B1F' }, ticks: { color: '#5B6470' } },
+                    y: { title: { display: true, text: 'quality score (%)', color: '#5B6470', font: { size: 10.5 } }, min: 50, max: 100, grid: { color: '#171B1F' }, ticks: { color: '#5B6470' } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

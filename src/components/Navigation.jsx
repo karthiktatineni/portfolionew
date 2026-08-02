@@ -13,14 +13,15 @@ export default function Navigation() {
     }, []);
 
     const navLinks = [
-        { name: 'Home', href: '#hero' },
-        { name: 'About', href: '#about' },
-        { name: 'Skills', href: '#skills' },
-        { name: 'Projects', href: '#projects' },
-        { name: 'Certifications', href: '#certifications' },
-        { name: 'Media', href: '#media' },
-        { name: 'Contact', href: '#contact' },
+        { name: 'Home', href: '/#hero' },
+        { name: 'About', href: '/#about' },
+        { name: 'Skills', href: '/#skills' },
+        { name: 'Projects', href: '/#projects' },
+        { name: 'Certifications', href: '/#certifications' },
+        { name: 'Blog', href: '/finetuningblog' },
+        { name: 'Contact', href: '/#contact' },
         { name: 'AI Console', href: '/3d-lab' },
+
     ];
 
     return (

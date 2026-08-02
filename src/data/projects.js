@@ -3,17 +3,19 @@ export const projects = [
     // SOFTWARE PROJECTS (Web, AI/ML, App, Cloud, DevOps) — TOP
     // ========================================
 
-
     {
-        id: 'deepseek-finetuning',
-        title: 'DeepSeek Coder Fine-Tuning — Domain-Specific Coding Assistant',
-        shortDescription: 'Fine-tuned DeepSeek Coder 6.7B using QLoRA to create a specialized coding assistant for software engineering tasks.',
+        id: 'deepseek-cloud-finetuning',
+        title: 'DeepSeek Coder Fine-Tuning — Cloud-Based LLM Training Pipeline',
+        shortDescription: 'Fine-tuned DeepSeek Coder 6.7B using QLoRA on cloud GPUs to build a domain-specific coding assistant.',
+
         fullDescription: [
-            "Built an end-to-end LLM fine-tuning pipeline to adapt DeepSeek Coder 6.7B into a domain-specific programming assistant using parameter-efficient QLoRA training.",
-            "Designed a complete data pipeline that downloads, preprocesses, cleans, tokenizes, and formats large-scale coding instruction datasets including OpenCoder Stage 2, CodeAlpaca, and ClassEval into conversational training data.",
-            "Implemented 4-bit quantization with BitsAndBytes, LoRA adapters, Hugging Face Transformers, TRL, and PEFT to enable efficient fine-tuning on consumer GPU hardware while significantly reducing memory requirements.",
-            "Developed an automated training and evaluation workflow with dataset inspection, tokenization, adapter checkpointing, inference comparison, and performance benchmarking between the base model and fine-tuned model to measure improvements in code generation quality."
-        ],
+            "Built an end-to-end cloud-based QLoRA fine-tuning pipeline for DeepSeek Coder 6.7B using T4 GPU instances on Lightin.ai.",
+            "Prepared coding instruction datasets by downloading, cleaning, tokenizing, and formatting them for supervised fine-tuning.",
+            "Fine-tuned the model using 4-bit quantization, LoRA adapters, Hugging Face Transformers, TRL, and PEFT for efficient training.",
+            "Evaluated the fine-tuned model through inference comparison, checkpoint management, and benchmarking against the base model."
+        ]
+
+        ,
         technologies: [
             'Python',
             'PyTorch',
@@ -25,11 +27,16 @@ export const projects = [
             'TRL',
             'PEFT',
             'Hugging Face',
+            'Lightning AI',
+            'NVIDIA GPU',
             'Datasets'
-        ],
+        ]
+
+        ,
         category: 'AI/ML',
-        images: ['/videos/LLM1.png', '/videos/LLM2.png', '/videos/LLM3.png'],
-        githubUrl: 'https://github.com/karthiktatineni/Finetuning-deepseek-coder-6.7b'
+        images: ['/videos/finetune1.png', '/videos/finetune2.png', '/videos/finetune3.png',],
+        githubUrl: 'https://github.com/karthiktatineni/Finetuning-deepseek-coder-6.7b',
+        Blog: 'https://tatinenikarthik.online/finetuningblog'
     },
 
     {

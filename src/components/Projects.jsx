@@ -45,7 +45,7 @@ export default function Projects() {
 
     const handlePrefetch = useCallback((project) => {
         if (!project || isTouch) return;
-        
+
         // Prefetch images
         project.images?.forEach(src => {
             if (!preloadedAssets.current.has(src)) {
@@ -54,15 +54,15 @@ export default function Projects() {
                 preloadedAssets.current.add(src);
             }
         });
-        
+
         // Prefetch videos (metadata)
         project.videos?.forEach(src => {
-             if (!preloadedAssets.current.has(src)) {
+            if (!preloadedAssets.current.has(src)) {
                 const video = document.createElement('video');
                 video.preload = 'auto';
                 video.src = src;
                 preloadedAssets.current.add(src);
-             }
+            }
         });
     }, [isTouch]);
 
@@ -196,7 +196,7 @@ export default function Projects() {
                                                 ) : project.videos?.[0] ? (
                                                     <div
                                                         className="w-full h-full"
-                                                        onMouseOver={e => !isTouch && e.currentTarget.querySelector('video')?.play().catch(() => {})}
+                                                        onMouseOver={e => !isTouch && e.currentTarget.querySelector('video')?.play().catch(() => { })}
                                                         onMouseOut={e => {
                                                             if (isTouch) return;
                                                             const vid = e.currentTarget.querySelector('video');
@@ -242,128 +242,140 @@ export default function Projects() {
 
                 {typeof document !== 'undefined' && createPortal(
                     <AnimatePresence>
-                    {selectedProject && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-lg flex items-end sm:items-center justify-center p-0 sm:p-4 lg:p-6"
-                            onClick={closeProject}
-                        >
-                            <div
-                                onClick={(e) => e.stopPropagation()}
-                                className="bg-[#0a0a0a] border-0 sm:border border-[#262626] w-full sm:max-w-[1440px] h-[100dvh] sm:h-auto sm:max-h-[90dvh] overflow-hidden flex flex-col shadow-2xl relative sm:rounded-sm"
+                        {selectedProject && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 z-[10000] bg-black/95 backdrop-blur-lg flex items-end sm:items-center justify-center p-0 sm:p-4 lg:p-6"
+                                onClick={closeProject}
                             >
-                                <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-4 border-b border-[#262626] bg-[#0a0a0a]/95 shrink-0 z-40">
-                                    <button
-                                        onClick={closeProject}
-                                        className="inline-flex h-10 items-center gap-2 rounded-sm border border-[#262626] bg-[#111111] px-3 text-gray-300 hover:text-gold hover:border-gold/40 transition-colors text-[11px] uppercase tracking-widest font-bold"
-                                        aria-label="Back to projects"
-                                    >
-                                        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                                        <span className="hidden sm:inline">Back</span>
-                                    </button>
-                                    <span className="min-w-0 truncate text-gold text-xs tracking-widest uppercase font-bold">Project Details</span>
-                                    <button
-                                        onClick={closeProject}
-                                        className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[#262626] bg-[#111111] text-white hover:bg-gold hover:text-black hover:border-gold transition-colors"
-                                        aria-label="Close project details"
-                                    >
-                                        <X className="h-4 w-4" aria-hidden="true" />
-                                    </button>
-                                </div>
+                                <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="bg-[#0a0a0a] border-0 sm:border border-[#262626] w-full sm:max-w-[1440px] h-[100dvh] sm:h-auto sm:max-h-[90dvh] overflow-hidden flex flex-col shadow-2xl relative sm:rounded-sm"
+                                >
+                                    <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-4 border-b border-[#262626] bg-[#0a0a0a]/95 shrink-0 z-40">
+                                        <button
+                                            onClick={closeProject}
+                                            className="inline-flex h-10 items-center gap-2 rounded-sm border border-[#262626] bg-[#111111] px-3 text-gray-300 hover:text-gold hover:border-gold/40 transition-colors text-[11px] uppercase tracking-widest font-bold"
+                                            aria-label="Back to projects"
+                                        >
+                                            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                                            <span className="hidden sm:inline">Back</span>
+                                        </button>
+                                        <span className="min-w-0 truncate text-gold text-xs tracking-widest uppercase font-bold">Project Details</span>
+                                        <button
+                                            onClick={closeProject}
+                                            className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[#262626] bg-[#111111] text-white hover:bg-gold hover:text-black hover:border-gold transition-colors"
+                                            aria-label="Close project details"
+                                        >
+                                            <X className="h-4 w-4" aria-hidden="true" />
+                                        </button>
+                                    </div>
 
-                                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar lg:overflow-hidden flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)]" data-lenis-prevent="true">
-                                    <div className="bg-black/80 p-4 sm:p-6 lg:p-8 lg:min-h-0 lg:overflow-y-auto lg:custom-scrollbar border-b lg:border-b-0 lg:border-r border-[#262626]" data-lenis-prevent="true">
-                                        <div className="mx-auto grid max-w-5xl gap-4 sm:gap-6">
-                                            {selectedProject.videos?.map((video, idx) => (
-                                                <div key={`vid-${idx}`} className="w-full overflow-hidden rounded-sm border border-white/10 bg-[#050505] p-2 sm:p-3">
-                                                    {renderMedia(video, true, true)}
-                                                </div>
-                                            ))}
-                                            {selectedProject.images?.map((img, idx) => (
-                                                <div key={`img-${idx}`} className="w-full overflow-hidden rounded-sm border border-white/10 bg-[#050505] p-2 sm:p-3">
-                                                    {renderMedia(img, false, true)}
-                                                </div>
-                                            ))}
+                                    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar lg:overflow-hidden flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(360px,440px)]" data-lenis-prevent="true">
+                                        <div className="bg-black/80 p-4 sm:p-6 lg:p-8 lg:min-h-0 lg:overflow-y-auto lg:custom-scrollbar border-b lg:border-b-0 lg:border-r border-[#262626]" data-lenis-prevent="true">
+                                            <div className="mx-auto grid max-w-5xl gap-4 sm:gap-6">
+                                                {selectedProject.videos?.map((video, idx) => (
+                                                    <div key={`vid-${idx}`} className="w-full overflow-hidden rounded-sm border border-white/10 bg-[#050505] p-2 sm:p-3">
+                                                        {renderMedia(video, true, true)}
+                                                    </div>
+                                                ))}
+                                                {selectedProject.images?.map((img, idx) => (
+                                                    <div key={`img-${idx}`} className="w-full overflow-hidden rounded-sm border border-white/10 bg-[#050505] p-2 sm:p-3">
+                                                        {renderMedia(img, false, true)}
+                                                    </div>
+                                                ))}
 
-                                            {(!selectedProject.videos?.length && !selectedProject.images?.length) && (
-                                                <div className="flex min-h-64 items-center justify-center rounded-sm border border-[#262626] bg-[#111111] text-gray-500 text-sm">No Media Available</div>
-                                            )}
+                                                {(!selectedProject.videos?.length && !selectedProject.images?.length) && (
+                                                    <div className="flex min-h-64 items-center justify-center rounded-sm border border-[#262626] bg-[#111111] text-gray-500 text-sm">No Media Available</div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-[#0a0a0a] p-5 pb-8 sm:p-7 lg:p-8 lg:min-h-0 lg:overflow-y-auto lg:custom-scrollbar" data-lenis-prevent="true">
+                                            <motion.div
+                                                initial={{ opacity: 0, x: 20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.2 }}
+                                                className="mx-auto max-w-2xl lg:max-w-none"
+                                            >
+                                                <span className="text-gold text-[11px] tracking-widest uppercase font-bold block mb-4 border-l-2 border-gold pl-3">
+                                                    {selectedProject.category}
+                                                </span>
+                                                <h2 className="text-[1.7rem] sm:text-3xl lg:text-[2.6rem] font-bold text-white mb-5 leading-tight font-display break-words">
+                                                    {selectedProject.title}
+                                                </h2>
+
+                                                <div className="space-y-4 text-[#d4d4d4] text-sm leading-7 mb-8 font-light">
+                                                    {selectedProject.fullDescription?.map((desc, i) => (
+                                                        <p key={i}>{desc}</p>
+                                                    ))}
+                                                </div>
+
+                                                <div className="mb-8">
+                                                    <h4 className="text-white text-xs uppercase tracking-widest font-bold mb-4 border-b border-[#262626] pb-2">Stack</h4>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {selectedProject.technologies?.map(tech => (
+                                                            <span key={tech} className="px-3 py-1.5 bg-[#171717] border border-[#262626] text-xs text-[#a3a3a3] rounded-sm hover:border-gold/30 hover:text-gold transition-colors cursor-default">
+                                                                {tech}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
+                                                    {selectedProject.githubUrl && (
+                                                        <a
+                                                            href={selectedProject.githubUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex w-full items-center justify-center gap-2 py-3.5 bg-[#171717] border border-[#262626] text-white font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm"
+                                                        >
+                                                            <Github className="h-4 w-4" aria-hidden="true" />
+                                                            <span>GitHub</span>
+                                                        </a>
+                                                    )}
+                                                    {selectedProject.websiteUrl && (
+                                                        <a
+                                                            href={selectedProject.websiteUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex w-full items-center justify-center gap-2 py-3.5 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gold transition-colors rounded-sm"
+                                                        >
+                                                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                                                            <span>Live Site</span>
+                                                        </a>
+                                                    )}
+
+                                                    {selectedProject.Blog && (
+                                                        <a
+                                                            href={selectedProject.Blog}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex w-full items-center justify-center gap-2 py-3.5 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gold transition-colors rounded-sm"
+                                                        >
+                                                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                                                            <span>Blog</span>
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </motion.div>
                                         </div>
                                     </div>
 
-                                    <div className="bg-[#0a0a0a] p-5 pb-8 sm:p-7 lg:p-8 lg:min-h-0 lg:overflow-y-auto lg:custom-scrollbar" data-lenis-prevent="true">
-                                        <motion.div
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.2 }}
-                                            className="mx-auto max-w-2xl lg:max-w-none"
+                                    <div className="lg:hidden shrink-0 px-4 pt-3 bg-[#0a0a0a] border-t border-[#262626]" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
+                                        <button
+                                            onClick={closeProject}
+                                            className="w-full py-3.5 bg-[#171717] border border-[#262626] text-white font-bold text-xs uppercase tracking-widest hover:bg-gold hover:text-black hover:border-gold transition-all rounded-sm flex items-center justify-center gap-2"
                                         >
-                                            <span className="text-gold text-[11px] tracking-widest uppercase font-bold block mb-4 border-l-2 border-gold pl-3">
-                                                {selectedProject.category}
-                                            </span>
-                                            <h2 className="text-[1.7rem] sm:text-3xl lg:text-[2.6rem] font-bold text-white mb-5 leading-tight font-display break-words">
-                                                {selectedProject.title}
-                                            </h2>
-
-                                            <div className="space-y-4 text-[#d4d4d4] text-sm leading-7 mb-8 font-light">
-                                                {selectedProject.fullDescription?.map((desc, i) => (
-                                                    <p key={i}>{desc}</p>
-                                                ))}
-                                            </div>
-
-                                            <div className="mb-8">
-                                                <h4 className="text-white text-xs uppercase tracking-widest font-bold mb-4 border-b border-[#262626] pb-2">Stack</h4>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {selectedProject.technologies?.map(tech => (
-                                                        <span key={tech} className="px-3 py-1.5 bg-[#171717] border border-[#262626] text-xs text-[#a3a3a3] rounded-sm hover:border-gold/30 hover:text-gold transition-colors cursor-default">
-                                                            {tech}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-                                                {selectedProject.githubUrl && (
-                                                    <a
-                                                        href={selectedProject.githubUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex w-full items-center justify-center gap-2 py-3.5 bg-[#171717] border border-[#262626] text-white font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm"
-                                                    >
-                                                        <Github className="h-4 w-4" aria-hidden="true" />
-                                                        <span>GitHub</span>
-                                                    </a>
-                                                )}
-                                                {selectedProject.websiteUrl && (
-                                                    <a
-                                                        href={selectedProject.websiteUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex w-full items-center justify-center gap-2 py-3.5 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-gold transition-colors rounded-sm"
-                                                    >
-                                                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                                                        <span>Live Site</span>
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </motion.div>
+                                            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                                            <span>Back to Projects</span>
+                                        </button>
                                     </div>
                                 </div>
-
-                                <div className="lg:hidden shrink-0 px-4 pt-3 bg-[#0a0a0a] border-t border-[#262626]" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
-                                    <button
-                                        onClick={closeProject}
-                                        className="w-full py-3.5 bg-[#171717] border border-[#262626] text-white font-bold text-xs uppercase tracking-widest hover:bg-gold hover:text-black hover:border-gold transition-all rounded-sm flex items-center justify-center gap-2"
-                                    >
-                                        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                                        <span>Back to Projects</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )}
                     </AnimatePresence>,
                     document.body
                 )}

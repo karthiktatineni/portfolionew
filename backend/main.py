@@ -211,13 +211,13 @@ class TTSRequest(BaseModel):
     voice: Optional[str] = "Chatterbox-Multilingual.en-US.Male"
     language_code: Optional[str] = "en-US"
 
-@app.get("/health")
-@app.get("/api/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 def health_check():
     return {
         "status": "online",
         "nvidia_key_configured": bool(NVIDIA_API_KEY),
-        "whisper_available": get_whisper_model() is not False
+        "whisper_available": _whisper_model is not None and _whisper_model is not False
     }
 
 # ============================================================

@@ -1,11 +1,11 @@
 export const projects = [
 
     {
-        id: 'fraudguard-ai-fraud-detection',
-        title: 'FraudGuard AI — Real-Time Free-Trial Abuse & Multi-Accounting Risk Engine',
+        id: 'fraudguard-fraud-detection',
+        title: 'FraudGuard — Real-Time Free-Trial Abuse & Multi-Accounting Risk Engine',
         shortDescription: 'Enterprise real-time anti-fraud engine preventing SaaS free-trial farming and multi-accounting syndicates using Causal Entity Graphs, Active Learning, and calibrated risk scoring.',
         fullDescription: [
-            "FraudGuard AI is an enterprise-grade real-time fraud detection and risk scoring microservice engineered to prevent multi-accounting syndicates and free-trial abuse in high-velocity SaaS applications.",
+            "FraudGuard is an enterprise-grade real-time fraud detection and risk scoring microservice engineered to prevent multi-accounting syndicates and free-trial abuse in high-velocity SaaS applications.",
             "Features a strictly causal feature engineering pipeline with an Incremental Union-Find Entity Graph (connecting payment card tokens, device fingerprints, and /24 IP subnets) achieving an 0.746 correlation to coordinated abuse and rendering identity artifact rotation ineffective.",
             "Trained and cross-validated across 7 ML algorithms with tuned XGBoost delivering 95.1% Abuse Recall, 76.2% Precision, and 0.976 ROC-AUC under a calibrated 3-band decision policy (Allow, Step-Up Verification, Block/Require Payment).",
             "Includes continuous Population Stability Index (PSI) drift monitoring, multi-round Human-in-the-Loop Active Learning loops, sub-15ms FastAPI async REST microservice, and zero-dependency Redis sliding-window velocity caching."

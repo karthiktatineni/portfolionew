@@ -1,4 +1,48 @@
 export const projects = [
+
+    {
+        id: 'fraudguard-ai-fraud-detection',
+        title: 'FraudGuard AI — Real-Time Free-Trial Abuse & Multi-Accounting Risk Engine',
+        shortDescription: 'Enterprise real-time anti-fraud engine preventing SaaS free-trial farming and multi-accounting syndicates using Causal Entity Graphs, Active Learning, and calibrated risk scoring.',
+        fullDescription: [
+            "FraudGuard AI is an enterprise-grade real-time fraud detection and risk scoring microservice engineered to prevent multi-accounting syndicates and free-trial abuse in high-velocity SaaS applications.",
+            "Features a strictly causal feature engineering pipeline with an Incremental Union-Find Entity Graph (connecting payment card tokens, device fingerprints, and /24 IP subnets) achieving an 0.746 correlation to coordinated abuse and rendering identity artifact rotation ineffective.",
+            "Trained and cross-validated across 7 ML algorithms with tuned XGBoost delivering 95.1% Abuse Recall, 76.2% Precision, and 0.976 ROC-AUC under a calibrated 3-band decision policy (Allow, Step-Up Verification, Block/Require Payment).",
+            "Includes continuous Population Stability Index (PSI) drift monitoring, multi-round Human-in-the-Loop Active Learning loops, sub-15ms FastAPI async REST microservice, and zero-dependency Redis sliding-window velocity caching."
+        ],
+        technologies: [
+            'Python',
+            'FastAPI',
+            'XGBoost',
+            'Scikit-Learn',
+            'Redis',
+            'Docker',
+            'Docker Compose',
+            'Active Learning',
+            'Population Stability Index (PSI)',
+            'Union-Find Disjoint Sets',
+            'SHAP Explainability',
+            'Pandas',
+            'NumPy',
+            'GitHub Actions CI/CD'
+        ],
+        category: 'AI/ML',
+        images: [
+            '/videos/ML.png',
+            '/images/fraud-detection/attack_evasion_graph_trace.png',
+            '/images/fraud-detection/genuine_user_result.png',
+            '/images/fraud-detection/fraud_syndicate_result.png',
+            '/images/fraud-detection/drift_dashboard.png',
+            '/images/fraud-detection/active_learning_feedback.png',
+            '/images/fraud-detection/roc_curve.png',
+            '/images/fraud-detection/confusion_matrix.png',
+            '/images/fraud-detection/precision_recall_curve.png',
+            '/images/fraud-detection/feature_importance.png',
+            '/images/fraud-detection/shap_summary.png'
+        ],
+        githubUrl: 'https://github.com/karthiktatineni/Free-trail-Fraud-detection-MLmodel',
+        websiteUrl: 'https://free-trail-fraud-detection-mlmodel.onrender.com/'
+    },
     // ========================================
     // SOFTWARE PROJECTS (Web, AI/ML, App, Cloud, DevOps) — TOP
     // ========================================

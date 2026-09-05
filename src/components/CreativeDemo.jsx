@@ -494,7 +494,7 @@ export default function CreativeDemo() {
             // Fallback to direct NVIDIA AI Cloud API
         }
 
-        // 2. Direct NVIDIA AI Cloud API (meta/llama-3.3-70b-instruct)
+        // 2. Direct NVIDIA AI Cloud API (meta/llama-3.2-11b-vision-instruct)
         if (NVIDIA_API_KEY) {
             try {
                 const nvResp = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
@@ -504,7 +504,7 @@ export default function CreativeDemo() {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: 'meta/llama-3.3-70b-instruct',
+                        model: 'meta/llama-3.2-11b-vision-instruct',
                         messages: formattedMessages,
                         temperature: 0.7,
                         max_tokens: 256,
@@ -529,11 +529,11 @@ export default function CreativeDemo() {
             }
         }
 
-        // 3. Fallback to Groq API (llama-3.3-70b-versatile)
+        // 3. Fallback to Groq API (openai/gpt-oss-120b)
         try {
             const stream = await groq.chat.completions.create({
                 messages: formattedMessages,
-                model: 'llama-3.3-70b-versatile',
+                model: 'openai/gpt-oss-120b',
                 temperature: 0.7,
                 max_completion_tokens: 256,
                 top_p: 1,

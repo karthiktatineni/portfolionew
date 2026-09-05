@@ -1,5 +1,6 @@
 import os
 import io
+import wave
 import base64
 import tempfile
 import logging
@@ -36,6 +37,8 @@ NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "").strip()
 NVIDIA_LLM_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_RIVA_SERVER = "grpc.nvcf.nvidia.com:443"
 NVIDIA_RIVA_FUNCTION_ID = "ddacc747-1269-4fab-bfd9-8f593dead106"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip() or os.getenv("VITE_GROQ_API_KEY", "").strip()
+GROQ_LLM_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 # Lazy-loaded Whisper model instance
 _whisper_model = None
@@ -217,6 +220,7 @@ def health_check():
     return {
         "status": "online",
         "nvidia_key_configured": bool(NVIDIA_API_KEY),
+        "groq_key_configured": bool(GROQ_API_KEY),
         "whisper_available": _whisper_model is not None and _whisper_model is not False
     }
 
@@ -316,56 +320,88 @@ async def speech_to_text(file: UploadFile = File(...)):
         return {"text": "", "error": str(e)}
 
 # ============================================================
-# 2. LLM - NVIDIA FAST RESPONSE MODEL
+# 2. LLM - NVIDIA FAST RESPONSE MODEL (WITH GROQ FALLBACK)
 # ============================================================
 @app.post("/api/llm")
 async def llm_answer(req: LLMRequest):
-    """Generates an answer using NVIDIA fast response LLM models."""
-    if not NVIDIA_API_KEY:
-        raise HTTPException(status_code=500, detail="NVIDIA_API_KEY is not configured in .env.")
+    """Generates an answer using NVIDIA fast response LLM models with Groq fallback."""
+    if not NVIDIA_API_KEY and not GROQ_API_KEY:
+        raise HTTPException(status_code=500, detail="Neither NVIDIA_API_KEY nor GROQ_API_KEY is configured.")
 
     formatted_messages = []
     if req.system_prompt:
         formatted_messages.append({"role": "system", "content": req.system_prompt})
     formatted_messages.extend(req.messages)
 
-    headers = {
-        "Authorization": f"Bearer {NVIDIA_API_KEY}",
-        "Content-Type": "application/json"
-    }
-
-    # Model priority list (fast response models)
-    models_to_try = [
-        "meta/llama-3.1-8b-instruct",
-        "nvidia/llama-3.1-nemotron-70b-instruct",
-        "meta/llama-3.3-70b-instruct"
-    ]
-
     last_error = ""
-    for model_name in models_to_try:
-        try:
-            payload = {
-                "model": model_name,
-                "messages": formatted_messages,
-                "temperature": 0.8,  # Slightly higher for more natural conversation
-                "max_tokens": 256,   # Keep responses concise
-                "top_p": 0.9,        # Slightly more focused vocabulary
-                "frequency_penalty": 0.3,  # Reduce repetition
-                "presence_penalty": 0.3   # Encourage variety
-            }
-            resp = requests.post(NVIDIA_LLM_URL, headers=headers, json=payload, timeout=15)
-            if resp.status_code == 200:
-                data = resp.json()
-                content = data["choices"][0]["message"]["content"]
-                return {"response": content, "model_used": model_name}
-            else:
-                last_error = f"Model {model_name} returned status {resp.status_code}: {resp.text}"
-                logger.warning(last_error)
-        except Exception as err:
-            last_error = str(err)
-            logger.warning(f"Error invoking NVIDIA model {model_name}: {err}")
 
-    raise HTTPException(status_code=500, detail=f"Failed to get response from NVIDIA API: {last_error}")
+    # 1. Try NVIDIA AI Cloud Models (verified active models)
+    if NVIDIA_API_KEY:
+        headers = {
+            "Authorization": f"Bearer {NVIDIA_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        nvidia_models = [
+            "meta/llama-3.2-11b-vision-instruct",
+            "openai/gpt-oss-20b",
+            "meta/llama-3.2-90b-vision-instruct"
+        ]
+
+        for model_name in nvidia_models:
+            try:
+                payload = {
+                    "model": model_name,
+                    "messages": formatted_messages,
+                    "temperature": 0.7,
+                    "max_tokens": 256,
+                    "top_p": 0.9
+                }
+                resp = requests.post(NVIDIA_LLM_URL, headers=headers, json=payload, timeout=12)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    content = data["choices"][0]["message"]["content"]
+                    return {"response": content, "model_used": model_name}
+                else:
+                    last_error = f"NVIDIA Model {model_name} returned status {resp.status_code}: {resp.text}"
+                    logger.warning(last_error)
+            except Exception as err:
+                last_error = str(err)
+                logger.warning(f"Error invoking NVIDIA model {model_name}: {err}")
+
+    # 2. Fallback to Groq API if NVIDIA models are unavailable
+    if GROQ_API_KEY:
+        logger.info("Falling back to Groq API for LLM response...")
+        groq_headers = {
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        groq_models = [
+            "openai/gpt-oss-120b",
+            "openai/gpt-oss-20b",
+            "qwen/qwen3.8-27b"
+        ]
+        for model_name in groq_models:
+            try:
+                payload = {
+                    "model": model_name,
+                    "messages": formatted_messages,
+                    "temperature": 0.7,
+                    "max_tokens": 256
+                }
+                resp = requests.post(GROQ_LLM_URL, headers=groq_headers, json=payload, timeout=10)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    content = data["choices"][0]["message"]["content"]
+                    if content:
+                        return {"response": content, "model_used": f"groq:{model_name}"}
+                else:
+                    last_error = f"Groq Model {model_name} returned status {resp.status_code}: {resp.text}"
+                    logger.warning(last_error)
+            except Exception as err:
+                last_error = str(err)
+                logger.warning(f"Error invoking Groq model {model_name}: {err}")
+
+    raise HTTPException(status_code=500, detail=f"Failed to get response from AI APIs: {last_error}")
 
 # ============================================================
 # 3. TTS - NVIDIA RIVA TEXT TO SPEECH (gRPC)
@@ -382,24 +418,57 @@ async def text_to_speech(req: TTSRequest):
     try:
         import riva.client
 
-        auth = riva.client.Auth(
-            custom_metadata=[
-                ("function-id", NVIDIA_RIVA_FUNCTION_ID),
-                ("authorization", f"Bearer {NVIDIA_API_KEY}")
-            ],
-            use_ssl=True,
-            uri=NVIDIA_RIVA_SERVER
-        )
+        metadata = [
+            ("function-id", NVIDIA_RIVA_FUNCTION_ID),
+            ("authorization", f"Bearer {NVIDIA_API_KEY}")
+        ]
+
+        # Use metadata_args for nvidia-riva-client >= 2.14, with fallback for custom_metadata
+        try:
+            auth = riva.client.Auth(
+                metadata_args=metadata,
+                use_ssl=True,
+                uri=NVIDIA_RIVA_SERVER
+            )
+        except TypeError:
+            auth = riva.client.Auth(
+                custom_metadata=metadata,
+                use_ssl=True,
+                uri=NVIDIA_RIVA_SERVER
+            )
 
         service = riva.client.SpeechSynthesisService(auth)
-        resp = service.synthesize(
-            text=req.text,
-            voice_name=req.voice or "Chatterbox-Multilingual.en-US.Male",
-            language_code=req.language_code or "en-US",
-            sample_rate_hz=22050
-        )
 
-        wav_bytes = resp.audio
+        # Attempt synthesis with requested voice, fallback to server default voice
+        try:
+            resp = service.synthesize(
+                text=req.text,
+                voice_name=req.voice or "Chatterbox-Multilingual.en-US.Male",
+                language_code=req.language_code or "en-US",
+                sample_rate_hz=22050
+            )
+        except Exception as voice_err:
+            logger.warning(f"TTS synthesis with voice '{req.voice}' failed ({voice_err}), trying default voice...")
+            resp = service.synthesize(
+                text=req.text,
+                voice_name=None,
+                language_code=req.language_code or "en-US",
+                sample_rate_hz=22050
+            )
+
+        pcm_data = resp.audio
+        # Ensure output has a standard WAV RIFF header for reliable browser playback
+        if not pcm_data.startswith(b"RIFF"):
+            wav_io = io.BytesIO()
+            with wave.open(wav_io, "wb") as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)  # 16-bit PCM = 2 bytes
+                wav_file.setframerate(22050)
+                wav_file.writeframes(pcm_data)
+            wav_bytes = wav_io.getvalue()
+        else:
+            wav_bytes = pcm_data
+
         return Response(content=wav_bytes, media_type="audio/wav")
 
     except ImportError:

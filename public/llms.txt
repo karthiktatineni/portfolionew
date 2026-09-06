@@ -35,6 +35,8 @@ Python, TypeScript, JavaScript, C, C++, React, Next.js, Node.js, FastAPI, Flutte
 
 ## Contact
 
+- Email: karthiktatineni34@gmail.com
 - GitHub: https://github.com/karthiktatineni
 - LinkedIn: https://linkedin.com/in/karthik-tatineni
 - Phone: +91 7995466261
+

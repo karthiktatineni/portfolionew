@@ -201,8 +201,10 @@ Combined Half Adder and Half Subtractor with testbench and waveform output.
 
 ## Contact
 
+- Email: karthiktatineni34@gmail.com
 - Portfolio: https://tatinenikarthik.online
 - GitHub: https://github.com/karthiktatineni
 - LinkedIn: https://linkedin.com/in/karthik-tatineni
 - Instagram: https://instagram.com/_karthik._.14
 - Phone: +91 7995466261
+

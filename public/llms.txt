@@ -1,0 +1,40 @@
+# Karthik Tatineni — Portfolio
+
+> Software & AI Engineer | Full-Stack Developer | IoT & Embedded Systems
+
+## About
+
+Karthik Tatineni is an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad. He specializes in building scalable web applications, distributed systems, and AI-driven platforms.
+
+## Links
+
+- Portfolio: https://tatinenikarthik.online
+- GitHub: https://github.com/karthiktatineni
+- LinkedIn: https://linkedin.com/in/karthik-tatineni
+- Full AI-readable profile: https://tatinenikarthik.online/llms-full.txt
+
+## Skills
+
+Python, TypeScript, JavaScript, C, C++, React, Next.js, Node.js, FastAPI, Flutter, Docker, PostgreSQL, Redis, Firebase, Azure, Verilog, ESP32, Arduino, VLSI, PCB Design
+
+## Key Projects
+
+- FraudGuard: Real-time anti-fraud engine (XGBoost, FastAPI, Redis) — 95.1% abuse recall
+- DisasterMind AI: Multi-agent disaster intelligence (Next.js, NVIDIA NIM, Azure AI)
+- Aegis AI: Local-first AI assistant with RAG and ChromaDB
+- DeepSeek Coder Fine-Tuning: QLoRA fine-tuning pipeline for coding LLMs
+- Microservices Platform: Production CI/CD on Azure Container Apps
+- AI-Integrated Smart Home: Alexa + Siri + ESP32 + Firebase
+- Helmet & Triple-Ride Detection: Real-time YOLO + CNN traffic safety system
+
+## Certifications
+
+- Microsoft Certified: Azure AI Fundamentals
+- Google: Introduction to Large Language Models
+- Anthropic: Claude AI Certification Path
+
+## Contact
+
+- GitHub: https://github.com/karthiktatineni
+- LinkedIn: https://linkedin.com/in/karthik-tatineni
+- Phone: +91 7995466261

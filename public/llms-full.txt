@@ -1,0 +1,208 @@
+# Karthik Tatineni — Full AI-Readable Profile
+
+> Software & AI Engineer | Full-Stack Developer | IoT & Embedded Systems Specialist
+> Portfolio: https://tatinenikarthik.online
+> GitHub: https://github.com/karthiktatineni
+> LinkedIn: https://linkedin.com/in/karthik-tatineni
+
+---
+
+## Bio
+
+I'm Karthik Tatineni, an Independent Software Developer and Electronics & Communication Engineering student at the Institute of Aeronautical Engineering (IARE), Hyderabad.
+
+I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics. My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines.
+
+While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks. I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world.
+
+---
+
+## Stats
+
+- Projects Built: 25+
+- Tech Domains: 8+ (Web, AI/ML, IoT, Cloud, DevOps, Mobile, Electronics, VLSI)
+- Technologies Known: 70+
+- Deployed Applications: 10+
+
+---
+
+## Technical Skills
+
+### Coding & Engineering
+C, C++, Python, TypeScript, VHDL, HTML, CSS, JavaScript, React, Vite, Node.js, Next.js, API Integration (Express, REST), MySQL, PostgreSQL, RTOS (FreeRTOS), Firmware Debugging, Microcontroller Integration, PCB Design, Sensor Calibration
+
+### Tech Domains
+IoT, Embedded Systems, VLSI, Automation, AI Applications, CAD, Analog Electronics, Web Development, Database Management, Agentic-AI
+
+### Tools & Platforms
+ESP32, Arduino IDE, Firebase, Cloudflare, UltimakerCura, NI Multisim, Proteus, Cadence, Blender, Blynk, I2C/SPI/UART, Git & GitHub, Vercel, Postman, Fusion 360, Docker, Flutter
+
+### AI Tools
+ChatGPT, Antigravity, Claude AI, Claude Code CLI, Google Gemini, Perplexity AI, Groq, Lovable, Ollama (Local LLMs), Whisk, Flow, Bolt.new, Cursor AI, GitHub Copilot, Copilot CLI, Code Agents, MCP Server, AI Skills, Autonomous Agents, Botpress
+
+---
+
+## Projects
+
+### AI/ML
+
+#### FraudGuard — Real-Time Free-Trial Abuse & Multi-Accounting Risk Engine
+Enterprise real-time anti-fraud engine preventing SaaS free-trial farming and multi-accounting syndicates using Causal Entity Graphs, Active Learning, and calibrated risk scoring. Features a strictly causal feature engineering pipeline with an Incremental Union-Find Entity Graph. Trained across 7 ML algorithms with tuned XGBoost delivering 95.1% Abuse Recall, 76.2% Precision, and 0.976 ROC-AUC. Includes continuous PSI drift monitoring, Human-in-the-Loop Active Learning, sub-15ms FastAPI async REST microservice, and Redis sliding-window velocity caching.
+- Tech: Python, FastAPI, XGBoost, Scikit-Learn, Redis, Docker, Active Learning, SHAP, Pandas, NumPy, GitHub Actions CI/CD
+- GitHub: https://github.com/karthiktatineni/Free-trail-Fraud-detection-MLmodel
+- Live: https://free-trail-fraud-detection-mlmodel.onrender.com/
+
+#### DeepSeek Coder Fine-Tuning — Cloud-Based LLM Training Pipeline
+Fine-tuned DeepSeek Coder 6.7B using QLoRA on cloud GPUs to build a domain-specific coding assistant. Built an end-to-end cloud-based QLoRA fine-tuning pipeline using T4 GPU instances on Lightning.ai. Evaluated the fine-tuned model through inference comparison, checkpoint management, and benchmarking against the base model.
+- Tech: Python, PyTorch, DeepSeek Coder 6.7B, QLoRA, LoRA, BitsAndBytes, Transformers, TRL, PEFT, Hugging Face, NVIDIA GPU
+- GitHub: https://github.com/karthiktatineni/Finetuning-deepseek-coder-6.7b
+
+#### DisasterMind AI — Autonomous Disaster Intelligence
+Autonomous Emergency Operations Center using multi-agent AI to predict and manage disaster response. Uses a Multi-Agent Orchestration architecture where specialized AI agents collaborate, debate, and refine plans. Features predictive ML to forecast casualties, infrastructure damage, and hospital overload before they happen.
+- Tech: Next.js, FastAPI, NVIDIA NIM, Azure AI Foundry, PostgreSQL, Redis, Machine Learning, Multi-Agent AI
+- GitHub: https://github.com/karthiktatineni/DisasterMind-AI-agents
+- Live: https://disaster-mind-ai-agents.vercel.app/
+
+#### Aegis AI — Local-First AI Assistant Platform
+Full-stack AI platform with local LLMs, RAG, long-term memory, agent planning, streaming chat, and ChromaDB-powered retrieval. Features real-time streaming chat, persistent conversation history, semantic search, and an extensible agent architecture with planning capabilities and tool execution.
+- Tech: Next.js, FastAPI, Python, TypeScript, PyTorch, Transformers, Mistral 7B, Qwen 2.5, ChromaDB, Sentence Transformers, SQLAlchemy, Docker
+- GitHub: https://github.com/karthiktatineni/Aegis-AI
+- Live: https://llm-web-rho.vercel.app/
+
+#### Autonomous AI Agentic Team
+Multi-agent developer pipeline using MCP and Claude Code for end-to-end software builds. Leverages the Model Context Protocol for communication between 10+ AI agents including Researchers, Architects, Coders, and Security Auditors.
+- Tech: Claude Code, MCP Protocol, Node.js, React, Ollama, Docker, WebSockets
+- GitHub: https://github.com/karthiktatineni/claude-code-agentic-team
+
+#### Helmet & Triple-Ride Detection
+YOLO and CNN-based system to detect helmet use and triple riding using real-time camera feed. Uses deep learning (YOLOv5 + CNN) optimized for accuracy and real-time performance.
+- Tech: YOLOv5, CNN, OpenCV, PyTorch, Python
+- GitHub: https://github.com/karthiktatineni/Helmet-tripleride-Detection
+
+#### AI-Powered Fitness Tracker (Flutter App)
+Premium AI workout planner and fitness tracker built with Flutter and Google Gemini AI. Integrates Google Gemini AI to dynamically generate exercise routines. Features secure Firebase authentication and comprehensive progress tracking.
+- Tech: Flutter, Firebase, Google Gemini AI, Dart, Provider
+- GitHub: https://github.com/karthiktatineni/GYMapp-flutter
+
+#### AI-Powered ESP32
+ESP32-AI system integrated with Gemini AI to respond to questions asked. Combines AI conversation with real-time audio output for voice-based interaction on embedded hardware.
+- Tech: ESP32, Google Gemini AI, Text-to-Speech, Arduino IDE, Wi-Fi
+- GitHub: https://github.com/karthiktatineni/Gemini-integrated-ESP32
+
+#### OLLAMA Based Local AI
+Local AI on ESP32 using OLLAMA on PC. Allows ESP32 to communicate with advanced language models like LLaMA, Phi, Mistral, and Gemma without cloud services.
+- Tech: ESP32, Ollama, LLaMA/Phi/Mistral, Ngrok, HTTP API
+- GitHub: https://github.com/karthiktatineni/Ollama_on_ESP32
+
+### Web
+
+#### Interiors — Full-Stack CMS Platform
+Enterprise interior design platform with Sanity CMS, AI chat, 3D visualization, cost estimator, and Supabase auth. Features a headless CMS architecture, AI-powered chat widget with OpenAI, and interactive 3D apartment visualization.
+- Tech: Next.js, Sanity CMS, Supabase, OpenAI, React Three Fiber, Three.js, Framer Motion, Tailwind CSS, Vercel
+- GitHub: https://github.com/karthiktatineni/arova-with-cms
+- Live: https://arova-with-cms.vercel.app
+
+#### Klvora - Fashion Website
+Modern fashion website built with React, Neon DBMS, featuring dynamic products and automated email workflows.
+- Tech: React, Neon DBMS, Node.js, Email Automation, Tailwind CSS
+- GitHub: https://github.com/karthiktatineni/Klvora-site
+- Live: https://klvora.in
+
+#### IARE Consortium
+College event management platform with admin panel for IARE's technical consortium.
+- Tech: React, Vite, Firebase, Vercel, Tailwind CSS
+- GitHub: https://github.com/karthiktatineni/iareconsortium25
+- Live: https://consortium25.com
+
+#### IARE MUN
+Official Model United Nations platform with admin dashboard for delegate registration.
+- Tech: React, Vite, Firebase, Vercel, Tailwind CSS
+- GitHub: https://github.com/karthiktatineni/munfirebase
+- Live: https://iaremun.in
+
+#### College Farewell Project - Batch of 2026
+Digital memory archives and farewell platform for the IARE Class of 2026. Features secure authentication, student directory, and shared memory galleries.
+- Tech: React, Firebase, Tailwind CSS, Vercel, Authentication
+- GitHub: https://github.com/karthiktatineni/batchof2026
+- Live: https://iareeceb.in
+
+### Cloud & DevOps
+
+#### Microservices Platform — CI/CD Pipeline and Azure Container Apps
+Production-ready microservices architecture with Node.js services, Nginx reverse proxy, Redis caching, PostgreSQL, and Azure Container Apps CI/CD with rolling updates. Infrastructure defined using Bicep/ARM templates.
+- Tech: Node.js, Express.js, Nginx, Redis, PostgreSQL, Docker, Azure Container Apps, Azure DevOps, Bicep, CI/CD Pipelines
+- Live: https://frontend.politefield-1bba4abe.westus2.azurecontainerapps.io/
+
+#### Nextcloud Home Cloud Server
+Self-hosted Nextcloud cloud server on a personal PC with Cloudflare Tunnel for worldwide access.
+- Tech: Nextcloud, Docker, PostgreSQL, Cloudflare Tunnel, Self-Hosting
+- GitHub: https://github.com/karthiktatineni/localcloud
+
+#### Personal Home Server & Private Cloud
+High-performance self-hosted infrastructure featuring Nextcloud, Plex, n8n, and a custom Datacenter Monitor with real-time WebSocket metrics.
+- Tech: Docker, Cloudflare Tunnel, Nginx, Nextcloud, Plex, n8n, Node.js, PostgreSQL, WebSockets
+- GitHub: https://github.com/karthiktatineni/homeserver
+
+#### IARE MUN - Microservices Architecture
+Enterprise-grade MUN platform with Load Balancers, API Gateways, and Dockerized microservices.
+- Tech: Load Balancers, API Gateway, Docker, Redis Caching, Nginx, Firebase, Cloudflare, React
+- GitHub: https://github.com/karthiktatineni/munproduction
+
+### IoT & Electronics
+
+#### AI-Integrated Smart Home Automation System
+Cloud-connected smart home with Alexa, Siri, Web Dashboard, ESP32, and Firebase. Two-way synchronization between physical switches and cloud commands.
+- Tech: ESP32, Firebase, Next.js, Alexa, Siri, Node.js, C++
+
+#### Smart Anti-Theft Bag
+ESP8266-based bag with RFID access and Telegram alerts for real-time theft detection.
+- Tech: ESP8266, RFID MFRC522, Telegram Bot API, Arduino IDE
+- GitHub: https://github.com/karthiktatineni/Smart-Bag
+
+#### Smart Home Automation
+Control appliances via Alexa and custom app using ESP8266 and Sinric Pro.
+- Tech: ESP8266, Alexa, Sinric Pro, Relay Modules, Arduino IDE
+- GitHub: https://github.com/karthiktatineni/Home-automation
+
+#### Environmental Monitoring
+Real-time web dashboard showing temperature, humidity, and air quality using ESP8266.
+- Tech: ESP8266, DHT11, HTML/CSS/JS, REST API, Arduino IDE
+- GitHub: https://github.com/karthiktatineni/weather_monitoring_System
+
+#### ESP32 Desk Mochi
+ESP32-powered desk companion with time, weather display, and dynamic facial expressions.
+- Tech: ESP32, OLED Display, Weather API, Animation, C++
+- GitHub: https://github.com/karthiktatineni/Desk_mochi
+
+### VLSI
+
+#### Logic Gates Using Verilog
+Basic combinational logic gates implemented using Verilog HDL with testbench and waveform verification.
+- Tech: EDAplayground, Verilog, Logic Gates, RTL modeling
+
+#### Half Adder & Subtractor (Verilog)
+Combined Half Adder and Half Subtractor with testbench and waveform output.
+- Tech: EDAplayground, Verilog, RTL modeling
+
+---
+
+## Certifications
+
+- Microsoft Certified: Azure AI Fundamentals (Microsoft AI Learning Path)
+- Introduction to Large Language Models (Google)
+- MySQL & Database Management: Create, Manage & Query Databases (Udemy)
+- GenAI For Image & Video Creation (Udemy)
+- HTML & CSS: The Complete Web Development Guide (Udemy)
+- Data Science Basics Using Python - Field Project (NSIC)
+- Claude 101 (Anthropic)
+- Claude AI Certification Path: Claude Code 101 & Claude Code in Action (Anthropic)
+
+---
+
+## Contact
+
+- Portfolio: https://tatinenikarthik.online
+- GitHub: https://github.com/karthiktatineni
+- LinkedIn: https://linkedin.com/in/karthik-tatineni
+- Instagram: https://instagram.com/_karthik._.14
+- Phone: +91 7995466261

@@ -108,8 +108,6 @@ def elite_post_processing(text: str) -> str:
     text = re.sub(r'\bmy name am\b', 'My name', text, flags=re.IGNORECASE)
     text = re.sub(r'\bevo\b', 'is', text, flags=re.IGNORECASE)
     text = re.sub(r'\beva\b', 'is', text, flags=re.IGNORECASE)
-    text = re.sub(r'\bever\b', 'is', text, flags=re.IGNORECASE)
-    text = re.sub(r'\bI am\b', 'is', text, flags=re.IGNORECASE)
     
     # Fix "karnik" -> "Karthik" (expanded patterns)
     text = re.sub(r'\bkarnik\b', 'Karthik', text, flags=re.IGNORECASE)

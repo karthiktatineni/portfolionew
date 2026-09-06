@@ -5,6 +5,14 @@
             "destination": "/api/$1"
         },
         {
+            "source": "/llms.txt",
+            "destination": "/llms.txt"
+        },
+        {
+            "source": "/llms-full.txt",
+            "destination": "/llms-full.txt"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }

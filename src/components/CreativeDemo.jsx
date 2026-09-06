@@ -363,13 +363,17 @@ export default function CreativeDemo() {
         const cleanText = cleanForSpeech(text);
         if (!cleanText || typeof window === 'undefined') return Promise.resolve();
 
-        // 1. Try NVIDIA Riva TTS endpoint first
+        // 1. Try NVIDIA Riva TTS with a 2s timeout — fail fast to browser TTS
         try {
+            const ttsAbort = new AbortController();
+            const ttsTimer = setTimeout(() => ttsAbort.abort(), 2000);
             const resp = await fetch(`${VOICE_BACKEND_URL}/api/tts`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: cleanText, voice: 'Chatterbox-Multilingual.en-US.Male' })
+                body: JSON.stringify({ text: cleanText, voice: 'Chatterbox-Multilingual.en-US.Male' }),
+                signal: ttsAbort.signal
             });
+            clearTimeout(ttsTimer);
 
             if (resp.ok) {
                 const blob = await resp.blob();
@@ -394,7 +398,7 @@ export default function CreativeDemo() {
                 });
             }
         } catch {
-            // Riva TTS backend offline, fall back to browser Speech Synthesis
+            // Riva TTS timed out or offline — use browser Speech Synthesis
         }
 
         // 2. Fallback to Browser Speech Synthesis
@@ -469,73 +473,13 @@ export default function CreativeDemo() {
             ...newMessages.map((m) => ({ role: m.role, content: m.content })),
         ];
 
-        // 1. Try Python NVIDIA LLM Backend first
-        try {
-            const llmResp = await fetch(`${VOICE_BACKEND_URL}/api/llm`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: newMessages.map(m => ({ role: m.role, content: m.content })),
-                    system_prompt: VOICE_SYSTEM_PROMPT
-                })
-            });
-
-            if (llmResp.ok) {
-                const data = await llmResp.json();
-                const fullResponse = data.response || '';
-                if (requestId !== activeRequestRef.current) return;
-                setJarvisResponse(fullResponse);
-                setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
-                await speak(fullResponse);
-                if (requestId === activeRequestRef.current) setJarvisStatus('idle');
-                return;
-            }
-        } catch {
-            // Fallback to direct NVIDIA AI Cloud API
-        }
-
-        // 2. Direct NVIDIA AI Cloud API (meta/llama-3.2-11b-vision-instruct)
-        if (NVIDIA_API_KEY) {
-            try {
-                const nvResp = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${NVIDIA_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: 'meta/llama-3.2-11b-vision-instruct',
-                        messages: formattedMessages,
-                        temperature: 0.7,
-                        max_tokens: 256,
-                        top_p: 1.0
-                    })
-                });
-
-                if (nvResp.ok) {
-                    const data = await nvResp.json();
-                    const fullResponse = data.choices?.[0]?.message?.content || '';
-                    if (fullResponse) {
-                        if (requestId !== activeRequestRef.current) return;
-                        setJarvisResponse(fullResponse);
-                        setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
-                        await speak(fullResponse);
-                        if (requestId === activeRequestRef.current) setJarvisStatus('idle');
-                        return;
-                    }
-                }
-            } catch (nvErr) {
-                console.warn('Direct NVIDIA AI API call failed, trying Groq fallback:', nvErr);
-            }
-        }
-
-        // 3. Fallback to Groq API (openai/gpt-oss-120b)
+        // 1. Primary: Groq streaming (fastest — small model, streamed tokens + TTS as sentences arrive)
         try {
             const stream = await groq.chat.completions.create({
                 messages: formattedMessages,
-                model: 'openai/gpt-oss-120b',
+                model: 'llama-3.1-8b-instant',
                 temperature: 0.7,
-                max_completion_tokens: 256,
+                max_completion_tokens: 150,
                 top_p: 1,
                 stream: true,
             });
@@ -560,15 +504,47 @@ export default function CreativeDemo() {
             setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
             await speechQueueRef.current;
             if (requestId === activeRequestRef.current) setJarvisStatus('idle');
+            return;
 
-        } catch (error) {
-            console.error('AI response error:', error);
-            if (requestId !== activeRequestRef.current) return;
-            const errRes = "I'm sorry, I'm having trouble connecting to my neural network right now.";
-            setJarvisResponse(errRes);
-            await speak(errRes);
-            if (requestId === activeRequestRef.current) setJarvisStatus('idle');
+        } catch (groqErr) {
+            console.warn('Groq streaming failed, trying backend fallback:', groqErr);
         }
+
+        // 2. Fallback: Backend /api/llm (NVIDIA + Groq cascade on server)
+        try {
+            const llmAbort = new AbortController();
+            const llmTimer = setTimeout(() => llmAbort.abort(), 8000);
+            const llmResp = await fetch(`${VOICE_BACKEND_URL}/api/llm`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+                    system_prompt: VOICE_SYSTEM_PROMPT
+                }),
+                signal: llmAbort.signal
+            });
+            clearTimeout(llmTimer);
+
+            if (llmResp.ok) {
+                const data = await llmResp.json();
+                const fullResponse = data.response || '';
+                if (requestId !== activeRequestRef.current) return;
+                setJarvisResponse(fullResponse);
+                setMessages((prev) => [...prev, { role: 'assistant', content: fullResponse }]);
+                await speak(fullResponse);
+                if (requestId === activeRequestRef.current) setJarvisStatus('idle');
+                return;
+            }
+        } catch {
+            // Backend unreachable or timed out
+        }
+
+        // 3. All paths failed
+        if (requestId !== activeRequestRef.current) return;
+        const errRes = "I'm sorry, I'm having trouble connecting to my neural network right now.";
+        setJarvisResponse(errRes);
+        await speak(errRes);
+        if (requestId === activeRequestRef.current) setJarvisStatus('idle');
     }, [messages, speak, VOICE_BACKEND_URL]);
 
     const submitTypedCommand = useCallback(() => {
@@ -581,9 +557,9 @@ export default function CreativeDemo() {
     // Phonetic normalization for Karthik's name in STT results
     const fixKarthikPhonetics = (text) => {
         if (!text) return '';
-        return text.replace(/\b(karki|karkis|karki's|karkey|kendi|carthik|carthiks|carthik's|carthage|cardiac|car thick|car tick|garlic|car pick|target|targets|target's)\b/gi, (match) => {
+        return text.replace(/\b(karki|karkis|karki's|karkey|kendi|carthik|carthiks|carthik's|car thick|car tick|car pick)\b/gi, (match) => {
             const lower = match.toLowerCase();
-            if (lower.endsWith("'s") || lower === 'targets' || lower === 'karkis' || lower === 'carthiks') return "Karthik's";
+            if (lower.endsWith("'s") || lower === 'karkis' || lower === 'carthiks') return "Karthik's";
             return "Karthik";
         });
     };
@@ -593,15 +569,26 @@ export default function CreativeDemo() {
         if (!groq || !import.meta.env.VITE_GROQ_API_KEY) return null;
 
         try {
-            const audioFile = new File([audioBlob], 'audio.webm', { type: audioBlob.type || 'audio/webm' });
+            const mimeType = audioBlob.type || 'audio/webm';
+            const ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
+            const audioFile = new File([audioBlob], `audio.${ext}`, { type: mimeType });
             const transcription = await groq.audio.transcriptions.create({
                 file: audioFile,
-                model: 'whisper-large-v3-turbo',
-                response_format: 'json',
+                model: 'whisper-large-v3',
+                response_format: 'verbose_json',
                 language: 'en',
                 temperature: 0.0,
-                prompt: "Karthik Tatineni",
+                // prompt REMOVED temporarily to test decoder bias
             });
+
+            // === DIAGNOSTIC: Log Whisper segments with confidence ===
+            console.log('[STT DIAG] Whisper raw text:', transcription?.text);
+            if (transcription?.segments) {
+                transcription.segments.forEach((seg, i) => {
+                    console.log(`[STT DIAG] Segment ${i}: "${seg.text}" | no_speech_prob=${seg.no_speech_prob?.toFixed(3)} | avg_logprob=${seg.avg_logprob?.toFixed(3)} | compression_ratio=${seg.compression_ratio?.toFixed(2)}`);
+                });
+            }
+
             if (transcription && transcription.text?.trim()) {
                 return fixKarthikPhonetics(transcription.text.trim());
             }
@@ -637,17 +624,29 @@ export default function CreativeDemo() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
+                    sampleRate: 16000,
+                    channelCount: 1,
                     echoCancellation: true,
                     noiseSuppression: true,
                     autoGainControl: true,
                 }
             });
+
+            // === DIAGNOSTIC: Log what the browser actually negotiated ===
+            const audioTrack = stream.getAudioTracks()[0];
+            if (audioTrack) {
+                const settings = audioTrack.getSettings();
+                console.log('[STT DIAG] Audio track settings:', JSON.stringify(settings, null, 2));
+                console.log('[STT DIAG] Constraints applied:', JSON.stringify(audioTrack.getConstraints(), null, 2));
+            }
+
             audioChunksRef.current = [];
             const options = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
                 ? { mimeType: 'audio/webm;codecs=opus' }
                 : MediaRecorder.isTypeSupported('audio/webm')
                     ? { mimeType: 'audio/webm' }
                     : {};
+            console.log('[STT DIAG] MediaRecorder mimeType:', options.mimeType || 'browser default');
             const recorder = new MediaRecorder(stream, options);
             mediaRecorderRef.current = recorder;
 
@@ -658,6 +657,7 @@ export default function CreativeDemo() {
             };
 
             recorder.start();
+            console.log('[STT DIAG] Recording started at', new Date().toISOString());
         } catch (micErr) {
             console.error('Mic access error:', micErr);
             isListeningRef.current = false;
@@ -677,10 +677,15 @@ export default function CreativeDemo() {
             setJarvisResponse('Transcribing audio with Whisper AI...');
 
             recorder.onstop = async () => {
+                const stopTime = new Date().toISOString();
                 stream?.getTracks().forEach(t => t.stop());
                 const audioBlob = audioChunksRef.current.length > 0
                     ? new Blob(audioChunksRef.current, { type: recordMime })
                     : null;
+
+                // === DIAGNOSTIC: Log blob metadata ===
+                console.log('[STT DIAG] Recording stopped at', stopTime);
+                console.log('[STT DIAG] Chunks:', audioChunksRef.current.length, 'Blob size:', audioBlob?.size, 'bytes, mimeType:', recordMime);
 
                 if (!audioBlob || audioBlob.size < 300) {
                     setJarvisStatus('idle');

@@ -7,20 +7,20 @@ const allSkills = Array.from(new Set(skillCategories.flatMap(cat => cat.skills))
 
 export const userInfo = {
     name: "Karthik Tatineni",
-    title: "Student | Electronics & Communication Engineer | Full-Stack Developer | IoT & AI Enthusiast",
+    title: "Student | Electronics & Communication Engineer | Machine Learning & GenAI Developer | Full-Stack Engineer",
     college: "Institute of Aeronautical Engineering (IARE), Hyderabad",
     branch: "Electronics and Communication Engineering (ECE)",
     github: "https://github.com/karthiktatineni",
 
-    bio: `I'm Karthik Tatineni, an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad.
-I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics.
-My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines.
-While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks.
-I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world.`,
+    bio: `I'm Karthik Tatineni, an Independent Software & AI Developer and Electronics & Communication Engineering student at IARE, Hyderabad.
+I specialize in engineering end-to-end Machine Learning pipelines, Generative AI & agentic platforms, and high-performance full-stack web applications.
+My technical work centers on production ML systems and intelligent architectures: from causal feature engineering, entity graphs, and Optuna-tuned XGBoost risk scoring engines operating in sub-15ms, to local-first Generative AI assistants powered by open-source LLMs (Mistral, Qwen) with RAG and vector storage (ChromaDB, pgvector). I also build real-time computer vision pipelines with YOLO and CNNs for multi-class object detection.
+With a solid foundation in modern web frameworks (FastAPI, Next.js) and cloud infrastructure (AWS, Azure, Docker, Redis), I bridge the gap between advanced predictive models and robust, user-facing production software.
+I aim to architect scalable machine learning systems and intelligent platforms that transform complex data into reliable, real-time decisions.`,
 
     stats: {
         projectsBuilt: `${projects.length}+`,
-        techDomains: "8+",
+        techDomains: "6+",
         technologies: `${allSkills.length}+`,
         deployedApps: "10+",
     },
@@ -37,7 +37,9 @@ I aim to architect scalable software solutions and build impactful technologies 
     })),
 
     certifications: [
-        { title: "Microsoft Certified: Azure AI Fundamentals", issuer: "Microsoft AI Learning Path" },
+        { title: "Microsoft Certified(AI-901): Azure AI Fundamentals", issuer: "Microsoft AI Learning Path" },
+        { title: "Microsoft Certified(AI-103): Azure AI Apps and Agents Developer Associate", issuer: "Microsoft AI Learning Path" },
+        { title: "Microsoft Certified(DP-700): Fabric Data Engineer Associate", issuer: "Microsoft", url: "https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/4efa66e7a9114e16" },
         { title: "Introduction to Large Language Models", issuer: "Google" },
         { title: "MySQL & Database Management: Create, Manage & Query Databases", issuer: "Udemy" },
         { title: "GenAI For Image & Video Creation", issuer: "Udemy" },
@@ -47,7 +49,7 @@ I aim to architect scalable software solutions and build impactful technologies 
         { title: "Claude AI Certification Path (Claude Code 101 & Claude Code in Action)", issuer: "Anthropic" }
     ],
 
-    interests: ["IoT", "AI/ML", "VLSI", "Embedded Systems", "Self-Hosting", "Gaming", "Web Development", "DevOps", "Cloud Computing"],
+    interests: ["Machine Learning", "Generative AI", "Agentic Systems", "Cloud Computing", "Full-Stack Development", "Computer Vision", "MLOps", "Distributed Systems", "IoT"],
 
     contact: {
         github: "https://github.com/karthiktatineni",

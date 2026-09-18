@@ -13,7 +13,7 @@ export default function Skills() {
                         Technical <span className="text-gold">Arsenal</span>
                     </h2>
                     <p className="text-[#a3a3a3] font-light">
-                        Comprehensive toolkit spanning embedded systems, software development, and electronics engineering.
+                        Comprehensive toolkit spanning Machine Learning, Generative AI, MLOps, cloud infrastructure, and modern software engineering.
                     </p>
                 </div>
 

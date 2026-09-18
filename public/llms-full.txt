@@ -1,7 +1,8 @@
 # Karthik Tatineni — Full AI-Readable Profile
 
-> Software & AI Engineer | Full-Stack Developer | IoT & Embedded Systems Specialist
+> Machine Learning & GenAI Engineer | Full-Stack Developer | Software Architect
 > Portfolio: https://tatinenikarthik.online
+> Resume: https://tatinenikarthik.online/Karthik_tatineni_ml.pdf
 > GitHub: https://github.com/karthiktatineni
 > LinkedIn: https://linkedin.com/in/karthik-tatineni
 
@@ -9,36 +10,43 @@
 
 ## Bio
 
-I'm Karthik Tatineni, an Independent Software Developer and Electronics & Communication Engineering student at the Institute of Aeronautical Engineering (IARE), Hyderabad.
+I'm Karthik Tatineni, an Independent Software & AI Developer and Electronics & Communication Engineering student at the Institute of Aeronautical Engineering (IARE), Hyderabad.
 
-I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics. My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines.
+I specialize in engineering end-to-end Machine Learning pipelines, Generative AI & agentic platforms, and high-performance full-stack web applications. My technical work centers on production ML systems and intelligent architectures: from causal feature engineering, entity graphs, and Optuna-tuned XGBoost risk scoring engines operating in sub-15ms, to local-first Generative AI assistants powered by open-source LLMs (Mistral, Qwen) with RAG and vector storage (ChromaDB, pgvector). I also build real-time computer vision pipelines with YOLO and CNNs for multi-class object detection.
 
-While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks. I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world.
+With a solid foundation in modern web frameworks (FastAPI, Next.js) and cloud infrastructure (AWS, Azure, Docker, Redis), I bridge the gap between advanced predictive models and robust, user-facing production software. I aim to architect scalable machine learning systems and intelligent platforms that transform complex data into reliable, real-time decisions.
 
 ---
 
 ## Stats
 
 - Projects Built: 25+
-- Tech Domains: 8+ (Web, AI/ML, IoT, Cloud, DevOps, Mobile, Electronics, VLSI)
-- Technologies Known: 70+
+- Tech Domains: 6+ (Machine Learning, Generative AI, Cloud & MLOps, Full-Stack Web, Computer Vision, Data Engineering)
+- Technologies Known: 80+
 - Deployed Applications: 10+
+- Publications: 1 (Scopus Indexed)
 
 ---
 
 ## Technical Skills
 
-### Coding & Engineering
-C, C++, Python, TypeScript, VHDL, HTML, CSS, JavaScript, React, Vite, Node.js, Next.js, API Integration (Express, REST), MySQL, PostgreSQL, RTOS (FreeRTOS), Firmware Debugging, Microcontroller Integration, PCB Design, Sensor Calibration
+### Machine Learning & MLOps
+Algorithms (Regression, Classification, Clustering, Ensemble), XGBoost & Scikit-Learn, Deep Learning (CNNs, RNN, LSTM, Transformers, YOLO), Computer Vision & OpenCV, Feature Engineering & Causal Graphs, Evaluation Metrics (ROC-AUC, Precision, Recall), SHAP Explainability, Optuna Hyperparameter Tuning, MLflow Experiment Tracking, EDA & Statistical Analysis
 
-### Tech Domains
-IoT, Embedded Systems, VLSI, Automation, AI Applications, CAD, Analog Electronics, Web Development, Database Management, Agentic-AI
+### AI & Generative AI
+Retrieval-Augmented Generation (RAG), LLMs (Mistral, Qwen, DeepSeek, LLaMA), AI Agents, Model Context Protocol (MCP), LangChain, QLoRA & LoRA Fine-Tuning, Model Quantization (4-bit/8-bit, bitsandbytes), Embeddings & Semantic Search, Vector Databases (pgvector, ChromaDB), PyTorch & Hugging Face Transformers, Prompt Engineering & Structured Outputs
 
-### Tools & Platforms
-ESP32, Arduino IDE, Firebase, Cloudflare, UltimakerCura, NI Multisim, Proteus, Cadence, Blender, Blynk, I2C/SPI/UART, Git & GitHub, Vercel, Postman, Fusion 360, Docker, Flutter
+### Languages & Frameworks
+Python, SQL, FastAPI (Async REST Microservices), Next.js (App Router & SSR), React, TypeScript, JavaScript, Node.js, Three.js, Tailwind CSS, REST APIs & WebSockets
 
-### AI Tools
-ChatGPT, Antigravity, Claude AI, Claude Code CLI, Google Gemini, Perplexity AI, Groq, Lovable, Ollama (Local LLMs), Whisk, Flow, Bolt.new, Cursor AI, GitHub Copilot, Copilot CLI, Code Agents, MCP Server, AI Skills, Autonomous Agents, Botpress
+### Databases & Data Engineering
+PostgreSQL, pgvector, Redis (Caching & Velocity Rules), Microsoft Fabric (Data Engineering), Supabase, ChromaDB, MongoDB, MySQL, Firebase
+
+### Cloud & Infrastructure
+AWS (EC2, S3), Azure (Container Apps, AI Foundry), Docker & Docker Compose, GitHub Actions (CI/CD), Cloudflare (CDN & Edge), Lightning AI (Cloud GPU Clusters), Grafana & Monitoring, Vercel & Render Deployment
+
+### Tools & Ecosystem
+Pandas & NumPy, Matplotlib & Seaborn, NVIDIA NIM, Hugging Face Hub, Ollama (Local LLM Inference), PowerBI, Git & GitHub, Postman, JupyterLab & Anaconda, pytest, Claude Code CLI, Google SEO & Web Vitals
 
 ---
 
@@ -188,7 +196,9 @@ Combined Half Adder and Half Subtractor with testbench and waveform output.
 
 ## Certifications
 
-- Microsoft Certified: Azure AI Fundamentals (Microsoft AI Learning Path)
+- Microsoft Certified(AI-103): Azure AI Apps and Agents Developer Associate (https://learn.microsoft.com/api/credentials/share/en-us/karthiktatineni-3461/606DBB90559009F5?sharingId=AE56B08C475F73D4)
+- Microsoft Certified(DP-700): Fabric Data Engineer Associate (https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/4efa66e7a9114e16)
+- Microsoft Certified(AI-901): Azure AI Fundamentals (https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/37eb3c2ffc89de40)
 - Introduction to Large Language Models (Google)
 - MySQL & Database Management: Create, Manage & Query Databases (Udemy)
 - GenAI For Image & Video Creation (Udemy)

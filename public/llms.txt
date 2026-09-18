@@ -1,37 +1,42 @@
 # Karthik Tatineni — Portfolio
 
-> Software & AI Engineer | Full-Stack Developer | IoT & Embedded Systems
+> Machine Learning & GenAI Engineer | Full-Stack Developer | Software Architect
+> Resume: https://tatinenikarthik.online/Karthik_tatineni_ml.pdf
 
 ## About
 
-Karthik Tatineni is an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad. He specializes in building scalable web applications, distributed systems, and AI-driven platforms.
+Karthik Tatineni is an Independent Software & AI Developer and Electronics & Communication Engineering student at IARE, Hyderabad. He specializes in engineering end-to-end Machine Learning pipelines, Generative AI & agentic platforms, and high-performance full-stack web applications. His work centers on production ML systems (causal feature engineering, entity graphs, real-time risk scoring), local-first Generative AI assistants (open-source LLMs, RAG, ChromaDB), and computer vision pipelines (YOLO, CNNs).
 
 ## Links
 
 - Portfolio: https://tatinenikarthik.online
+- Resume: https://tatinenikarthik.online/Karthik_tatineni_ml.pdf
 - GitHub: https://github.com/karthiktatineni
 - LinkedIn: https://linkedin.com/in/karthik-tatineni
 - Full AI-readable profile: https://tatinenikarthik.online/llms-full.txt
 
 ## Skills
 
-Python, TypeScript, JavaScript, C, C++, React, Next.js, Node.js, FastAPI, Flutter, Docker, PostgreSQL, Redis, Firebase, Azure, Verilog, ESP32, Arduino, VLSI, PCB Design
+Python, SQL, ML Algorithms (Regression, Classification, Clustering, Ensemble), XGBoost, Scikit-Learn, Deep Learning (CNNs, RNN, LSTM, Transformers, YOLO), Computer Vision, OpenCV, Feature Engineering, SHAP, Optuna, MLflow, RAG, LLMs (Mistral, Qwen, DeepSeek), AI Agents, Model Context Protocol (MCP), LangChain, QLoRA Fine-Tuning, Quantization, Vector Databases (pgvector, ChromaDB), PyTorch, Hugging Face, FastAPI, Next.js, React, TypeScript, JavaScript, PostgreSQL, Redis, Microsoft Fabric, Supabase, MongoDB, MySQL, Firebase, AWS (EC2, S3), Azure (Container Apps, AI Foundry), Docker, GitHub Actions, Cloudflare, Grafana, Pandas, NumPy, Matplotlib, Seaborn, PowerBI, Git, Postman, Ollama, NVIDIA NIM, JupyterLab, pytest, Claude Code CLI
 
 ## Key Projects
 
-- FraudGuard: Real-time anti-fraud engine (XGBoost, FastAPI, Redis) — 95.1% abuse recall
-- DisasterMind AI: Multi-agent disaster intelligence (Next.js, NVIDIA NIM, Azure AI)
-- Aegis AI: Local-first AI assistant with RAG and ChromaDB
-- DeepSeek Coder Fine-Tuning: QLoRA fine-tuning pipeline for coding LLMs
-- Microservices Platform: Production CI/CD on Azure Container Apps
-- AI-Integrated Smart Home: Alexa + Siri + ESP32 + Firebase
-- Helmet & Triple-Ride Detection: Real-time YOLO + CNN traffic safety system
+- FraudGuard: Real-time anti-fraud engine (XGBoost, FastAPI, Redis, Optuna, MLflow) — 0.941 ROC-AUC, 93.8% recall, <15ms latency
+- Aegis AI: Local-first AI assistant platform with RAG, ChromaDB, and open-source LLMs (Mistral 7B, Qwen 2.5) on Lightning AI GPU
+- Real-Time Helmet & Triple-Ride Detection: Multi-class deep learning CV pipeline (YOLO, CNN, TensorFlow, OpenCV)
+- DeepSeek Coder Fine-Tuning: QLoRA cloud-based fine-tuning pipeline for coding LLMs on NVIDIA GPUs
+- KLVORA Fashion Hub: Production Next.js e-commerce platform with Supabase, AI support, Three.js, and Google SEO
+- Touchwood Interiors CMS: Production Next.js CMS with Sanity, Supabase, AI chatbot, and interactive 3D visualization
 
 ## Certifications
 
-- Microsoft Certified: Azure AI Fundamentals
-- Google: Introduction to Large Language Models
-- Anthropic: Claude AI Certification Path
+- Microsoft Certified(AI-901): Azure AI Fundamentals
+- Microsoft Certified(AI-103): Azure AI Apps and Agents Developer Associate
+- Microsoft Certified(DP-700): Fabric Data Engineer Associate (https://learn.microsoft.com/en-us/users/karthiktatineni-3461/credentials/4efa66e7a9114e16)
+- MySQL & Database Management (Udemy)
+- HTML & CSS: The Complete Web Development Guide (Udemy)
+- Introduction to Large Language Models (Google)
+- Claude AI Certification Path (Anthropic)
 
 ## Contact
 
@@ -39,4 +44,3 @@ Python, TypeScript, JavaScript, C, C++, React, Next.js, Node.js, FastAPI, Flutte
 - GitHub: https://github.com/karthiktatineni
 - LinkedIn: https://linkedin.com/in/karthik-tatineni
 - Phone: +91 7995466261
-

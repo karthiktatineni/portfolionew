@@ -6,9 +6,9 @@ export default function About() {
 
     const stats = [
         { label: 'Deployed Apps', value: '10+' },
-        { label: 'Tech Stack', value: '25+' },
+        { label: 'ML & Tech Stack', value: '30+' },
         { label: 'Users Scaled', value: '1.5k+' },
-        { label: 'Publications', value: '1' },
+        { label: 'Publications', value: '1 (Scopus)' },
     ];
 
     return (
@@ -41,16 +41,16 @@ export default function About() {
                         className="space-y-6 text-lg text-gray-300 leading-relaxed font-light"
                     >
                         <p>
-                            I'm <strong className="text-white font-medium">Karthik Tatineni</strong>, an Independent Software Developer and Electronics & Communication Engineering student at IARE, Hyderabad. I specialize in building scalable web applications, distributed systems, and AI-driven platforms, blending robust software architecture with a foundation in electronics.
+                            I'm <strong className="text-white font-medium">Karthik Tatineni</strong>, an Independent Software & AI Developer and Electronics & Communication Engineering student at IARE, Hyderabad. I specialize in engineering end-to-end Machine Learning pipelines, Generative AI & agentic platforms, and high-performance full-stack web applications.
                         </p>
                         <p>
-                            My software expertise spans full-stack development, cloud deployment, and computer vision. I have architected high-availability platforms handling thousands of concurrent users, developed multi-agent AI systems, and implemented real-time YOLO-based detection pipelines. My stack includes React, Node.js, FastAPI, Docker, AWS, and modern databases.
+                            My technical work centers on production ML systems and intelligent architectures: from causal feature engineering, entity graphs, and Optuna-tuned XGBoost risk scoring engines operating in sub-15ms, to local-first Generative AI assistants powered by open-source LLMs (Mistral, Qwen) with RAG and vector storage (ChromaDB, pgvector). I also build real-time computer vision pipelines with YOLO and CNNs for multi-class object detection.
                         </p>
                         <p>
-                            While my core focus is software engineering, my background in electronics gives me a unique edge in hardware-software integration. I enjoy tinkering with IoT, embedded systems, and sensor networks, transforming creative ideas into functional prototypes.
+                            With a solid foundation in modern web frameworks (FastAPI, Next.js) and cloud infrastructure (AWS, Azure, Docker, Redis), I bridge the gap between advanced predictive models and robust, user-facing production software.
                         </p>
                         <p className="border-l-4 border-gold pl-4 italic text-gold/80">
-                            "I aim to architect scalable software solutions and build impactful technologies that bridge the gap between intelligent code and the physical world."
+                            "I aim to architect scalable machine learning systems and intelligent platforms that transform complex data into reliable, real-time decisions."
                         </p>
                     </motion.div>
 

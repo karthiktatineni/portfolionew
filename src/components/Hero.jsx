@@ -85,7 +85,7 @@ export default function Hero() {
                             </MagneticButton>
                         </a>
                         <a
-                            href="/Tatineni_karthik.pdf"
+                            href="/Karthik_tatineni_ml.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

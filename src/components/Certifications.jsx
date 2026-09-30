@@ -69,6 +69,17 @@ const certifications = [
                 url: "https://verify.skilljar.com/c/x394gy9h2gvu"
             }
         ]
+    },
+    {
+        title: "Python for Data Science",
+        issuer: "Intellipaat",
+        date: "September 30, 2026",
+        url: "https://intellipaat.com/academy/certificate-link/?Yz0xNTQ0JnU9Mzc3NjQzJmV4dD0x"
+    },
+    {
+        title: "Introduction to MCP",
+        issuer: "Anthropic",
+        url: "https://verify.skilljar.com/c/b3985nobtgeu"
     }
 ];
 
